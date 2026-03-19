@@ -1,0 +1,750 @@
+---
+title: "Approfondissement en analyse de données avec R"
+subtitle: "ggplot2, analyse textuelle et IA"
+author: "Adrien Cloutier | Université Laval"
+date: "20 mars 2026"
+lang: fr
+format:
+  revealjs:
+    theme: simple
+    slide-number: c/t
+    footer: "FSS — Université Laval — 20 mars 2026"
+    highlight-style: github
+    code-line-numbers: true
+    scrollable: true
+    logo: images/logo_CLESSN.png
+    width: 1200
+    height: 750
+    transition: slide
+    background-transition: fade
+execute:
+  echo: true
+  eval: false
+  warning: false
+  message: false
+---
+
+## Bravo d'être là! {.center}
+
+![](images/obama.png){width=65%}
+
+## Confirmez votre présence!
+
+::: {.r-fit-text}
+[https://forms.office.com/r/P6bbuBzkP1](https://forms.office.com/r/P6bbuBzkP1)
+:::
+
+## Qui suis-je?
+
+- Doctorant en science politique (directeur : Yannick Dufresne)
+- Co-coordonnateur de la CLESSN (Chaire de leadership en enseignement des sciences sociales numériques)
+- Co-coordonnateur du CAPP (Centre d'analyses des politiques publiques)
+- Cocréateur de l'EIOM (École interdisciplinaire Outils & Méthodes — [eiom.ca](https://eiom.ca/))
+- Certified Scrum Master & Notion certified
+- Membre du GRCP, CÉCD
+
+## Plan de la journée
+
+**9h à 12h — Formation théorique**
+
+1.  Rappel : dplyr + le pipe
+2.  Visualisation : ggplot2
+3.  R et l'IA : comment travailler intelligemment
+4.  Analyse textuelle automatisée avec R
+
+**13h à 15h — Atelier pratique** *(présentiel seulement)*
+
+-   Travaillez avec vos propres données et questions de recherche
+-   Script R disponible sur GitHub
+
+---
+
+# 1. Rappel : dplyr
+
+## Pourquoi ce rappel?
+
+-   Certains d'entre vous n'étaient pas à la séance d'Étienne la semaine passée
+-   dplyr est la **fondation** de tout ce qu'on va faire aujourd'hui
+-   Même si vous y étiez : quelques minutes de rappel, ça ne fait pas de mal
+
+. . .
+
+Tout ce dont vous avez besoin est dans le package **tidyverse**
+
+```{r}
+install.packages("tidyverse")  # une seule fois
+library(tidyverse)             # à chaque session
+```
+
+## Les données : Gapminder
+
+```{r}
+install.packages("gapminder")
+library(gapminder)
+
+# Regarder les données
+glimpse(gapminder)
+```
+
+::: {.fragment}
+```
+Rows: 1,704
+Columns: 6
+$ country   <fct> "Afghanistan", "Afghanistan", …
+$ continent <fct> Asia, Asia, Asia, …
+$ year      <int> 1952, 1957, 1962, …
+$ lifeExp   <dbl> 28.801, 30.332, 31.997, …
+$ pop       <int> 8425333, 9240934, 10267083, …
+$ gdpPercap <dbl> 779.4453, 820.8530, …
+```
+:::
+
+## Le pipe : `|>` ou `%>%`
+
+Le pipe **enchaîne** des opérations. Lisez-le comme « *puis* » ou « *ensuite* ».
+
+```{r}
+# Sans pipe (difficile à lire)
+arrange(select(filter(gapminder, year == 2007), country, lifeExp), desc(lifeExp))
+
+# Avec pipe (clair et lisible)
+gapminder |>
+  filter(year == 2007) |>
+  select(country, lifeExp) |>
+  arrange(desc(lifeExp))
+```
+
+. . .
+
+**Raccourci clavier :** `Ctrl + Shift + M` (Windows) ou `Cmd + Shift + M` (Mac)
+
+## Les 6 verbes de dplyr
+
+| Verbe | Action |
+|---|---|
+| `filter()` | Garder des lignes selon une condition |
+| `select()` | Garder des colonnes |
+| `mutate()` | Créer ou modifier des colonnes |
+| `arrange()` | Trier les lignes |
+| `rename()` | Renommer des colonnes |
+| `group_by()` + `summarise()` | Grouper et résumer |
+
+## filter() et select()
+
+```{r}
+# Pays d'Amérique en 2007 avec une espérance de vie > 75 ans
+gapminder |>
+  filter(year == 2007,
+         continent == "Americas",
+         lifeExp > 75) |>
+  select(country, lifeExp, gdpPercap)
+```
+
+. . .
+
+```{r}
+# Opérateurs logiques utiles
+# ==  (égal à)
+# !=  (différent de)
+# >   (plus grand que)
+# <   (plus petit que)
+# &   (et)
+# |   (ou)
+```
+
+## mutate() et group_by() + summarise()
+
+```{r}
+# Créer une nouvelle colonne
+gapminder |>
+  mutate(pop_millions = pop / 1000000) |>
+  filter(year == 2007) |>
+  select(country, pop_millions) |>
+  arrange(desc(pop_millions))
+```
+
+. . .
+
+```{r}
+# Espérance de vie moyenne par continent en 2007
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarise(
+    esperance_moy = mean(lifeExp),
+    nb_pays       = n()
+  ) |>
+  arrange(desc(esperance_moy))
+```
+
+---
+
+# 2. Visualisation avec ggplot2
+
+## La logique de ggplot2
+
+ggplot2 est basé sur une **grammaire des graphiques** : on assemble des couches.
+
+```{r}
+ggplot(data = gapminder,         # 1. les données
+       aes(x = gdpPercap,        # 2. les axes et couleurs (aesthetics)
+           y = lifeExp)) +
+  geom_point()                   # 3. le type de graphique (geom)
+```
+
+. . .
+
+Les éléments de base :
+
+-   `ggplot()` — initialise le graphique
+-   `aes()` — mappe les variables aux propriétés visuelles
+-   `geom_*()` — choisit le type de figure
+-   `+` — ajoute des couches (pas un pipe!)
+
+## Nuage de points : geom_point()
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap,
+             y = lifeExp,
+             color = continent,   # couleur par continent
+             size = pop)) +       # taille par population
+  geom_point(alpha = 0.7) +       # alpha = transparence
+  scale_x_log10() +               # axe X en échelle log
+  labs(
+    title  = "PIB per capita et espérance de vie (2007)",
+    x      = "PIB per capita (échelle log)",
+    y      = "Espérance de vie (années)",
+    color  = "Continent",
+    size   = "Population"
+  ) +
+  theme_minimal()
+```
+
+## Graphique en barres : geom_col()
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarise(esperance_moy = mean(lifeExp)) |>
+  ggplot(aes(x = reorder(continent, esperance_moy),
+             y = esperance_moy,
+             fill = continent)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +                  # barres horizontales
+  labs(
+    title = "Espérance de vie moyenne par continent (2007)",
+    x     = "Continent",
+    y     = "Espérance de vie (années)"
+  ) +
+  theme_minimal()
+```
+
+## Histogramme : geom_histogram()
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = lifeExp,
+             fill = continent)) +
+  geom_histogram(bins = 30, alpha = 0.7) +
+  labs(
+    title = "Distribution de l'espérance de vie (2007)",
+    x     = "Espérance de vie (années)",
+    y     = "Nombre de pays",
+    fill  = "Continent"
+  ) +
+  theme_minimal()
+```
+
+## Personnaliser et sauvegarder
+
+```{r}
+mon_graphique <- gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent)) +
+  geom_point(alpha = 0.7) +
+  scale_x_log10() +
+  theme_minimal() +
+  theme(
+    plot.title    = element_text(size = 16, face = "bold"),
+    legend.position = "bottom"
+  ) +
+  labs(title = "Mon graphique")
+
+# Sauvegarder
+ggsave("graphique.png", plot = mon_graphique, width = 10, height = 7, dpi = 300)
+```
+
+---
+
+# 3. R et l'IA : comment travailler intelligemment
+
+## La révolution (et ses limites) {.center}
+
+::: {.r-fit-text}
+L'IA peut écrire du code R.
+:::
+
+::: {.fragment}
+::: {.r-fit-text}
+Mais elle peut aussi se tromper.
+:::
+:::
+
+::: {.fragment}
+::: {.r-fit-text}
+**Votre travail : comprendre et valider.**
+:::
+:::
+
+## La règle d'or
+
+> « Pour utiliser l'IA avec R, il faut comprendre R. »
+
+-   L'IA génère du code **plausible**, pas toujours **correct**
+-   Elle ne connaît pas **vos données** spécifiques
+-   Elle peut utiliser des fonctions **obsolètes** ou **mal adaptées**
+-   Elle peut inventer des fonctions qui **n'existent pas** *(hallucinations)*
+
+. . .
+
+**La bonne nouvelle :** avec les bases solides que vous avez, vous pouvez lire, comprendre et corriger du code généré par IA.
+
+## Le workflow avec l'IA
+
+::: {.columns}
+::: {.column width="50%"}
+**1. Formuler une demande précise**
+
+```
+Contexte : j'ai un data frame R avec
+les colonnes "pays", "annee", "pib",
+"esperance_vie" et "continent".
+
+Tâche : avec tidyverse, crée un nuage
+de points montrant la relation entre
+pib (axe x, échelle log) et
+esperance_vie (axe y), coloré par
+continent, pour l'année 2007 seulement.
+```
+:::
+
+::: {.column width="50%"}
+**2. Lire le code avant de l'exécuter**
+
+Posez-vous ces questions :
+
+-   Est-ce que je reconnais les fonctions?
+-   Le nom des colonnes correspond-il à mes données?
+-   Y a-t-il des `install.packages()`?
+-   Ça fait bien ce que je veux?
+
+**3. Exécuter ligne par ligne**
+
+Pas tout d'un coup! Ligne par ligne pour repérer les erreurs.
+
+**4. Corriger et adapter**
+:::
+:::
+
+## Comment bien prompter pour R
+
+**Donnez le contexte :**
+
+```
+J'utilise R avec tidyverse. Mes données s'appellent `df` et
+ont les colonnes : pays (character), annee (integer), valeur (numeric).
+```
+
+. . .
+
+**Soyez précis sur la tâche :**
+
+```
+Filtre pour l'année 2020, calcule la moyenne de `valeur`
+par pays, et crée un graphique en barres horizontal avec ggplot2.
+```
+
+. . .
+
+**Itérez :**
+
+```
+J'ai cette erreur : [copiez l'erreur exacte].
+Voici mon code : [copiez votre code].
+```
+
+## Erreurs communes de l'IA en R
+
+| Problème | Exemple |
+|---|---|
+| Nom de fonction inventé | `dplyr::filter_where()` |
+| Version obsolète | `gather()` au lieu de `pivot_longer()` |
+| Nom de colonne incorrect | `data$Pays` au lieu de `data$pays` |
+| Package non installé | Oublie de mentionner `install.packages()` |
+| Logique incorrecte | `filter(year = 2007)` au lieu de `==` |
+
+. . .
+
+**Votre meilleur outil de validation :** lire l'aide d'une fonction avec `?filter` ou `help(filter)`
+
+## Démonstration en direct
+
+Prompt que je vais soumettre à Claude :
+
+```
+En R avec tidyverse et le package gapminder, écris un code qui :
+1. Filtre les données pour l'année 2007
+2. Calcule le PIB total par continent (sum de pop * gdpPercap)
+3. Affiche un graphique en barres horizontal, trié du plus grand
+   au plus petit, avec des couleurs différentes par continent.
+Ajoute des commentaires expliquant chaque étape.
+```
+
+*[Démonstration live — validation du code généré ensemble]*
+
+---
+
+# 4. Analyse textuelle automatisée
+
+## Pourquoi en sciences sociales?
+
+Les sciences sociales sont riches en données **textuelles** :
+
+-   Entrevues et groupes focaux
+-   Réponses ouvertes à des sondages
+-   Publications sur les réseaux sociaux
+-   Articles de journaux et discours politiques
+-   Documents gouvernementaux
+
+. . .
+
+**Le problème :** des centaines ou milliers de textes, impossible à analyser manuellement.
+
+**La solution :** l'analyse textuelle automatisée avec R.
+
+## Deux approches complémentaires
+
+| Approche | Outils | Usage |
+|---|---|---|
+| **Manuelle** | NVivo, Atlas.ti | Analyse qualitative fine, petits corpus |
+| **Automatisée** | R (stringr, tidytext) | Grandes quantités de texte, patterns |
+
+. . .
+
+Aujourd'hui on fait de l'**automatisé** — mais les deux se complètent!
+
+## Nos données textuelles
+
+```{r}
+library(tidyverse)
+
+# Exemple : réponses à une question ouverte de sondage sur les
+# priorités politiques (traduit en anglais pour l'analyse de sentiment)
+reponses <- tibble(
+  id       = 1:8,
+  auteur   = c("Répondant A", "Répondant B", "Répondant C", "Répondant D",
+               "Répondant E", "Répondant F", "Répondant G", "Répondant H"),
+  texte    = c(
+    "The government must invest more in clean energy and protect the environment",
+    "The cost of living crisis is terrible, prices are too high for working families",
+    "Our healthcare system needs urgent reform and more funding immediately",
+    "I appreciate the government's efforts on climate change and housing affordability",
+    "Education should be free and accessible to all young people in this country",
+    "The economy is struggling and the government has failed to address inflation",
+    "We need stronger social programs and better support for vulnerable communities",
+    "This government's terrible policies have destroyed our economic opportunities"
+  )
+)
+```
+
+## 4.1 stringr : manipulation de texte
+
+stringr fait partie de **tidyverse** — pas besoin d'installation supplémentaire.
+
+```{r}
+# Les fonctions principales
+texte <- "Le Parti libéral, le Parti conservateur et le Bloc québécois"
+
+# Convertir en minuscules
+str_to_lower(texte)
+
+# Détecter un patron (retourne TRUE/FALSE)
+str_detect(texte, "libéral")
+
+# Compter les occurrences
+str_count(texte, "Parti")
+
+# Remplacer
+str_replace_all(texte, "Parti", "parti")
+
+# Extraire selon un patron
+str_extract_all(texte, "Parti \\w+")
+```
+
+## stringr avec un data frame
+
+```{r}
+textes_politiques <- tibble(
+  titre = c(
+    "Le Parti libéral annonce un budget déficitaire",
+    "Le Bloc québécois défend l'autonomie du Québec",
+    "Le NPD propose de hausser le salaire minimum",
+    "Le Parti conservateur critique les dépenses du gouvernement",
+    "Le Parti libéral investit dans le logement abordable"
+  )
+)
+
+# Compter les mentions de "Parti libéral"
+textes_politiques |>
+  mutate(
+    mention_liberal = str_detect(titre, "libéral|Libéral"),
+    nb_mots         = str_count(titre, "\\w+"),
+    titre_min       = str_to_lower(titre)
+  )
+```
+
+## 4.2 tidytext : tokenisation
+
+**Tokeniser** = découper un texte en unités (mots, phrases, n-grammes).
+
+```{r}
+install.packages("tidytext")
+library(tidytext)
+
+# Tokeniser nos réponses de sondage
+mots <- reponses |>
+  unnest_tokens(
+    output = mot,   # nom de la nouvelle colonne
+    input  = texte  # colonne à découper
+  )
+
+# Résultat : une ligne par mot
+mots
+```
+
+::: {.fragment}
+```
+# A tibble: 80 × 3
+   id    auteur       mot
+ 1     1 Répondant A  the
+ 2     1 Répondant A  government
+ 3     1 Répondant A  must
+...
+```
+:::
+
+## Enlever les mots vides (stop words)
+
+Les **mots vides** (stop words) sont fréquents mais sans signification : *the, a, is, in...*
+
+```{r}
+# Mots vides intégrés à tidytext (en anglais)
+data(stop_words)
+
+# Enlever les mots vides
+mots_propres <- mots |>
+  anti_join(stop_words, by = c("mot" = "word"))
+
+# Voir les mots restants
+mots_propres |>
+  count(mot, sort = TRUE) |>
+  slice_head(n = 10)
+```
+
+::: {.fragment}
+Pour le français : `stopwords::stopwords("fr")` ou le package `stopwords`
+:::
+
+## Visualiser les mots fréquents
+
+```{r}
+mots_propres |>
+  count(mot, sort = TRUE) |>
+  slice_head(n = 15) |>
+  ggplot(aes(x = reorder(mot, n), y = n)) +
+  geom_col(fill = "#003875") +
+  coord_flip() +
+  labs(
+    title = "15 mots les plus fréquents dans les réponses",
+    x     = "Mot",
+    y     = "Fréquence"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+## 4.3 Analyse de sentiment
+
+L'analyse de sentiment mesure le **ton** d'un texte (positif, négatif, neutre).
+
+Principe : associer chaque mot à un score de sentiment à partir d'un **lexique**.
+
+```{r}
+# Plusieurs lexiques disponibles dans tidytext
+# - "bing"  : positif / négatif
+# - "afinn" : score de -5 à +5
+# - "nrc"   : émotions (peur, joie, colère...)
+
+# Charger le lexique bing
+bing <- get_sentiments("bing")
+
+# Voir les premières entrées
+bing |>
+  slice_head(n = 10)
+```
+
+## Calculer le sentiment par répondant
+
+```{r}
+# Joindre les mots avec le lexique
+sentiment_par_auteur <- mots_propres |>
+  inner_join(bing, by = c("mot" = "word")) |>
+  count(auteur, sentiment) |>
+  pivot_wider(
+    names_from  = sentiment,
+    values_from = n,
+    values_fill = 0
+  ) |>
+  mutate(score_net = positive - negative)
+
+sentiment_par_auteur
+```
+
+## Visualiser le sentiment
+
+```{r}
+sentiment_par_auteur |>
+  ggplot(aes(x = reorder(auteur, score_net),
+             y = score_net,
+             fill = score_net > 0)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("firebrick", "#2ca25f")) +
+  coord_flip() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    title    = "Ton des réponses par répondant",
+    subtitle = "Score net = mots positifs − mots négatifs",
+    x        = "Répondant",
+    y        = "Score de sentiment net"
+  ) +
+  theme_minimal()
+```
+
+## Pour aller plus loin en analyse textuelle
+
+```{r}
+# Fréquence TF-IDF (mots distinctifs par groupe)
+mots_propres |>
+  count(auteur, mot) |>
+  bind_tf_idf(mot, auteur, n) |>
+  arrange(desc(tf_idf))
+
+# Bigrammes (paires de mots consécutifs)
+reponses |>
+  unnest_tokens(bigram, texte, token = "ngrams", n = 2) |>
+  count(bigram, sort = TRUE)
+
+# Topic modeling (LDA) — pour corpus plus grands
+# install.packages("topicmodels")
+# library(topicmodels)
+```
+
+. . .
+
+Ressource incontournable : **[Text Mining with R](https://www.tidytextmining.com/)** (Julia Silge & David Robinson) — gratuit en ligne!
+
+---
+
+# Un cadeau! 🎁
+
+## Vos ressources essentielles
+
+**Apprendre R en faisant :**
+
+-   [swirl](https://swirlstats.com/) — tutoriels interactifs dans RStudio
+-   [R for Data Science](https://r4ds.hadley.nz/) — LE livre, gratuit en ligne (Hadley Wickham)
+-   [Text Mining with R](https://www.tidytextmining.com/) — analyse textuelle, gratuit en ligne
+
+**Aide rapide :**
+
+-   [Cheatsheet dplyr](https://rstudio.github.io/cheatsheets/html/data-transformation.html)
+-   [Cheatsheet ggplot2](https://rstudio.github.io/cheatsheets/html/data-visualization.html)
+-   [Stack Overflow](https://stackoverflow.com/questions/tagged/r) — communauté R
+
+**IA + R :**
+
+-   [Claude](https://claude.ai) ou [ChatGPT](https://chatgpt.com) — assistants de code
+-   Règle d'or : toujours valider le code avant de faire confiance aux résultats
+
+## Le contenu de cet atelier est sur GitHub
+
+::: {.r-fit-text}
+**[github.com/clessn/atelier-fss-20mars2026](https://github.com/clessn)**
+:::
+
+Vous y trouverez :
+
+-   Ces slides (HTML)
+-   Le script R pour l'atelier pratique (`exercices.R`)
+-   Les données utilisées
+
+## L'EIOM — notre école de méthodes
+
+- **Interdisciplinaire** : sciences sociales, droit, gestion...
+- 5 éditions depuis 2020
+- 5 jours intensifs, 3 crédits
+- Prochaine édition à l'automne
+
+::: {.r-fit-text}
+[eiom.ca](https://eiom.ca/)
+:::
+
+---
+
+# 13h à 15h : Atelier pratique
+
+## Comment fonctionne l'atelier
+
+**Présentiel seulement**
+
+1.  Ouvrez le script `exercices.R` depuis GitHub
+2.  Travaillez à votre rythme — les exercices sont organisés en sections
+3.  Posez vos questions! Je circule.
+
+. . .
+
+**Vous avez vos propres données?**
+
+Profitez-en pour les explorer avec les outils d'aujourd'hui.
+Je vous aide à adapter le code à votre contexte.
+
+. . .
+
+**Les exercices couvrent :**
+
+-   Manipulation avec dplyr (gapminder)
+-   Visualisation avec ggplot2
+-   Analyse textuelle (stringr + tidytext)
+-   BONUS : régression linéaire
+
+## Merci! {.center}
+
+::: columns
+::: {.column width="60%"}
+Des questions?
+
+**Adrien Cloutier**\
+[adrien.cloutier.1\@ulaval.ca](mailto:adrien.cloutier.1@ulaval.ca)\
+[adriencloutier.com](https://adriencloutier.com)
+:::
+
+::: {.column width="40%"}
+![](images/UL_FSS_N_d.png)
+
+![](images/logo_CLESSN.png)
+:::
+:::
