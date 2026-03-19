@@ -301,135 +301,7 @@ ggsave("graphique.png", plot = mon_graphique, width = 10, height = 7, dpi = 300)
 
 ---
 
-# 2. R et l'IA : comment travailler intelligemment
-
-## La révolution (et ses limites) {.center}
-
-::: {.r-fit-text}
-L'IA peut écrire du code R.
-:::
-
-::: {.fragment}
-::: {.r-fit-text}
-Mais elle peut aussi se tromper.
-:::
-:::
-
-::: {.fragment}
-::: {.r-fit-text}
-**Votre travail : comprendre et valider.**
-:::
-:::
-
-## La règle d'or
-
-> « Pour utiliser l'IA avec R, il faut comprendre R. »
-
--   L'IA génère du code **plausible**, pas toujours **correct**
--   Elle ne connaît pas **vos données** spécifiques
--   Elle peut utiliser des fonctions **obsolètes** ou **mal adaptées**
--   Elle peut inventer des fonctions qui **n'existent pas** *(hallucinations)*
-
-. . .
-
-**La bonne nouvelle :** avec les bases solides que vous avez, vous pouvez lire, comprendre et corriger du code généré par IA.
-
-## Le workflow avec l'IA
-
-::: {.columns}
-::: {.column width="50%"}
-**1. Formuler une demande précise**
-
-```
-Contexte : j'ai un data frame R avec
-les colonnes "pays", "annee", "pib",
-"esperance_vie" et "continent".
-
-Tâche : avec tidyverse, crée un nuage
-de points montrant la relation entre
-pib (axe x, échelle log) et
-esperance_vie (axe y), coloré par
-continent, pour l'année 2007 seulement.
-```
-:::
-
-::: {.column width="50%"}
-**2. Lire le code avant de l'exécuter**
-
-Posez-vous ces questions :
-
--   Est-ce que je reconnais les fonctions?
--   Le nom des colonnes correspond-il à mes données?
--   Y a-t-il des `install.packages()`?
--   Ça fait bien ce que je veux?
-
-**3. Exécuter ligne par ligne**
-
-Pas tout d'un coup! Ligne par ligne pour repérer les erreurs.
-
-**4. Corriger et adapter**
-:::
-:::
-
-## Comment bien prompter pour R
-
-**Donnez le contexte :**
-
-```
-J'utilise R avec tidyverse. Mes données s'appellent `df` et
-ont les colonnes : pays (character), annee (integer), valeur (numeric).
-```
-
-. . .
-
-**Soyez précis sur la tâche :**
-
-```
-Filtre pour l'année 2020, calcule la moyenne de `valeur`
-par pays, et crée un graphique en barres horizontal avec ggplot2.
-```
-
-. . .
-
-**Itérez :**
-
-```
-J'ai cette erreur : [copiez l'erreur exacte].
-Voici mon code : [copiez votre code].
-```
-
-## Erreurs communes de l'IA en R
-
-| Problème | Exemple |
-|---|---|
-| Nom de fonction inventé | `dplyr::filter_where()` |
-| Version obsolète | `gather()` au lieu de `pivot_longer()` |
-| Nom de colonne incorrect | `data$Pays` au lieu de `data$pays` |
-| Package non installé | Oublie de mentionner `install.packages()` |
-| Logique incorrecte | `filter(year = 2007)` au lieu de `==` |
-
-. . .
-
-**Votre meilleur outil de validation :** lire l'aide d'une fonction avec `?filter` ou `help(filter)`
-
-## Démonstration en direct
-
-Prompt que je vais soumettre à Claude :
-
-```
-En R avec tidyverse et le package gapminder, écris un code qui :
-1. Filtre les données pour l'année 2007
-2. Calcule le PIB total par continent (sum de pop * gdpPercap)
-3. Affiche un graphique en barres horizontal, trié du plus grand
-   au plus petit, avec des couleurs différentes par continent.
-Ajoute des commentaires expliquant chaque étape.
-```
-
-*[Démonstration live — validation du code généré ensemble]*
-
----
-
-# 3. Analyse textuelle automatisée
+# 2. Analyse textuelle automatisée
 
 ## Pourquoi en sciences sociales?
 
@@ -679,7 +551,7 @@ wordcloud(
 
 ---
 
-# 4. Régression linéaire
+# 3. Régression linéaire
 
 ## Pourquoi la régression?
 
@@ -789,6 +661,128 @@ modelsummary(
 . . .
 
 Nombre de naissances ~ nombre de cigognes par pays (*p* = 0.008). Pas de causalité : variable confondante = taille du pays.
+
+---
+
+# BONUS : R et l'IA
+
+## La révolution (et ses limites) {.center}
+
+::: {.r-fit-text}
+L'IA peut écrire du code R.
+:::
+
+::: {.fragment}
+::: {.r-fit-text}
+Mais elle peut aussi se tromper.
+:::
+:::
+
+::: {.fragment}
+::: {.r-fit-text}
+**Votre travail : comprendre et valider.**
+:::
+:::
+
+## La règle d'or
+
+> « Pour utiliser l'IA avec R, il faut comprendre R. »
+
+-   L'IA génère du code **plausible**, pas toujours **correct**
+-   Elle ne connaît pas **vos données** spécifiques
+-   Elle peut utiliser des fonctions **obsolètes** ou **mal adaptées**
+-   Elle peut inventer des fonctions qui **n'existent pas** *(hallucinations)*
+
+. . .
+
+**La bonne nouvelle :** avec les bases solides que vous avez, vous pouvez lire, comprendre et corriger du code généré par IA.
+
+## RStudio et l'IA : les limites
+
+RStudio est excellent pour apprendre R, mais son intégration IA est **limitée** :
+
+-   Pas d'autocomplétion IA native
+-   Pas de suggestion de code en temps réel
+-   Le plugin Copilot pour RStudio est expérimental et instable
+
+. . .
+
+**Pour travailler sérieusement avec l'IA**, deux alternatives s'imposent :
+
+::: {.columns}
+::: {.column width="50%"}
+**[Positron](https://positron.posit.co/)** *(recommandé)*
+
+Nouvel IDE de Posit (les créateurs de RStudio), conçu pour R et Python — intégration GitHub Copilot native.
+:::
+::: {.column width="50%"}
+**[VS Code](https://code.visualstudio.com/)**
+
+Éditeur universel très populaire — extensions R + GitHub Copilot disponibles.
+:::
+:::
+
+## GitHub Copilot — gratuit pour les étudiants 🎓
+
+GitHub Copilot est une IA qui **complète votre code en temps réel** dans l'éditeur, comme un collègue qui connaît tout par cœur.
+
+**Pour y accéder gratuitement :**
+
+1.  Créez un compte GitHub avec votre adresse universitaire
+2.  Demandez le [**GitHub Student Developer Pack**](https://education.github.com/pack) — inclut Copilot + des dizaines d'outils gratuits
+3.  Installez [Positron](https://positron.posit.co/) ou [VS Code](https://code.visualstudio.com/)
+4.  Connectez Copilot dans l'éditeur
+
+## Le workflow avec l'IA
+
+::: {.columns}
+::: {.column width="50%"}
+**1. Formuler une demande précise**
+
+```
+Contexte : j'ai un data frame R avec
+les colonnes "pays", "annee", "pib",
+"esperance_vie" et "continent".
+
+Tâche : avec tidyverse, crée un nuage
+de points montrant la relation entre
+pib (axe x, échelle log) et
+esperance_vie (axe y), coloré par
+continent, pour l'année 2007 seulement.
+```
+:::
+
+::: {.column width="50%"}
+**2. Lire le code avant de l'exécuter**
+
+Posez-vous ces questions :
+
+-   Est-ce que je reconnais les fonctions?
+-   Le nom des colonnes correspond-il à mes données?
+-   Y a-t-il des `install.packages()`?
+-   Ça fait bien ce que je veux?
+
+**3. Exécuter ligne par ligne**
+
+Pas tout d'un coup! Ligne par ligne pour repérer les erreurs.
+
+**4. Corriger et adapter**
+:::
+:::
+
+## Erreurs communes de l'IA en R
+
+| Problème | Exemple |
+|---|---|
+| Nom de fonction inventé | `dplyr::filter_where()` |
+| Version obsolète | `gather()` au lieu de `pivot_longer()` |
+| Nom de colonne incorrect | `data$Pays` au lieu de `data$pays` |
+| Package non installé | Oublie de mentionner `install.packages()` |
+| Logique incorrecte | `filter(year = 2007)` au lieu de `==` |
+
+. . .
+
+**Votre meilleur outil de validation :** lire l'aide d'une fonction avec `?filter` ou `help(filter)`
 
 ---
 
