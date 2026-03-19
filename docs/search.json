@@ -39,28 +39,28 @@
     "href": "exercices.html",
     "title": "Exercices — Approfondissement en analyse de données avec R",
     "section": "",
-    "text": "Avant de commencer, chargez les packages nécessaires :\n\nlibrary(tidyverse)\nlibrary(gapminder)\nlibrary(tidytext)\n\nLes données Gapminder contiennent des informations sur 142 pays de 1952 à 2007 (toutes les 5 ans) :\n\nglimpse(gapminder)"
+    "text": "Avant de commencer, chargez les packages nécessaires :\n\nlibrary(tidyverse)\nlibrary(gapminder)\nlibrary(tidytext)\n\nLes données Gapminder contiennent des informations sur 142 pays de 1952 à 2007 (toutes les 5 ans) :\n\nglimpse(gapminder)\n\n\n\n\n\n\n\n\nNote\n\n\n\nLes exercices de base sur filter(), select(), arrange(), group_by() et summarise() sont disponibles sur le site d’Étienne : etienneproulx.org/R_intro_fss/exercices.html\nLes exercices ci-dessous reprennent là où Étienne s’est arrêté."
   },
   {
     "objectID": "exercices.html#mise-en-place",
     "href": "exercices.html#mise-en-place",
     "title": "Exercices — Approfondissement en analyse de données avec R",
     "section": "",
-    "text": "Avant de commencer, chargez les packages nécessaires :\n\nlibrary(tidyverse)\nlibrary(gapminder)\nlibrary(tidytext)\n\nLes données Gapminder contiennent des informations sur 142 pays de 1952 à 2007 (toutes les 5 ans) :\n\nglimpse(gapminder)"
+    "text": "Avant de commencer, chargez les packages nécessaires :\n\nlibrary(tidyverse)\nlibrary(gapminder)\nlibrary(tidytext)\n\nLes données Gapminder contiennent des informations sur 142 pays de 1952 à 2007 (toutes les 5 ans) :\n\nglimpse(gapminder)\n\n\n\n\n\n\n\n\nNote\n\n\n\nLes exercices de base sur filter(), select(), arrange(), group_by() et summarise() sont disponibles sur le site d’Étienne : etienneproulx.org/R_intro_fss/exercices.html\nLes exercices ci-dessous reprennent là où Étienne s’est arrêté."
   },
   {
-    "objectID": "exercices.html#section-1-dplyr",
-    "href": "exercices.html#section-1-dplyr",
+    "objectID": "exercices.html#section-1-dplyr-avancé",
+    "href": "exercices.html#section-1-dplyr-avancé",
     "title": "Exercices — Approfondissement en analyse de données avec R",
-    "section": "Section 1 : dplyr",
-    "text": "Section 1 : dplyr\n\nExercice 1.1 — filter, select, arrange\nFiltrez les données pour obtenir uniquement les pays d’Asie en 2007. Sélectionnez seulement les colonnes country, lifeExp, gdpPercap. Triez par espérance de vie décroissante.\n\nQuestion : Combien de pays asiatiques ont une espérance de vie supérieure à 75 ans?\n\n\n# Votre code ici\ngapminder |&gt;\n  filter(???) |&gt;\n  select(???) |&gt;\n  arrange(???)\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007, continent == \"Asia\") |&gt;\n  select(country, lifeExp, gdpPercap) |&gt;\n  arrange(desc(lifeExp))\n\nRéponse : 9 pays asiatiques ont une espérance de vie &gt; 75 ans en 2007.\n\n\n\n\n\n\nExercice 1.2 — group_by + summarise\nCalculez, pour chaque continent et chaque année, la médiane du PIB per capita. Nommez la colonne pib_median. Affichez seulement les données depuis 1990.\n\n# Votre code ici\ngapminder |&gt;\n  filter(???) |&gt;\n  group_by(???) |&gt;\n  summarise(???)\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year &gt;= 1990) |&gt;\n  group_by(continent, year) |&gt;\n  summarise(pib_median = median(gdpPercap), .groups = \"drop\")\n\n\n\n\n\n\n\nExercice 1.3 — mutate\nCréez une nouvelle colonne pib_total qui correspond à pop * gdpPercap. Trouvez les 5 pays avec le PIB total le plus élevé en 2007.\n\n# Votre code ici\ngapminder |&gt;\n  filter(???) |&gt;\n  mutate(???) |&gt;\n  arrange(???) |&gt;\n  slice_head(n = 5)\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  mutate(pib_total = pop * gdpPercap) |&gt;\n  arrange(desc(pib_total)) |&gt;\n  slice_head(n = 5)"
+    "section": "Section 1 : dplyr avancé",
+    "text": "Section 1 : dplyr avancé\n\nExercice 1.1 — mutate() avec case_when()\ncase_when() permet de créer une variable catégorielle à partir de conditions multiples, comme un if/else appliqué à toute une colonne.\nEn 2007, créez une colonne cat_richesse qui classe chaque pays en :\n\n\"Riche\" si gdpPercap &gt;= 20000\n\"Intermédiaire\" si gdpPercap &gt;= 5000\n\"Pauvre\" pour tous les autres\n\nEnsuite, comptez combien de pays appartiennent à chaque catégorie par continent.\n\ngapminder |&gt;\n  filter(???) |&gt;\n  mutate(\n    cat_richesse = case_when(\n      gdpPercap &gt;= ??? ~ \"Riche\",\n      gdpPercap &gt;= ??? ~ \"Intermédiaire\",\n      TRUE             ~ \"Pauvre\"\n    )\n  ) |&gt;\n  count(???, ???)\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  mutate(\n    cat_richesse = case_when(\n      gdpPercap &gt;= 20000 ~ \"Riche\",\n      gdpPercap &gt;= 5000  ~ \"Intermédiaire\",\n      TRUE               ~ \"Pauvre\"\n    )\n  ) |&gt;\n  count(continent, cat_richesse)\n\nÀ observer : Tous les pays d’Océanie et d’Europe sont “Riches” ou “Intermédiaires”. L’Afrique est quasi entièrement “Pauvre” selon ce critère.\n\n\n\n\n\n\nExercice 1.2 — summarise() avancé\nCalculez, pour chaque continent en 2007, les statistiques suivantes sur l’espérance de vie : - la moyenne (mean) - la médiane (median) - l’écart-type (sd) - le minimum et le maximum - le nombre de pays (n())\nTriez du continent avec la plus haute espérance de vie moyenne au plus bas.\n\ngapminder |&gt;\n  filter(???) |&gt;\n  group_by(???) |&gt;\n  summarise(\n    moy    = ???,\n    median = ???,\n    ecart  = ???,\n    min    = ???,\n    max    = ???,\n    n      = ???\n  ) |&gt;\n  arrange(???)\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(\n    moy    = mean(lifeExp),\n    median = median(lifeExp),\n    ecart  = sd(lifeExp),\n    min    = min(lifeExp),\n    max    = max(lifeExp),\n    n      = n()\n  ) |&gt;\n  arrange(desc(moy))\n\n\n\n\n\n\n\nExercice 1.3 — left_join() : fusionner deux tableaux\nleft_join() fusionne deux data frames à partir d’une colonne commune.\nCréez ce tableau de régions géopolitiques :\n\nregions &lt;- tibble(\n  continent = c(\"Africa\", \"Americas\", \"Asia\", \"Europe\", \"Oceania\"),\n  region_onu = c(\"Global South\", \"Americas\", \"Asia-Pacific\",\n                 \"Western nations\", \"Asia-Pacific\")\n)\n\nEnsuite :\n\nFusionnez regions avec gapminder (année 2007 seulement)\nCalculez l’espérance de vie moyenne par region_onu\nAffichez le résultat trié\n\n\ngapminder |&gt;\n  filter(???) |&gt;\n  left_join(???, by = \"continent\") |&gt;\n  group_by(???) |&gt;\n  summarise(esperance_moy = mean(???)) |&gt;\n  arrange(???)\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\nregions &lt;- tibble(\n  continent  = c(\"Africa\", \"Americas\", \"Asia\", \"Europe\", \"Oceania\"),\n  region_onu = c(\"Global South\", \"Americas\", \"Asia-Pacific\",\n                 \"Western nations\", \"Asia-Pacific\")\n)\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  left_join(regions, by = \"continent\") |&gt;\n  group_by(region_onu) |&gt;\n  summarise(esperance_moy = mean(lifeExp)) |&gt;\n  arrange(desc(esperance_moy))"
   },
   {
     "objectID": "exercices.html#section-2-ggplot2",
     "href": "exercices.html#section-2-ggplot2",
     "title": "Exercices — Approfondissement en analyse de données avec R",
     "section": "Section 2 : ggplot2",
-    "text": "Section 2 : ggplot2\n\nExercice 2.1 — Nuage de points\nCréez un nuage de points avec :\n\nAxe X : PIB per capita (échelle logarithmique avec scale_x_log10())\nAxe Y : Espérance de vie\nCouleur : continent\nTaille des points : population\nDonnées : 2007 seulement\nTitre, étiquettes d’axes, thème minimal\n\n\n# Votre code ici\ngapminder |&gt;\n  filter(???) |&gt;\n  ggplot(aes(???)) +\n  geom_point(???) +\n  scale_x_log10() +\n  labs(???) +\n  theme_minimal()\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap,\n             y = lifeExp,\n             color = continent,\n             size = pop)) +\n  geom_point(alpha = 0.7) +\n  scale_x_log10() +\n  labs(\n    title    = \"PIB per capita et espérance de vie (2007)\",\n    subtitle = \"Chaque point représente un pays\",\n    x        = \"PIB per capita (échelle log)\",\n    y        = \"Espérance de vie (années)\",\n    color    = \"Continent\",\n    size     = \"Population\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nExercice 2.2 — Évolution dans le temps\nTracez l’évolution de l’espérance de vie moyenne par continent de 1952 à 2007. Utilisez geom_line() avec une ligne par continent.\n\nAstuce : Calculez d’abord la moyenne avec group_by() + summarise(), puis passez le résultat à ggplot.\n\n\n# Votre code ici\ngapminder |&gt;\n  group_by(???) |&gt;\n  summarise(???) |&gt;\n  ggplot(aes(x = year, y = ???, color = continent)) +\n  geom_line(linewidth = 1) +\n  labs(???) +\n  theme_minimal()\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  group_by(continent, year) |&gt;\n  summarise(esperance_moy = mean(lifeExp), .groups = \"drop\") |&gt;\n  ggplot(aes(x = year, y = esperance_moy, color = continent)) +\n  geom_line(linewidth = 1) +\n  labs(\n    title = \"Évolution de l'espérance de vie par continent (1952–2007)\",\n    x     = \"Année\",\n    y     = \"Espérance de vie moyenne (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nExercice 2.3 — Histogramme\nFaites un histogramme de la distribution du PIB per capita en 2007.\n\nUtilisez fill = continent pour colorer par continent\nAjoutez alpha = 0.6 pour la transparence\nAppliquez scale_x_log10()\n\n\n# Votre code ici\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, fill = continent)) +\n  geom_histogram(bins = 30, alpha = 0.6) +\n  scale_x_log10() +\n  labs(\n    title = \"Distribution du PIB per capita par continent (2007)\",\n    x     = \"PIB per capita (échelle log)\",\n    y     = \"Nombre de pays\",\n    fill  = \"Continent\"\n  ) +\n  theme_minimal()"
+    "text": "Section 2 : ggplot2\n\nExercice 2.1 — facet_wrap() : petits multiples\nfacet_wrap() crée un graphique séparé pour chaque valeur d’une variable — très utile pour comparer des sous-groupes.\nCréez un nuage de points (PIB per capita en X, espérance de vie en Y) pour 2007, avec :\n\nÉchelle X logarithmique\nUn facet par continent (facet_wrap(~ continent))\nPoints colorés en bleu (#003875), transparence 0.6\nTitre et étiquettes d’axes\n\n\ngapminder |&gt;\n  filter(???) |&gt;\n  ggplot(aes(x = ???, y = ???)) +\n  geom_point(color = \"#003875\", alpha = 0.6) +\n  scale_x_log10() +\n  facet_wrap(~ ???) +\n  labs(???) +\n  theme_minimal()\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, y = lifeExp)) +\n  geom_point(color = \"#003875\", alpha = 0.6) +\n  scale_x_log10() +\n  facet_wrap(~ continent) +\n  labs(\n    title = \"PIB per capita et espérance de vie par continent (2007)\",\n    x     = \"PIB per capita (échelle log)\",\n    y     = \"Espérance de vie (années)\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nExercice 2.2 — Évolution dans le temps\nTracez l’évolution de l’espérance de vie moyenne par continent de 1952 à 2007. Utilisez geom_line() avec une ligne par continent.\n\nAstuce : Calculez d’abord la moyenne avec group_by() + summarise(), puis passez le résultat à ggplot.\n\n\n# Votre code ici\ngapminder |&gt;\n  group_by(???) |&gt;\n  summarise(???) |&gt;\n  ggplot(aes(x = year, y = ???, color = continent)) +\n  geom_line(linewidth = 1) +\n  labs(???) +\n  theme_minimal()\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  group_by(continent, year) |&gt;\n  summarise(esperance_moy = mean(lifeExp), .groups = \"drop\") |&gt;\n  ggplot(aes(x = year, y = esperance_moy, color = continent)) +\n  geom_line(linewidth = 1) +\n  labs(\n    title = \"Évolution de l'espérance de vie par continent (1952–2007)\",\n    x     = \"Année\",\n    y     = \"Espérance de vie moyenne (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nExercice 2.3 — Histogramme\nFaites un histogramme de la distribution du PIB per capita en 2007.\n\nUtilisez fill = continent pour colorer par continent\nAjoutez alpha = 0.6 pour la transparence\nAppliquez scale_x_log10()\n\n\n# Votre code ici\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, fill = continent)) +\n  geom_histogram(bins = 30, alpha = 0.6) +\n  scale_x_log10() +\n  labs(\n    title = \"Distribution du PIB per capita par continent (2007)\",\n    x     = \"PIB per capita (échelle log)\",\n    y     = \"Nombre de pays\",\n    fill  = \"Continent\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "exercices.html#section-3-analyse-textuelle",
@@ -102,49 +102,91 @@
     "href": "slides.html#plan-de-la-journée",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Plan de la journée",
-    "text": "Plan de la journée\n9h à 12h — Formation théorique\n\nRappel : dplyr + le pipe\nVisualisation : ggplot2\nR et l’IA : comment travailler intelligemment\nAnalyse textuelle automatisée avec R\n\n13h à 15h — Atelier pratique (présentiel seulement)\n\nTravaillez avec vos propres données et questions de recherche\nScript R disponible sur GitHub"
+    "text": "Plan de la journée\n9h à 12h — Formation théorique\n\nRappel de la semaine passée (~30 min)\nAller plus loin avec dplyr\nVisualisation : ggplot2\nR et l’IA : comment travailler intelligemment\nAnalyse textuelle automatisée avec R\n\n13h à 15h — Atelier pratique (présentiel seulement)\n\nTravaillez avec vos propres données et questions de recherche\nExercices disponibles sur le site de l’atelier"
   },
   {
-    "objectID": "slides.html#pourquoi-ce-rappel",
-    "href": "slides.html#pourquoi-ce-rappel",
+    "objectID": "slides.html#la-semaine-passée-avec-étienne",
+    "href": "slides.html#la-semaine-passée-avec-étienne",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "Pourquoi ce rappel?",
-    "text": "Pourquoi ce rappel?\n\nCertains d’entre vous n’étaient pas à la séance d’Étienne la semaine passée\ndplyr est la fondation de tout ce qu’on va faire aujourd’hui\nMême si vous y étiez : quelques minutes de rappel, ça ne fait pas de mal\n\n\nTout ce dont vous avez besoin est dans le package tidyverse\n\ninstall.packages(\"tidyverse\")  # une seule fois\nlibrary(tidyverse)             # à chaque session"
+    "section": "La semaine passée avec Étienne",
+    "text": "La semaine passée avec Étienne\nTout le contenu d’Étienne est disponible ici :\n\netienneproulx.org/R_intro_fss\n\n\nOn fait un survol rapide (~30 min) pour rafraîchir les mémoires. Si vous avez besoin de revoir en détail, le site d’Étienne est là."
+  },
+  {
+    "objectID": "slides.html#r-rstudio-linterface",
+    "href": "slides.html#r-rstudio-linterface",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "R & RStudio : l’interface",
+    "text": "R & RStudio : l’interface\n\n\n4 panneaux :\n\nScript (en haut à gauche) — votre code\nConsole (en bas à gauche) — l’exécution\nEnvironnement (en haut à droite) — vos objets\nFichiers / Graphiques (en bas à droite)\n\n\nRègle fondamentale :\nÉcrivez toujours dans le script, pas dans la console.\nCtrl + Enter (Win) / Cmd + Enter (Mac) pour exécuter une ligne."
+  },
+  {
+    "objectID": "slides.html#objets-et-assignation",
+    "href": "slides.html#objets-et-assignation",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Objets et assignation",
+    "text": "Objets et assignation\n\n# Créer un objet avec &lt;-\nmon_nombre &lt;- 42\nmon_texte  &lt;- \"Bonjour\"\nmon_vecteur &lt;- c(1, 5, 3, 8, 2)\n\n# Appeler un objet : taper son nom\nmon_vecteur\n\n# Fonctions de base\nmean(mon_vecteur)\nmax(mon_vecteur)\nlength(mon_vecteur)\n\n\nTypes principaux : numeric, character, logical (TRUE/FALSE)\n\nclass(mon_nombre)   # \"numeric\"\nclass(mon_texte)    # \"character\""
+  },
+  {
+    "objectID": "slides.html#packages-et-importation",
+    "href": "slides.html#packages-et-importation",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Packages et importation",
+    "text": "Packages et importation\n\n# Installer une fois, charger à chaque session\ninstall.packages(\"tidyverse\")   # dans la console\nlibrary(tidyverse)              # dans le script\n\n# Importer un fichier CSV\nmes_donnees &lt;- read.csv(\"fichier.csv\")\n\n# Explorer un data frame\nglimpse(mes_donnees)\nnames(mes_donnees)\nmes_donnees$nom_colonne    # accéder à une colonne"
   },
   {
     "objectID": "slides.html#les-données-gapminder",
     "href": "slides.html#les-données-gapminder",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Les données : Gapminder",
-    "text": "Les données : Gapminder\n\ninstall.packages(\"gapminder\")\nlibrary(gapminder)\n\n# Regarder les données\nglimpse(gapminder)\n\n\nRows: 1,704\nColumns: 6\n$ country   &lt;fct&gt; \"Afghanistan\", \"Afghanistan\", …\n$ continent &lt;fct&gt; Asia, Asia, Asia, …\n$ year      &lt;int&gt; 1952, 1957, 1962, …\n$ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, …\n$ pop       &lt;int&gt; 8425333, 9240934, 10267083, …\n$ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …"
+    "text": "Les données : Gapminder\n\nlibrary(gapminder)\nglimpse(gapminder)\n\n\nRows: 1,704  |  Columns: 6\n$ country    \"Afghanistan\", \"Afghanistan\", …\n$ continent  Asia, Asia, …\n$ year       1952, 1957, …\n$ lifeExp    28.8, 30.3, …\n$ pop        8425333, 9240934, …\n$ gdpPercap  779.4, 820.9, …"
   },
   {
-    "objectID": "slides.html#le-pipe-ou",
-    "href": "slides.html#le-pipe-ou",
+    "objectID": "slides.html#le-pipe",
+    "href": "slides.html#le-pipe",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "Le pipe : |> ou %>%",
-    "text": "Le pipe : |&gt; ou %&gt;%\nLe pipe enchaîne des opérations. Lisez-le comme « puis » ou « ensuite ».\n\n# Sans pipe (difficile à lire)\narrange(select(filter(gapminder, year == 2007), country, lifeExp), desc(lifeExp))\n\n# Avec pipe (clair et lisible)\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  select(country, lifeExp) |&gt;\n  arrange(desc(lifeExp))\n\n\nRaccourci clavier : Ctrl + Shift + M (Windows) ou Cmd + Shift + M (Mac)"
+    "section": "Le pipe : |>",
+    "text": "Le pipe : |&gt;\nLe pipe enchaîne les opérations. Lisez-le comme « puis ».\n\n# Sans pipe\narrange(filter(gapminder, year == 2007), desc(lifeExp))\n\n# Avec pipe — bien plus lisible\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  arrange(desc(lifeExp))\n\nRaccourci : Ctrl + Shift + M (Win) / Cmd + Shift + M (Mac)"
   },
   {
-    "objectID": "slides.html#les-6-verbes-de-dplyr",
-    "href": "slides.html#les-6-verbes-de-dplyr",
+    "objectID": "slides.html#les-6-verbes-de-dplyr-rappel-éclair",
+    "href": "slides.html#les-6-verbes-de-dplyr-rappel-éclair",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "Les 6 verbes de dplyr",
-    "text": "Les 6 verbes de dplyr\n\n\n\nVerbe\nAction\n\n\n\n\nfilter()\nGarder des lignes selon une condition\n\n\nselect()\nGarder des colonnes\n\n\nmutate()\nCréer ou modifier des colonnes\n\n\narrange()\nTrier les lignes\n\n\nrename()\nRenommer des colonnes\n\n\ngroup_by() + summarise()\nGrouper et résumer"
+    "section": "Les 6 verbes de dplyr — rappel éclair",
+    "text": "Les 6 verbes de dplyr — rappel éclair\n\n\n\nVerbe\nAction\nExemple\n\n\n\n\nfilter()\nGarder des lignes\nfilter(year == 2007)\n\n\nselect()\nGarder des colonnes\nselect(country, lifeExp)\n\n\nmutate()\nCréer / modifier\nmutate(pib_mil = pop * gdpPercap)\n\n\narrange()\nTrier\narrange(desc(lifeExp))\n\n\nrename()\nRenommer\nrename(pays = country)\n\n\ngroup_by() + summarise()\nRésumer par groupe\nvoir ci-dessous\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(esperance_moy = mean(lifeExp), nb_pays = n())"
   },
   {
-    "objectID": "slides.html#filter-et-select",
-    "href": "slides.html#filter-et-select",
+    "objectID": "slides.html#revoir-les-exercices-détienne",
+    "href": "slides.html#revoir-les-exercices-détienne",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "filter() et select()",
-    "text": "filter() et select()\n\n# Pays d'Amérique en 2007 avec une espérance de vie &gt; 75 ans\ngapminder |&gt;\n  filter(year == 2007,\n         continent == \"Americas\",\n         lifeExp &gt; 75) |&gt;\n  select(country, lifeExp, gdpPercap)\n\n\n\n# Opérateurs logiques utiles\n# ==  (égal à)\n# !=  (différent de)\n# &gt;   (plus grand que)\n# &lt;   (plus petit que)\n# &   (et)\n# |   (ou)"
+    "section": "Revoir les exercices d’Étienne?",
+    "text": "Revoir les exercices d’Étienne?\n\netienneproulx.org/R_intro_fss/exercices.html"
   },
   {
-    "objectID": "slides.html#mutate-et-group_by-summarise",
-    "href": "slides.html#mutate-et-group_by-summarise",
+    "objectID": "slides.html#là-où-étienne-sest-arrêté",
+    "href": "slides.html#là-où-étienne-sest-arrêté",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "mutate() et group_by() + summarise()",
-    "text": "mutate() et group_by() + summarise()\n\n# Créer une nouvelle colonne\ngapminder |&gt;\n  mutate(pop_millions = pop / 1000000) |&gt;\n  filter(year == 2007) |&gt;\n  select(country, pop_millions) |&gt;\n  arrange(desc(pop_millions))\n\n\n\n# Espérance de vie moyenne par continent en 2007\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(\n    esperance_moy = mean(lifeExp),\n    nb_pays       = n()\n  ) |&gt;\n  arrange(desc(esperance_moy))"
+    "section": "Là où Étienne s’est arrêté",
+    "text": "Là où Étienne s’est arrêté\nÉtienne a couvert les 6 verbes de base.\nAujourd’hui on ajoute des outils qui vont transformer votre façon de coder :\n\n\ncase_when() — créer des variables catégorielles conditionnelles\nleft_join() — fusionner deux tableaux de données\nDes pipelines plus complexes qui combinent tout ça"
+  },
+  {
+    "objectID": "slides.html#mutate-avec-case_when",
+    "href": "slides.html#mutate-avec-case_when",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "mutate() avec case_when()",
+    "text": "mutate() avec case_when()\ncase_when() crée une variable catégorielle à partir de conditions — comme un if/else vectorisé.\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  mutate(\n    categorie_vie = case_when(\n      lifeExp &gt;= 75 ~ \"Élevée (75+)\",\n      lifeExp &gt;= 60 ~ \"Moyenne (60–75)\",\n      TRUE          ~ \"Faible (&lt; 60)\"    # tous les autres cas\n    )\n  ) |&gt;\n  count(continent, categorie_vie)\n\n\nLogique : R évalue les conditions dans l’ordre — dès qu’une est TRUE, il assigne la valeur."
+  },
+  {
+    "objectID": "slides.html#résumer-de-façon-avancée",
+    "href": "slides.html#résumer-de-façon-avancée",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Résumer de façon avancée",
+    "text": "Résumer de façon avancée\n\n# Plusieurs statistiques en même temps\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(\n    esperance_moy    = mean(lifeExp),\n    esperance_median = median(lifeExp),\n    esperance_min    = min(lifeExp),\n    esperance_max    = max(lifeExp),\n    nb_pays          = n()\n  ) |&gt;\n  arrange(desc(esperance_moy))"
+  },
+  {
+    "objectID": "slides.html#left_join-fusionner-deux-tableaux",
+    "href": "slides.html#left_join-fusionner-deux-tableaux",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "left_join() : fusionner deux tableaux",
+    "text": "left_join() : fusionner deux tableaux\nleft_join() combine deux data frames sur une colonne commune — comme RECHERCHEV dans Excel, mais mieux.\n\n# Créer un tableau de codes de continents\ncodes_continent &lt;- tibble(\n  continent = c(\"Africa\", \"Americas\", \"Asia\", \"Europe\", \"Oceania\"),\n  code      = c(\"AF\", \"AM\", \"AS\", \"EU\", \"OC\")\n)\n\n# Fusionner avec gapminder\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  left_join(codes_continent, by = \"continent\") |&gt;\n  select(country, continent, code, lifeExp)\n\n\nRègle : toutes les lignes du tableau de gauche sont conservées."
   },
   {
     "objectID": "slides.html#la-logique-de-ggplot2",

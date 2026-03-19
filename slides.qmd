@@ -46,135 +46,231 @@ execute:
 
 **9h à 12h — Formation théorique**
 
-1.  Rappel : dplyr + le pipe
-2.  Visualisation : ggplot2
-3.  R et l'IA : comment travailler intelligemment
-4.  Analyse textuelle automatisée avec R
+1.  Rappel de la semaine passée *(\~30 min)*
+2.  Aller plus loin avec dplyr
+3.  Visualisation : ggplot2
+4.  R et l'IA : comment travailler intelligemment
+5.  Analyse textuelle automatisée avec R
 
 **13h à 15h — Atelier pratique** *(présentiel seulement)*
 
 -   Travaillez avec vos propres données et questions de recherche
--   Script R disponible sur GitHub
+-   Exercices disponibles sur le site de l'atelier
 
 ---
 
-# 1. Rappel : dplyr
+# Rappel de la semaine passée
 
-## Pourquoi ce rappel?
+## La semaine passée avec Étienne
 
--   Certains d'entre vous n'étaient pas à la séance d'Étienne la semaine passée
--   dplyr est la **fondation** de tout ce qu'on va faire aujourd'hui
--   Même si vous y étiez : quelques minutes de rappel, ça ne fait pas de mal
+Tout le contenu d'Étienne est disponible ici :
+
+::: {.r-fit-text}
+[etienneproulx.org/R_intro_fss](https://www.etienneproulx.org/R_intro_fss/)
+:::
 
 . . .
 
-Tout ce dont vous avez besoin est dans le package **tidyverse**
+On fait un **survol rapide** (~30 min) pour rafraîchir les mémoires.
+Si vous avez besoin de revoir en détail, le site d'Étienne est là.
+
+## R & RStudio : l'interface
+
+::: {.columns}
+::: {.column width="50%"}
+**4 panneaux :**
+
+1. **Script** (en haut à gauche) — votre code
+2. **Console** (en bas à gauche) — l'exécution
+3. **Environnement** (en haut à droite) — vos objets
+4. **Fichiers / Graphiques** (en bas à droite)
+:::
+
+::: {.column width="50%"}
+**Règle fondamentale :**
+
+Écrivez toujours dans le **script**, pas dans la console.
+
+`Ctrl + Enter` (Win) / `Cmd + Enter` (Mac) pour exécuter une ligne.
+:::
+:::
+
+## Objets et assignation
 
 ```{r}
-install.packages("tidyverse")  # une seule fois
-library(tidyverse)             # à chaque session
+# Créer un objet avec <-
+mon_nombre <- 42
+mon_texte  <- "Bonjour"
+mon_vecteur <- c(1, 5, 3, 8, 2)
+
+# Appeler un objet : taper son nom
+mon_vecteur
+
+# Fonctions de base
+mean(mon_vecteur)
+max(mon_vecteur)
+length(mon_vecteur)
+```
+
+. . .
+
+**Types principaux :** `numeric`, `character`, `logical` (`TRUE`/`FALSE`)
+
+```{r}
+class(mon_nombre)   # "numeric"
+class(mon_texte)    # "character"
+```
+
+## Packages et importation
+
+```{r}
+# Installer une fois, charger à chaque session
+install.packages("tidyverse")   # dans la console
+library(tidyverse)              # dans le script
+
+# Importer un fichier CSV
+mes_donnees <- read.csv("fichier.csv")
+
+# Explorer un data frame
+glimpse(mes_donnees)
+names(mes_donnees)
+mes_donnees$nom_colonne    # accéder à une colonne
 ```
 
 ## Les données : Gapminder
 
 ```{r}
-install.packages("gapminder")
 library(gapminder)
-
-# Regarder les données
 glimpse(gapminder)
 ```
 
 ::: {.fragment}
 ```
-Rows: 1,704
-Columns: 6
-$ country   <fct> "Afghanistan", "Afghanistan", …
-$ continent <fct> Asia, Asia, Asia, …
-$ year      <int> 1952, 1957, 1962, …
-$ lifeExp   <dbl> 28.801, 30.332, 31.997, …
-$ pop       <int> 8425333, 9240934, 10267083, …
-$ gdpPercap <dbl> 779.4453, 820.8530, …
+Rows: 1,704  |  Columns: 6
+$ country    "Afghanistan", "Afghanistan", …
+$ continent  Asia, Asia, …
+$ year       1952, 1957, …
+$ lifeExp    28.8, 30.3, …
+$ pop        8425333, 9240934, …
+$ gdpPercap  779.4, 820.9, …
 ```
 :::
 
-## Le pipe : `|>` ou `%>%`
+## Le pipe : `|>`
 
-Le pipe **enchaîne** des opérations. Lisez-le comme « *puis* » ou « *ensuite* ».
+Le pipe **enchaîne** les opérations. Lisez-le comme *« puis »*.
 
 ```{r}
-# Sans pipe (difficile à lire)
-arrange(select(filter(gapminder, year == 2007), country, lifeExp), desc(lifeExp))
+# Sans pipe
+arrange(filter(gapminder, year == 2007), desc(lifeExp))
 
-# Avec pipe (clair et lisible)
+# Avec pipe — bien plus lisible
 gapminder |>
   filter(year == 2007) |>
-  select(country, lifeExp) |>
   arrange(desc(lifeExp))
 ```
 
-. . .
+**Raccourci :** `Ctrl + Shift + M` (Win) / `Cmd + Shift + M` (Mac)
 
-**Raccourci clavier :** `Ctrl + Shift + M` (Windows) ou `Cmd + Shift + M` (Mac)
+## Les 6 verbes de dplyr — rappel éclair
 
-## Les 6 verbes de dplyr
-
-| Verbe | Action |
-|---|---|
-| `filter()` | Garder des lignes selon une condition |
-| `select()` | Garder des colonnes |
-| `mutate()` | Créer ou modifier des colonnes |
-| `arrange()` | Trier les lignes |
-| `rename()` | Renommer des colonnes |
-| `group_by()` + `summarise()` | Grouper et résumer |
-
-## filter() et select()
+| Verbe | Action | Exemple |
+|---|---|---|
+| `filter()` | Garder des lignes | `filter(year == 2007)` |
+| `select()` | Garder des colonnes | `select(country, lifeExp)` |
+| `mutate()` | Créer / modifier | `mutate(pib_mil = pop * gdpPercap)` |
+| `arrange()` | Trier | `arrange(desc(lifeExp))` |
+| `rename()` | Renommer | `rename(pays = country)` |
+| `group_by()` + `summarise()` | Résumer par groupe | voir ci-dessous |
 
 ```{r}
-# Pays d'Amérique en 2007 avec une espérance de vie > 75 ans
 gapminder |>
-  filter(year == 2007,
-         continent == "Americas",
-         lifeExp > 75) |>
-  select(country, lifeExp, gdpPercap)
-```
-
-. . .
-
-```{r}
-# Opérateurs logiques utiles
-# ==  (égal à)
-# !=  (différent de)
-# >   (plus grand que)
-# <   (plus petit que)
-# &   (et)
-# |   (ou)
-```
-
-## mutate() et group_by() + summarise()
-
-```{r}
-# Créer une nouvelle colonne
-gapminder |>
-  mutate(pop_millions = pop / 1000000) |>
   filter(year == 2007) |>
-  select(country, pop_millions) |>
-  arrange(desc(pop_millions))
+  group_by(continent) |>
+  summarise(esperance_moy = mean(lifeExp), nb_pays = n())
+```
+
+## Revoir les exercices d'Étienne?
+
+::: {.r-fit-text}
+[etienneproulx.org/R_intro_fss/exercices.html](https://www.etienneproulx.org/R_intro_fss/exercices.html)
+:::
+
+---
+
+# 1. Aller plus loin avec dplyr
+
+## Là où Étienne s'est arrêté
+
+Étienne a couvert les **6 verbes de base**.
+
+Aujourd'hui on ajoute des outils qui vont transformer votre façon de coder :
+
+. . .
+
+- `case_when()` — créer des variables catégorielles conditionnelles
+- `left_join()` — fusionner deux tableaux de données
+- Des pipelines plus complexes qui combinent tout ça
+
+## mutate() avec case_when()
+
+`case_when()` crée une variable catégorielle à partir de conditions — comme un `if/else` vectorisé.
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  mutate(
+    categorie_vie = case_when(
+      lifeExp >= 75 ~ "Élevée (75+)",
+      lifeExp >= 60 ~ "Moyenne (60–75)",
+      TRUE          ~ "Faible (< 60)"    # tous les autres cas
+    )
+  ) |>
+  count(continent, categorie_vie)
 ```
 
 . . .
 
+**Logique :** R évalue les conditions dans l'ordre — dès qu'une est `TRUE`, il assigne la valeur.
+
+## Résumer de façon avancée
+
 ```{r}
-# Espérance de vie moyenne par continent en 2007
+# Plusieurs statistiques en même temps
 gapminder |>
   filter(year == 2007) |>
   group_by(continent) |>
   summarise(
-    esperance_moy = mean(lifeExp),
-    nb_pays       = n()
+    esperance_moy    = mean(lifeExp),
+    esperance_median = median(lifeExp),
+    esperance_min    = min(lifeExp),
+    esperance_max    = max(lifeExp),
+    nb_pays          = n()
   ) |>
   arrange(desc(esperance_moy))
 ```
+
+## left_join() : fusionner deux tableaux
+
+`left_join()` combine deux data frames sur une colonne commune — comme RECHERCHEV dans Excel, mais mieux.
+
+```{r}
+# Créer un tableau de codes de continents
+codes_continent <- tibble(
+  continent = c("Africa", "Americas", "Asia", "Europe", "Oceania"),
+  code      = c("AF", "AM", "AS", "EU", "OC")
+)
+
+# Fusionner avec gapminder
+gapminder |>
+  filter(year == 2007) |>
+  left_join(codes_continent, by = "continent") |>
+  select(country, continent, code, lifeExp)
+```
+
+. . .
+
+**Règle :** toutes les lignes du tableau de gauche sont conservées.
 
 ---
 
