@@ -709,15 +709,19 @@ wordcloud(
 
 # 3. Régression linéaire
 
+```{r}
+#| echo: false
+#| eval: true
+data_2007 <- gapminder |>
+  filter(year == 2007) |>
+  mutate(log_pib = log(gdpPercap))
+```
+
 ## Pourquoi la régression?
 
 But : mesurer l'**association** entre une variable dépendante $Y$ et une ou plusieurs variables indépendantes $X$.
 
-. . .
-
 $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon$$
-
-. . .
 
 Exemples en sciences sociales :
 
@@ -725,20 +729,108 @@ Exemples en sciences sociales :
 - Le genre influence-t-il la perception des politiciens?
 - L'éducation est-elle associée à la participation citoyenne?
 
-## Deux types de variables
+## Étape 1 — Explorer la relation
 
-**Catégorielles** — nombre de catégories prédéfini
+```{r}
+#| eval: true
+#| output-location: slide
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(aes(color = continent), alpha = 0.7) +
+  labs(
+    title = "PIB per capita et espérance de vie (2007)",
+    x = "PIB per capita", y = "Espérance de vie (années)"
+  ) +
+  theme_minimal()
+```
 
-- Nominales : pas d'ordre (*religion, langue*)
-- Ordinales : ordre logique (*niveau d'éducation*)
-- → Doivent être converties en `factor` avec `as.factor()`
+## Étape 2 — Transformer en log
+
+La relation est **non-linéaire** : on transforme `gdpPercap` en `log(gdpPercap)`.
+
+```{r}
+#| eval: true
+#| output-location: slide
+gapminder |>
+  filter(year == 2007) |>
+  mutate(log_pib = log(gdpPercap)) |>
+  ggplot(aes(x = log_pib, y = lifeExp)) +
+  geom_point(aes(color = continent), alpha = 0.7) +
+  labs(
+    title = "Log(PIB per capita) et espérance de vie (2007)",
+    x = "Log du PIB per capita", y = "Espérance de vie (années)"
+  ) +
+  theme_minimal()
+```
+
+## Étape 3 — Ajouter la droite de régression
+
+```{r}
+#| eval: true
+#| output-location: slide
+data_2007 |>
+  ggplot(aes(x = log_pib, y = lifeExp)) +
+  geom_point(aes(color = continent), alpha = 0.7) +
+  geom_smooth(method = "lm", color = "black", se = TRUE) +
+  labs(
+    title = "Régression : Log(PIB) → Espérance de vie",
+    x = "Log du PIB per capita", y = "Espérance de vie (années)",
+    color = "Continent"
+  ) +
+  theme_minimal()
+```
+
+## Étape 4 — `lm()` : mettre des chiffres
+
+```{r}
+#| eval: true
+#| output-location: fragment
+modele <- lm(lifeExp ~ log_pib, data = data_2007)
+summary(modele)
+```
+
+**Lire les résultats :**
+
+- **Estimate** : l'effet de X sur Y
+- **p-value** (`Pr(>|t|)`) : significativité — cherchez les `*`
+- **R²** : variance expliquée (0 à 1)
+
+## Étape 5 — Régression multiple
+
+```{r}
+#| eval: true
+#| output-location: fragment
+modele_multiple <- lm(
+  lifeExp ~ log_pib + continent,
+  data = data_2007
+)
+summary(modele_multiple)
+```
 
 . . .
 
-**Numériques** — valeurs continues
+Chaque coefficient = effet **en contrôlant pour toutes les autres variables**.
 
-- Intervalles / ratio : âge, revenu, score sur 10
-- → Doivent être en `numeric`
+## Étape 6 — Comparer avec `modelsummary`
+
+```{r}
+#| eval: true
+#| output-location: slide
+modelsummary(
+  list("Modèle simple"   = modele,
+       "Modèle multiple" = modele_multiple),
+  stars = TRUE
+)
+```
+
+`modelsummary` exporte aussi en Word, PDF, Excel — parfait pour vos articles.
+
+## Deux types de variables
+
+**Catégorielles** → `as.factor()` *(religion, niveau d'éducation…)*
+
+**Numériques** → `as.numeric()` *(âge, revenu, score…)*
 
 ```{r}
 class(ma_variable)        # vérifier le type
@@ -746,66 +838,14 @@ as.factor(ma_variable)    # convertir en catégorielle
 as.numeric(ma_variable)   # convertir en numérique
 ```
 
-## Nettoyer les variables avant la régression
-
-```{r}
-# Les valeurs manquantes doivent être codées NA (pas -99 ou 999)
-Data$revenu <- Data$revenu_brut
-Data$revenu[Data$revenu_brut == -99] <- NA
-
-# Vérifier avec summary
-summary(Data$revenu)
-
-# Vérifier les catégories d'une variable
-table(Data$genre)
-```
-
-## Régression linéaire simple
-
-```{r}
-# lm(variable_dependante ~ variable_independante, data = ...)
-modele <- lm(lifeExp ~ gdpPercap, data = gapminder)
-
-summary(modele)
-```
-
-**Lire les résultats :**
-
-- **Estimate** : l'effet de X sur Y (pente)
-- **p-value** (`Pr(>|t|)`) : significativité statistique — cherchez les `*`
-- **R²** : proportion de variance expliquée (0 à 1)
-
-## Régression multiple
-
-```{r}
-# Ajouter des variables avec +
-modele_multiple <- lm(
-  lifeExp ~ gdpPercap + pop + continent,
-  data = gapminder |> filter(year == 2007)
-)
-
-summary(modele_multiple)
-```
-
 . . .
 
-Chaque coefficient = effet de cette variable **en contrôlant pour toutes les autres**.
-
-## Tableau de régression avec modelsummary
+**Valeurs manquantes :** toujours coder `NA`, jamais `-99` ou `999`
 
 ```{r}
-# Tableau comparant deux modèles
-modelsummary(
-  list("Modèle simple"   = modele,
-       "Modèle multiple" = modele_multiple),
-  stars = TRUE,
-  output = "tableau_regression.docx"   # exporte en Word!
-)
+data$revenu[data$revenu == -99] <- NA
+summary(data$revenu)   # vérifier
 ```
-
-. . .
-
-`modelsummary` exporte en Word, PDF, HTML, Excel — parfait pour vos mémoires et articles.
 
 ## Corrélation ≠ causalité
 

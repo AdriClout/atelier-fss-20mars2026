@@ -1188,96 +1188,378 @@ Adrien Cloutier | Université Laval
 <section id="pourquoi-la-régression" class="slide level2">
 <h2>Pourquoi la régression?</h2>
 <p>But : mesurer l’<strong>association</strong> entre une variable dépendante <span class="math inline">\(Y\)</span> et une ou plusieurs variables indépendantes <span class="math inline">\(X\)</span>.</p>
-<div class="fragment">
 <p><span class="math display">\[Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon\]</span></p>
-</div>
-<div class="fragment">
 <p>Exemples en sciences sociales :</p>
 <ul>
 <li>Le revenu prédit-il l’intention de vote?</li>
 <li>Le genre influence-t-il la perception des politiciens?</li>
 <li>L’éducation est-elle associée à la participation citoyenne?</li>
 </ul>
-</div>
 </section>
-<section id="deux-types-de-variables" class="slide level2">
-<h2>Deux types de variables</h2>
-<p><strong>Catégorielles</strong> — nombre de catégories prédéfini</p>
-<ul>
-<li>Nominales : pas d’ordre (<em>religion, langue</em>)</li>
-<li>Ordinales : ordre logique (<em>niveau d’éducation</em>)</li>
-<li>→ Doivent être converties en <code>factor</code> avec <code>as.factor()</code></li>
-</ul>
-<div class="fragment">
-<p><strong>Numériques</strong> — valeurs continues</p>
-<ul>
-<li>Intervalles / ratio : âge, revenu, score sur 10</li>
-<li>→ Doivent être en <code>numeric</code></li>
-</ul>
+<section id="étape-1-explorer-la-relation" class="slide level2">
+<h2>Étape 1 — Explorer la relation</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">class</span>(ma_variable)        <span class="co"># vérifier le type</span></span>
-<span id="cb37-2"><a href="#cb37-2"></a><span class="fu">as.factor</span>(ma_variable)    <span class="co"># convertir en catégorielle</span></span>
-<span id="cb37-3"><a href="#cb37-3"></a><span class="fu">as.numeric</span>(ma_variable)   <span class="co"># convertir en numérique</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb37-3"><a href="#cb37-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb37-4"><a href="#cb37-4"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> continent), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5"></a>  <span class="fu">labs</span>(</span>
+<span id="cb37-6"><a href="#cb37-6"></a>    <span class="at">title =</span> <span class="st">"PIB per capita et espérance de vie (2007)"</span>,</span>
+<span id="cb37-7"><a href="#cb37-7"></a>    <span class="at">x =</span> <span class="st">"PIB per capita"</span>, <span class="at">y =</span> <span class="st">"Espérance de vie (années)"</span></span>
+<span id="cb37-8"><a href="#cb37-8"></a>  ) <span class="sc">+</span></span>
+<span id="cb37-9"><a href="#cb37-9"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+
 </section>
-<section id="nettoyer-les-variables-avant-la-régression" class="slide level2">
-<h2>Nettoyer les variables avant la régression</h2>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="co"># Les valeurs manquantes doivent être codées NA (pas -99 ou 999)</span></span>
-<span id="cb38-2"><a href="#cb38-2"></a>Data<span class="sc">$</span>revenu <span class="ot">&lt;-</span> Data<span class="sc">$</span>revenu_brut</span>
-<span id="cb38-3"><a href="#cb38-3"></a>Data<span class="sc">$</span>revenu[Data<span class="sc">$</span>revenu_brut <span class="sc">==</span> <span class="sc">-</span><span class="dv">99</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb38-4"><a href="#cb38-4"></a></span>
-<span id="cb38-5"><a href="#cb38-5"></a><span class="co"># Vérifier avec summary</span></span>
-<span id="cb38-6"><a href="#cb38-6"></a><span class="fu">summary</span>(Data<span class="sc">$</span>revenu)</span>
-<span id="cb38-7"><a href="#cb38-7"></a></span>
-<span id="cb38-8"><a href="#cb38-8"></a><span class="co"># Vérifier les catégories d'une variable</span></span>
-<span id="cb38-9"><a href="#cb38-9"></a><span class="fu">table</span>(Data<span class="sc">$</span>genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="étape-1-explorer-la-relation-output" class="slide level2 output-location-slide"><h2>Étape 1 — Explorer la relation</h2><div class="cell output-location-slide" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-33-1.png" width="960"></p>
+</figure>
 </div>
-</section>
-<section id="régression-linéaire-simple" class="slide level2">
-<h2>Régression linéaire simple</h2>
+</div>
+</div></section><section id="étape-2-transformer-en-log" class="slide level2">
+<h2>Étape 2 — Transformer en log</h2>
+<p>La relation est <strong>non-linéaire</strong> : on transforme <code>gdpPercap</code> en <code>log(gdpPercap)</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># lm(variable_dependante ~ variable_independante, data = ...)</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a>modele <span class="ot">&lt;-</span> <span class="fu">lm</span>(lifeExp <span class="sc">~</span> gdpPercap, <span class="at">data =</span> gapminder)</span>
-<span id="cb39-3"><a href="#cb39-3"></a></span>
-<span id="cb39-4"><a href="#cb39-4"></a><span class="fu">summary</span>(modele)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-3"><a href="#cb38-3"></a>  <span class="fu">mutate</span>(<span class="at">log_pib =</span> <span class="fu">log</span>(gdpPercap)) <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a href="#cb38-4"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> log_pib, <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb38-5"><a href="#cb38-5"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> continent), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb38-6"><a href="#cb38-6"></a>  <span class="fu">labs</span>(</span>
+<span id="cb38-7"><a href="#cb38-7"></a>    <span class="at">title =</span> <span class="st">"Log(PIB per capita) et espérance de vie (2007)"</span>,</span>
+<span id="cb38-8"><a href="#cb38-8"></a>    <span class="at">x =</span> <span class="st">"Log du PIB per capita"</span>, <span class="at">y =</span> <span class="st">"Espérance de vie (années)"</span></span>
+<span id="cb38-9"><a href="#cb38-9"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-10"><a href="#cb38-10"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="étape-2-transformer-en-log-output" class="slide level2 output-location-slide"><h2>Étape 2 — Transformer en log</h2><div class="cell output-location-slide" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-34-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="étape-3-ajouter-la-droite-de-régression" class="slide level2">
+<h2>Étape 3 — Ajouter la droite de régression</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>data_2007 <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> log_pib, <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> continent), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb39-5"><a href="#cb39-5"></a>  <span class="fu">labs</span>(</span>
+<span id="cb39-6"><a href="#cb39-6"></a>    <span class="at">title =</span> <span class="st">"Régression : Log(PIB) → Espérance de vie"</span>,</span>
+<span id="cb39-7"><a href="#cb39-7"></a>    <span class="at">x =</span> <span class="st">"Log du PIB per capita"</span>, <span class="at">y =</span> <span class="st">"Espérance de vie (années)"</span>,</span>
+<span id="cb39-8"><a href="#cb39-8"></a>    <span class="at">color =</span> <span class="st">"Continent"</span></span>
+<span id="cb39-9"><a href="#cb39-9"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-10"><a href="#cb39-10"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="étape-3-ajouter-la-droite-de-régression-output" class="slide level2 output-location-slide"><h2>Étape 3 — Ajouter la droite de régression</h2><div class="cell output-location-slide" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-35-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="étape-4-lm-mettre-des-chiffres" class="slide level2">
+<h2>Étape 4 — <code>lm()</code> : mettre des chiffres</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>modele <span class="ot">&lt;-</span> <span class="fu">lm</span>(lifeExp <span class="sc">~</span> log_pib, <span class="at">data =</span> data_2007)</span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="fu">summary</span>(modele)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = lifeExp ~ log_pib, data = data_2007)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-25.947  -2.661   1.215   4.469  13.115 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   4.9496     3.8577   1.283    0.202    
+log_pib       7.2028     0.4423  16.283   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 7.122 on 140 degrees of freedom
+Multiple R-squared:  0.6544,    Adjusted R-squared:  0.652 
+F-statistic: 265.2 on 1 and 140 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
 </div>
 <p><strong>Lire les résultats :</strong></p>
 <ul>
-<li><strong>Estimate</strong> : l’effet de X sur Y (pente)</li>
-<li><strong>p-value</strong> (<code>Pr(&gt;|t|)</code>) : significativité statistique — cherchez les <code>*</code></li>
-<li><strong>R²</strong> : proportion de variance expliquée (0 à 1)</li>
+<li><strong>Estimate</strong> : l’effet de X sur Y</li>
+<li><strong>p-value</strong> (<code>Pr(&gt;|t|)</code>) : significativité — cherchez les <code>*</code></li>
+<li><strong>R²</strong> : variance expliquée (0 à 1)</li>
 </ul>
 </section>
-<section id="régression-multiple" class="slide level2">
-<h2>Régression multiple</h2>
+<section id="étape-5-régression-multiple" class="slide level2">
+<h2>Étape 5 — Régression multiple</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># Ajouter des variables avec +</span></span>
-<span id="cb40-2"><a href="#cb40-2"></a>modele_multiple <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
-<span id="cb40-3"><a href="#cb40-3"></a>  lifeExp <span class="sc">~</span> gdpPercap <span class="sc">+</span> pop <span class="sc">+</span> continent,</span>
-<span id="cb40-4"><a href="#cb40-4"></a>  <span class="at">data =</span> gapminder <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>)</span>
-<span id="cb40-5"><a href="#cb40-5"></a>)</span>
-<span id="cb40-6"><a href="#cb40-6"></a></span>
-<span id="cb40-7"><a href="#cb40-7"></a><span class="fu">summary</span>(modele_multiple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>modele_multiple <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb42-2"><a href="#cb42-2"></a>  lifeExp <span class="sc">~</span> log_pib <span class="sc">+</span> continent,</span>
+<span id="cb42-3"><a href="#cb42-3"></a>  <span class="at">data =</span> data_2007</span>
+<span id="cb42-4"><a href="#cb42-4"></a>)</span>
+<span id="cb42-5"><a href="#cb42-5"></a><span class="fu">summary</span>(modele_multiple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = lifeExp ~ log_pib + continent, data = data_2007)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-19.4917  -2.3146  -0.0432   2.5498  14.8818 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)        20.1376     4.0332   4.993 1.79e-06 ***
+log_pib             4.6308     0.5274   8.780 6.14e-15 ***
+continentAmericas  11.6942     1.6546   7.068 7.46e-11 ***
+continentAsia      10.1144     1.4761   6.852 2.31e-10 ***
+continentEurope    11.2682     1.8936   5.951 2.14e-08 ***
+continentOceania   12.9293     4.5211   2.860  0.00491 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5.929 on 136 degrees of freedom
+Multiple R-squared:  0.7674,    Adjusted R-squared:  0.7588 
+F-statistic: 89.72 on 5 and 136 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
 </div>
 <div class="fragment">
-<p>Chaque coefficient = effet de cette variable <strong>en contrôlant pour toutes les autres</strong>.</p>
+<p>Chaque coefficient = effet <strong>en contrôlant pour toutes les autres variables</strong>.</p>
 </div>
 </section>
-<section id="tableau-de-régression-avec-modelsummary" class="slide level2">
-<h2>Tableau de régression avec modelsummary</h2>
+<section id="étape-6-comparer-avec-modelsummary" class="slide level2">
+<h2>Étape 6 — Comparer avec <code>modelsummary</code></h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># Tableau comparant deux modèles</span></span>
-<span id="cb41-2"><a href="#cb41-2"></a><span class="fu">modelsummary</span>(</span>
-<span id="cb41-3"><a href="#cb41-3"></a>  <span class="fu">list</span>(<span class="st">"Modèle simple"</span>   <span class="ot">=</span> modele,</span>
-<span id="cb41-4"><a href="#cb41-4"></a>       <span class="st">"Modèle multiple"</span> <span class="ot">=</span> modele_multiple),</span>
-<span id="cb41-5"><a href="#cb41-5"></a>  <span class="at">stars =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb41-6"><a href="#cb41-6"></a>  <span class="at">output =</span> <span class="st">"tableau_regression.docx"</span>   <span class="co"># exporte en Word!</span></span>
-<span id="cb41-7"><a href="#cb41-7"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">modelsummary</span>(</span>
+<span id="cb44-2"><a href="#cb44-2"></a>  <span class="fu">list</span>(<span class="st">"Modèle simple"</span>   <span class="ot">=</span> modele,</span>
+<span id="cb44-3"><a href="#cb44-3"></a>       <span class="st">"Modèle multiple"</span> <span class="ot">=</span> modele_multiple),</span>
+<span id="cb44-4"><a href="#cb44-4"></a>  <span class="at">stars =</span> <span class="cn">TRUE</span></span>
+<span id="cb44-5"><a href="#cb44-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<p><code>modelsummary</code> exporte aussi en Word, PDF, Excel — parfait pour vos articles.</p>
+</section>
+<section id="étape-6-comparer-avec-modelsummary-output" class="slide level2 output-location-slide"><h2>Étape 6 — Comparer avec <code>modelsummary</code></h2><div class="cell output-location-slide" data-layout-align="center">
+<div class="cell-output-display">
+
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_uvq9r94yddrwypuvgqtz(i, j, css_id) {
+          var table = document.getElementById("tinytable_uvq9r94yddrwypuvgqtz");
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function spanCell_uvq9r94yddrwypuvgqtz(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_uvq9r94yddrwypuvgqtz");
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
+        for (let r = 0; r < rowspan; r++) {
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
+            }
+          }
+        }
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '19', j: 1 }, { i: '19', j: 2 },  ], css_id: 'tinytable_css_pwli5oto18a5u4d09bl0',}, 
+          { positions: [ { i: '12', j: 2 }, { i: '12', j: 1 },  ], css_id: 'tinytable_css_o98ie2ljxmghigt99x3o',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '3', j: 1 }, { i: '8', j: 1 }, { i: '9', j: 1 }, { i: '10', j: 1 }, { i: '11', j: 1 }, { i: '5', j: 2 }, { i: '13', j: 1 }, { i: '14', j: 1 }, { i: '15', j: 1 }, { i: '16', j: 1 }, { i: '17', j: 1 }, { i: '18', j: 1 }, { i: '3', j: 2 }, { i: '7', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '7', j: 2 }, { i: '4', j: 2 }, { i: '18', j: 2 }, { i: '6', j: 2 }, { i: '11', j: 2 }, { i: '8', j: 2 }, { i: '9', j: 2 }, { i: '10', j: 2 }, { i: '15', j: 2 }, { i: '16', j: 2 }, { i: '13', j: 2 }, { i: '14', j: 2 }, { i: '17', j: 2 },  ], css_id: 'tinytable_css_vl64uvhct1r2wsj896rh',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_9o1yxquqfznkjawdrwsz',}, 
+          { positions: [ { i: '19', j: 0 },  ], css_id: 'tinytable_css_r8mpairkzlotkk59n6db',}, 
+          { positions: [ { i: '12', j: 0 },  ], css_id: 'tinytable_css_ekxo0darhxzje6qt4lja',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 }, { i: '5', j: 0 }, { i: '6', j: 0 }, { i: '7', j: 0 }, { i: '8', j: 0 }, { i: '9', j: 0 }, { i: '10', j: 0 }, { i: '11', j: 0 }, { i: '16', j: 0 }, { i: '13', j: 0 }, { i: '14', j: 0 }, { i: '15', j: 0 }, { i: '17', j: 0 }, { i: '18', j: 0 },  ], css_id: 'tinytable_css_u5f968o2hresjofnwlpj',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_jag8gcu0gwr1u7f2cb0t',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_uvq9r94yddrwypuvgqtz(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_pwli5oto18a5u4d09bl0, .table th.tinytable_css_pwli5oto18a5u4d09bl0 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_o98ie2ljxmghigt99x3o, .table th.tinytable_css_o98ie2ljxmghigt99x3o { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_vl64uvhct1r2wsj896rh, .table th.tinytable_css_vl64uvhct1r2wsj896rh { text-align: center; }
+      .table td.tinytable_css_9o1yxquqfznkjawdrwsz, .table th.tinytable_css_9o1yxquqfznkjawdrwsz { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_r8mpairkzlotkk59n6db, .table th.tinytable_css_r8mpairkzlotkk59n6db { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_ekxo0darhxzje6qt4lja, .table th.tinytable_css_ekxo0darhxzje6qt4lja { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_u5f968o2hresjofnwlpj, .table th.tinytable_css_u5f968o2hresjofnwlpj { text-align: left; }
+      .table td.tinytable_css_jag8gcu0gwr1u7f2cb0t, .table th.tinytable_css_jag8gcu0gwr1u7f2cb0t { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_uvq9r94yddrwypuvgqtz" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        
+              <tr>
+                <th scope="col" data-row="0" data-col="0"> </th>
+                <th scope="col" data-row="0" data-col="1">Modèle simple</th>
+                <th scope="col" data-row="0" data-col="2">Modèle multiple</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan="3">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="0">(Intercept)</td>
+                  <td data-row="1" data-col="1">4.950</td>
+                  <td data-row="1" data-col="2">20.138***</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="0"></td>
+                  <td data-row="2" data-col="1">(3.858)</td>
+                  <td data-row="2" data-col="2">(4.033)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="0">log_pib</td>
+                  <td data-row="3" data-col="1">7.203***</td>
+                  <td data-row="3" data-col="2">4.631***</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="0"></td>
+                  <td data-row="4" data-col="1">(0.442)</td>
+                  <td data-row="4" data-col="2">(0.527)</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="0">continentAmericas</td>
+                  <td data-row="5" data-col="1"></td>
+                  <td data-row="5" data-col="2">11.694***</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="0"></td>
+                  <td data-row="6" data-col="1"></td>
+                  <td data-row="6" data-col="2">(1.655)</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="0">continentAsia</td>
+                  <td data-row="7" data-col="1"></td>
+                  <td data-row="7" data-col="2">10.114***</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="0"></td>
+                  <td data-row="8" data-col="1"></td>
+                  <td data-row="8" data-col="2">(1.476)</td>
+                </tr>
+                <tr>
+                  <td data-row="9" data-col="0">continentEurope</td>
+                  <td data-row="9" data-col="1"></td>
+                  <td data-row="9" data-col="2">11.268***</td>
+                </tr>
+                <tr>
+                  <td data-row="10" data-col="0"></td>
+                  <td data-row="10" data-col="1"></td>
+                  <td data-row="10" data-col="2">(1.894)</td>
+                </tr>
+                <tr>
+                  <td data-row="11" data-col="0">continentOceania</td>
+                  <td data-row="11" data-col="1"></td>
+                  <td data-row="11" data-col="2">12.929**</td>
+                </tr>
+                <tr>
+                  <td data-row="12" data-col="0"></td>
+                  <td data-row="12" data-col="1"></td>
+                  <td data-row="12" data-col="2">(4.521)</td>
+                </tr>
+                <tr>
+                  <td data-row="13" data-col="0">Num.Obs.</td>
+                  <td data-row="13" data-col="1">142</td>
+                  <td data-row="13" data-col="2">142</td>
+                </tr>
+                <tr>
+                  <td data-row="14" data-col="0">R2</td>
+                  <td data-row="14" data-col="1">0.654</td>
+                  <td data-row="14" data-col="2">0.767</td>
+                </tr>
+                <tr>
+                  <td data-row="15" data-col="0">R2 Adj.</td>
+                  <td data-row="15" data-col="1">0.652</td>
+                  <td data-row="15" data-col="2">0.759</td>
+                </tr>
+                <tr>
+                  <td data-row="16" data-col="0">AIC</td>
+                  <td data-row="16" data-col="1">964.5</td>
+                  <td data-row="16" data-col="2">916.3</td>
+                </tr>
+                <tr>
+                  <td data-row="17" data-col="0">BIC</td>
+                  <td data-row="17" data-col="1">973.4</td>
+                  <td data-row="17" data-col="2">937.0</td>
+                </tr>
+                <tr>
+                  <td data-row="18" data-col="0">Log.Lik.</td>
+                  <td data-row="18" data-col="1">-479.260</td>
+                  <td data-row="18" data-col="2">-451.167</td>
+                </tr>
+                <tr>
+                  <td data-row="19" data-col="0">RMSE</td>
+                  <td data-row="19" data-col="1">7.07</td>
+                  <td data-row="19" data-col="2">5.80</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div></section><section id="deux-types-de-variables" class="slide level2">
+<h2>Deux types de variables</h2>
+<p><strong>Catégorielles</strong> → <code>as.factor()</code> <em>(religion, niveau d’éducation…)</em></p>
+<p><strong>Numériques</strong> → <code>as.numeric()</code> <em>(âge, revenu, score…)</em></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="fu">class</span>(ma_variable)        <span class="co"># vérifier le type</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a><span class="fu">as.factor</span>(ma_variable)    <span class="co"># convertir en catégorielle</span></span>
+<span id="cb45-3"><a href="#cb45-3"></a><span class="fu">as.numeric</span>(ma_variable)   <span class="co"># convertir en numérique</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
-<p><code>modelsummary</code> exporte en Word, PDF, HTML, Excel — parfait pour vos mémoires et articles.</p>
+<p><strong>Valeurs manquantes :</strong> toujours coder <code>NA</code>, jamais <code>-99</code> ou <code>999</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>data<span class="sc">$</span>revenu[data<span class="sc">$</span>revenu <span class="sc">==</span> <span class="sc">-</span><span class="dv">99</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a><span class="fu">summary</span>(data<span class="sc">$</span>revenu)   <span class="co"># vérifier</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </section>
 <section id="corrélation-causalité" class="slide level2">
