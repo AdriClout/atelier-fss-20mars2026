@@ -21,7 +21,20 @@ execute:
   eval: false
   warning: false
   message: false
+knitr:
+  opts_chunk:
+    fig.align: center
 ---
+
+```{r}
+#| echo: false
+#| eval: true
+library(tidyverse)
+library(gapminder)
+library(tidytext)
+library(wordcloud)
+library(modelsummary)
+```
 
 ## Bravo d'être là! {.center}
 
@@ -156,56 +169,80 @@ mes_donnees$nom_colonne    # accéder à une colonne
 ## Les données : Gapminder
 
 ```{r}
-library(gapminder)
-glimpse(gapminder)
+#| eval: true
+gapminder
 ```
 
-::: {.fragment}
+## `filter()` — garder des lignes
+
+```{r}
+#| eval: true
+#| output-location: column
+gapminder |>
+  filter(year == 2007)
 ```
-Rows: 1,704  |  Columns: 6
-$ country    "Afghanistan", "Afghanistan", …
-$ continent  Asia, Asia, …
-$ year       1952, 1957, …
-$ lifeExp    28.8, 30.3, …
-$ pop        8425333, 9240934, …
-$ gdpPercap  779.4, 820.9, …
+
+## `select()` — garder des colonnes
+
+```{r}
+#| eval: true
+#| output-location: column
+gapminder |>
+  filter(year == 2007) |>
+  select(country, continent, lifeExp)
 ```
-:::
+
+## `mutate()` — créer une colonne
+
+```{r}
+#| eval: true
+#| output-location: column
+gapminder |>
+  filter(year == 2007) |>
+  select(country, pop, gdpPercap) |>
+  mutate(pib_milliards = round(pop * gdpPercap / 1e9, 1))
+```
+
+## `arrange()` — trier
+
+```{r}
+#| eval: true
+#| output-location: column
+gapminder |>
+  filter(year == 2007) |>
+  select(country, lifeExp) |>
+  arrange(desc(lifeExp))
+```
+
+## `group_by()` + `summarise()` — résumer par groupe
+
+```{r}
+#| eval: true
+#| output-location: column
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarise(
+    esperance_moy = mean(lifeExp),
+    nb_pays       = n()
+  )
+```
 
 ## Le pipe : `|>`
 
 Le pipe **enchaîne** les opérations. Lisez-le comme *« puis »*.
 
 ```{r}
-# Sans pipe
+# Sans pipe — difficile à lire
 arrange(filter(gapminder, year == 2007), desc(lifeExp))
 
-# Avec pipe — bien plus lisible
+# Avec pipe — naturel de gauche à droite
 gapminder |>
   filter(year == 2007) |>
   arrange(desc(lifeExp))
 ```
 
 **Raccourci :** `Ctrl + Shift + M` (Win) / `Cmd + Shift + M` (Mac)
-
-## Les 6 verbes de dplyr — rappel éclair
-
-| Verbe | Action | Exemple |
-|---|---|---|
-| `filter()` | Garder des lignes | `filter(year == 2007)` |
-| `select()` | Garder des colonnes | `select(country, lifeExp)` |
-| `mutate()` | Créer / modifier | `mutate(pib_mil = pop * gdpPercap)` |
-| `arrange()` | Trier | `arrange(desc(lifeExp))` |
-| `rename()` | Renommer | `rename(pays = country)` |
-
-## `group_by()` + `summarise()`
-
-```{r}
-gapminder |>
-  filter(year == 2007) |>
-  group_by(continent) |>
-  summarise(esperance_moy = mean(lifeExp), nb_pays = n())
-```
 
 ## Revoir les exercices d'Étienne?
 
@@ -219,48 +256,97 @@ gapminder |>
 
 ## La logique de ggplot2
 
-ggplot2 est basé sur une **grammaire des graphiques** : on assemble des couches.
+ggplot2 est basé sur une **grammaire des graphiques** : on assemble des **couches**.
 
-```{r}
-ggplot(data = gapminder,         # 1. les données
-       aes(x = gdpPercap,        # 2. les axes et couleurs (aesthetics)
-           y = lifeExp)) +
-  geom_point()                   # 3. le type de graphique (geom)
-```
+-   `ggplot()` — initialise le graphique avec les données
+-   `aes()` — mappe les variables aux propriétés visuelles (x, y, couleur, taille…)
+-   `geom_*()` — choisit le type de figure (points, barres, lignes…)
+-   `+` — ajoute des couches *(pas un pipe!)*
 
 . . .
 
-Les éléments de base :
+On va construire ce graphique **couche par couche** →
 
--   `ggplot()` — initialise le graphique
--   `aes()` — mappe les variables aux propriétés visuelles
--   `geom_*()` — choisit le type de figure
--   `+` — ajoute des couches (pas un pipe!)
-
-## Nuage de points : geom_point()
+## Couche 1 — la toile vide
 
 ```{r}
+#| eval: true
+#| output-location: column
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap,
+             y = lifeExp))
+```
+
+## Couche 2 — `geom_point()`
+
+```{r}
+#| eval: true
+#| output-location: column
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap,
+             y = lifeExp)) +
+  geom_point()
+```
+
+## Couche 3 — couleur et taille
+
+```{r}
+#| eval: true
+#| output-location: column
 gapminder |>
   filter(year == 2007) |>
   ggplot(aes(x = gdpPercap,
              y = lifeExp,
-             color = continent,   # couleur par continent
-             size = pop)) +       # taille par population
-  geom_point(alpha = 0.7) +       # alpha = transparence
-  scale_x_log10() +               # axe X en échelle log
+             color = continent,
+             size  = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+## Couche 4 — `scale_x_log10()`
+
+```{r}
+#| eval: true
+#| output-location: column
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap,
+             y = lifeExp,
+             color = continent,
+             size  = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_x_log10()
+```
+
+## Couche 5 — `labs()` + `theme_minimal()`
+
+```{r}
+#| eval: true
+#| output-location: column
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap,
+             y = lifeExp,
+             color = continent,
+             size  = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_x_log10() +
   labs(
-    title  = "PIB per capita et espérance de vie (2007)",
-    x      = "PIB per capita (échelle log)",
-    y      = "Espérance de vie (années)",
-    color  = "Continent",
-    size   = "Population"
+    title = "PIB per capita et espérance de vie (2007)",
+    x     = "PIB per capita (échelle log)",
+    y     = "Espérance de vie (années)",
+    color = "Continent",
+    size  = "Population"
   ) +
   theme_minimal()
 ```
 
-## Graphique en barres : geom_col()
+## Graphique en barres : `geom_col()`
 
 ```{r}
+#| eval: true
+#| output-location: column
 gapminder |>
   filter(year == 2007) |>
   group_by(continent) |>
@@ -269,7 +355,7 @@ gapminder |>
              y = esperance_moy,
              fill = continent)) +
   geom_col(show.legend = FALSE) +
-  coord_flip() +                  # barres horizontales
+  coord_flip() +
   labs(
     title = "Espérance de vie moyenne par continent (2007)",
     x     = "Continent",
@@ -278,13 +364,14 @@ gapminder |>
   theme_minimal()
 ```
 
-## Histogramme : geom_histogram()
+## Histogramme : `geom_histogram()`
 
 ```{r}
+#| eval: true
+#| output-location: column
 gapminder |>
   filter(year == 2007) |>
-  ggplot(aes(x = lifeExp,
-             fill = continent)) +
+  ggplot(aes(x = lifeExp, fill = continent)) +
   geom_histogram(bins = 30, alpha = 0.7) +
   labs(
     title = "Distribution de l'espérance de vie (2007)",
@@ -304,14 +391,12 @@ mon_graphique <- gapminder |>
   geom_point(alpha = 0.7) +
   scale_x_log10() +
   theme_minimal() +
-  theme(
-    plot.title    = element_text(size = 16, face = "bold"),
-    legend.position = "bottom"
-  ) +
+  theme(legend.position = "bottom") +
   labs(title = "Mon graphique")
 
-# Sauvegarder
-ggsave("graphique.png", plot = mon_graphique, width = 10, height = 7, dpi = 300)
+# Sauvegarder en PNG haute résolution
+ggsave("graphique.png", plot = mon_graphique,
+       width = 10, height = 7, dpi = 300)
 ```
 
 ---
