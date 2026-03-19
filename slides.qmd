@@ -183,6 +183,8 @@ gapminder |>
 | `rename()` | Renommer | `rename(pays = country)` |
 | `group_by()` + `summarise()` | Résumer par groupe | voir ci-dessous |
 
+## `group_by()` + `summarise()`
+
 ```{r}
 gapminder |>
   filter(year == 2007) |>
