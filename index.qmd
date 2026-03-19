@@ -16,7 +16,7 @@ toc: false
 
 ::: {.g-col-4}
 #### 📊 Slides
-Présentation de la journée — rappel, dplyr avancé, ggplot2, IA et analyse textuelle.
+Présentation de la journée — rappel, ggplot2, IA, analyse textuelle et régression.
 
 [Ouvrir les slides →](slides.html){.btn .btn-primary style="margin-top: 0.5rem;"}
 :::
