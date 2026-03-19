@@ -51,14 +51,14 @@ install.packages(c("tidyverse", "gapminder", "tidytext", "wordcloud", "modelsumm
 
 ## Plan de la journée
 
-| # | Sujet | Durée |
-|---|---|---|
-| — | Rappel : bases R et dplyr | ~30 min |
-| 1 | Visualisation avec ggplot2 | ~25 min |
-| 2 | R et l'IA : comment travailler intelligemment | ~25 min |
-| 3 | Analyse textuelle automatisée | ~40 min |
-| 4 | Régression linéaire | ~20 min |
-| — | *Atelier pratique* *(présentiel, 13h–15h)* | 2h |
+| # | Sujet |
+|---|---|
+| — | Rappel : bases R et dplyr |
+| 1 | Visualisation avec ggplot2 |
+| 2 | Analyse textuelle automatisée |
+| 3 | Régression linéaire |
+| BONUS | R et l'IA : comment travailler intelligemment |
+| — | *Atelier pratique (présentiel, 13h–15h)* |
 
 ---
 

@@ -46,11 +46,11 @@ execute:
 
 **9h à 12h — Formation théorique**
 
-1.  Rappel de la semaine passée *(\~30 min)*
+1.  Rappel de la semaine passée
 2.  Visualisation : ggplot2
-3.  R et l'IA : comment travailler intelligemment
-4.  Analyse textuelle automatisée avec R
-5.  Régression linéaire
+3.  Analyse textuelle automatisée avec R
+4.  Régression linéaire
+5.  *BONUS — R et l'IA : comment travailler intelligemment*
 
 **13h à 15h — Atelier pratique** *(présentiel seulement)*
 
