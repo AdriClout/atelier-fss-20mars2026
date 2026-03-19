@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<script src="slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slides_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slides_files/libs/quarto-html/popper.min.js"></script>
+<script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.433">
+
+  <meta name="author" content="Adrien Cloutier | Université Laval">
+  <meta name="dcterms.date" content="2026-03-20">
+  <title>Approfondissement en analyse de données avec R</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #24292e;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #24292e; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #d73a49; } /* Attribute */
+    code span.bn { color: #005cc5; } /* BaseN */
+    code span.bu { color: #d73a49; } /* BuiltIn */
+    code span.cf { color: #d73a49; } /* ControlFlow */
+    code span.ch { color: #032f62; } /* Char */
+    code span.cn { color: #005cc5; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #d73a49; } /* DataType */
+    code span.dv { color: #005cc5; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #d73a49; font-weight: bold; } /* Extension */
+    code span.fl { color: #005cc5; } /* Float */
+    code span.fu { color: #6f42c1; } /* Function */
+    code span.im { color: #032f62; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #d73a49; } /* Keyword */
+    code span.op { color: #24292e; } /* Operator */
+    code span.ot { color: #6f42c1; } /* Other */
+    code span.pp { color: #d73a49; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #005cc5; } /* SpecialChar */
+    code span.ss { color: #032f62; } /* SpecialString */
+    code span.st { color: #032f62; } /* String */
+    code span.va { color: #e36209; } /* Variable */
+    code span.vs { color: #032f62; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Approfondissement en analyse de données avec R</h1>
+  <p class="subtitle">ggplot2, analyse textuelle et IA</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Adrien Cloutier | Université Laval 
+</div>
+</div>
+</div>
+
+  <p class="date">2026-03-20</p>
+</section>
+<section id="bravo-dêtre-là" class="slide level2 center">
+<h2>Bravo d’être là!</h2>
+
+<img data-src="images/obama.png" style="width:65.0%" class="r-stretch"></section>
+<section id="confirmez-votre-présence" class="slide level2">
+<h2>Confirmez votre présence!</h2>
+<div class="r-fit-text">
+<p><a href="https://forms.office.com/r/P6bbuBzkP1">https://forms.office.com/r/P6bbuBzkP1</a></p>
+</div>
+</section>
+<section id="qui-suis-je" class="slide level2">
+<h2>Qui suis-je?</h2>
+<ul>
+<li>Doctorant en science politique (directeur : Yannick Dufresne)</li>
+<li>Co-coordonnateur de la CLESSN (Chaire de leadership en enseignement des sciences sociales numériques)</li>
+<li>Co-coordonnateur du CAPP (Centre d’analyses des politiques publiques)</li>
+<li>Cocréateur de l’EIOM (École interdisciplinaire Outils &amp; Méthodes — <a href="https://eiom.ca/">eiom.ca</a>)</li>
+<li>Certified Scrum Master &amp; Notion certified</li>
+<li>Membre du GRCP, CÉCD</li>
+</ul>
+</section>
+<section id="plan-de-la-journée" class="slide level2">
+<h2>Plan de la journée</h2>
+<p><strong>9h à 12h — Formation théorique</strong></p>
+<ol type="1">
+<li>Rappel : dplyr + le pipe</li>
+<li>Visualisation : ggplot2</li>
+<li>R et l’IA : comment travailler intelligemment</li>
+<li>Analyse textuelle automatisée avec R</li>
+</ol>
+<p><strong>13h à 15h — Atelier pratique</strong> <em>(présentiel seulement)</em></p>
+<ul>
+<li>Travaillez avec vos propres données et questions de recherche</li>
+<li>Script R disponible sur GitHub</li>
+</ul>
+</section>
+<section class="slide level2">
+
+</section>
+<section>
+<section id="rappel-dplyr" class="title-slide slide level1 center">
+<h1>1. Rappel : dplyr</h1>
+
+</section>
+<section id="pourquoi-ce-rappel" class="slide level2">
+<h2>Pourquoi ce rappel?</h2>
+<ul>
+<li>Certains d’entre vous n’étaient pas à la séance d’Étienne la semaine passée</li>
+<li>dplyr est la <strong>fondation</strong> de tout ce qu’on va faire aujourd’hui</li>
+<li>Même si vous y étiez : quelques minutes de rappel, ça ne fait pas de mal</li>
+</ul>
+<div class="fragment">
+<p>Tout ce dont vous avez besoin est dans le package <strong>tidyverse</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)  <span class="co"># une seule fois</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(tidyverse)             <span class="co"># à chaque session</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="les-données-gapminder" class="slide level2">
+<h2>Les données : Gapminder</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">install.packages</span>(<span class="st">"gapminder"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># Regarder les données</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">glimpse</span>(gapminder)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<pre><code>Rows: 1,704
+Columns: 6
+$ country   &lt;fct&gt; "Afghanistan", "Afghanistan", …
+$ continent &lt;fct&gt; Asia, Asia, Asia, …
+$ year      &lt;int&gt; 1952, 1957, 1962, …
+$ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, …
+$ pop       &lt;int&gt; 8425333, 9240934, 10267083, …
+$ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
+</div>
+</section>
+<section id="le-pipe-ou" class="slide level2">
+<h2>Le pipe : <code>|&gt;</code> ou <code>%&gt;%</code></h2>
+<p>Le pipe <strong>enchaîne</strong> des opérations. Lisez-le comme « <em>puis</em> » ou « <em>ensuite</em> ».</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Sans pipe (difficile à lire)</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">arrange</span>(<span class="fu">select</span>(<span class="fu">filter</span>(gapminder, year <span class="sc">==</span> <span class="dv">2007</span>), country, lifeExp), <span class="fu">desc</span>(lifeExp))</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># Avec pipe (clair et lisible)</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">select</span>(country, lifeExp) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p><strong>Raccourci clavier :</strong> <code>Ctrl + Shift + M</code> (Windows) ou <code>Cmd + Shift + M</code> (Mac)</p>
+</div>
+</section>
+<section id="les-6-verbes-de-dplyr" class="slide level2">
+<h2>Les 6 verbes de dplyr</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Verbe</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>filter()</code></td>
+<td>Garder des lignes selon une condition</td>
+</tr>
+<tr class="even">
+<td><code>select()</code></td>
+<td>Garder des colonnes</td>
+</tr>
+<tr class="odd">
+<td><code>mutate()</code></td>
+<td>Créer ou modifier des colonnes</td>
+</tr>
+<tr class="even">
+<td><code>arrange()</code></td>
+<td>Trier les lignes</td>
+</tr>
+<tr class="odd">
+<td><code>rename()</code></td>
+<td>Renommer des colonnes</td>
+</tr>
+<tr class="even">
+<td><code>group_by()</code> + <code>summarise()</code></td>
+<td>Grouper et résumer</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="filter-et-select" class="slide level2">
+<h2>filter() et select()</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Pays d'Amérique en 2007 avec une espérance de vie &gt; 75 ans</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>,</span>
+<span id="cb5-4"><a href="#cb5-4"></a>         continent <span class="sc">==</span> <span class="st">"Americas"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>         lifeExp <span class="sc">&gt;</span> <span class="dv">75</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">select</span>(country, lifeExp, gdpPercap)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Opérateurs logiques utiles</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co"># ==  (égal à)</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co"># !=  (différent de)</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># &gt;   (plus grand que)</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co"># &lt;   (plus petit que)</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co"># &amp;   (et)</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># |   (ou)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="mutate-et-group_by-summarise" class="slide level2">
+<h2>mutate() et group_by() + summarise()</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Créer une nouvelle colonne</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">mutate</span>(<span class="at">pop_millions =</span> pop <span class="sc">/</span> <span class="dv">1000000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="fu">select</span>(country, pop_millions) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pop_millions))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Espérance de vie moyenne par continent en 2007</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-6"><a href="#cb8-6"></a>    <span class="at">esperance_moy =</span> <span class="fu">mean</span>(lifeExp),</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    <span class="at">nb_pays       =</span> <span class="fu">n</span>()</span>
+<span id="cb8-8"><a href="#cb8-8"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(esperance_moy))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="visualisation-avec-ggplot2" class="title-slide slide level1 center">
+<h1>2. Visualisation avec ggplot2</h1>
+
+</section>
+<section id="la-logique-de-ggplot2" class="slide level2">
+<h2>La logique de ggplot2</h2>
+<p>ggplot2 est basé sur une <strong>grammaire des graphiques</strong> : on assemble des couches.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> gapminder,         <span class="co"># 1. les données</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>       <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap,        <span class="co"># 2. les axes et couleurs (aesthetics)</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>           <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">geom_point</span>()                   <span class="co"># 3. le type de graphique (geom)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>Les éléments de base :</p>
+<ul>
+<li><code>ggplot()</code> — initialise le graphique</li>
+<li><code>aes()</code> — mappe les variables aux propriétés visuelles</li>
+<li><code>geom_*()</code> — choisit le type de figure</li>
+<li><code>+</code> — ajoute des couches (pas un pipe!)</li>
+</ul>
+</div>
+</section>
+<section id="nuage-de-points-geom_point" class="slide level2">
+<h2>Nuage de points : geom_point()</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gdpPercap,</span>
+<span id="cb10-4"><a href="#cb10-4"></a>             <span class="at">y =</span> lifeExp,</span>
+<span id="cb10-5"><a href="#cb10-5"></a>             <span class="at">color =</span> continent,   <span class="co"># couleur par continent</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>             <span class="at">size =</span> pop)) <span class="sc">+</span>       <span class="co"># taille par population</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span>       <span class="co"># alpha = transparence</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span>               <span class="co"># axe X en échelle log</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-10"><a href="#cb10-10"></a>    <span class="at">title  =</span> <span class="st">"PIB per capita et espérance de vie (2007)"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11"></a>    <span class="at">x      =</span> <span class="st">"PIB per capita (échelle log)"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12"></a>    <span class="at">y      =</span> <span class="st">"Espérance de vie (années)"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13"></a>    <span class="at">color  =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14"></a>    <span class="at">size   =</span> <span class="st">"Population"</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="graphique-en-barres-geom_col" class="slide level2">
+<h2>Graphique en barres : geom_col()</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">summarise</span>(<span class="at">esperance_moy =</span> <span class="fu">mean</span>(lifeExp)) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(continent, esperance_moy),</span>
+<span id="cb11-6"><a href="#cb11-6"></a>             <span class="at">y =</span> esperance_moy,</span>
+<span id="cb11-7"><a href="#cb11-7"></a>             <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span>                  <span class="co"># barres horizontales</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-11"><a href="#cb11-11"></a>    <span class="at">title =</span> <span class="st">"Espérance de vie moyenne par continent (2007)"</span>,</span>
+<span id="cb11-12"><a href="#cb11-12"></a>    <span class="at">x     =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb11-13"><a href="#cb11-13"></a>    <span class="at">y     =</span> <span class="st">"Espérance de vie (années)"</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="histogramme-geom_histogram" class="slide level2">
+<h2>Histogramme : geom_histogram()</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp,</span>
+<span id="cb12-4"><a href="#cb12-4"></a>             <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-7"><a href="#cb12-7"></a>    <span class="at">title =</span> <span class="st">"Distribution de l'espérance de vie (2007)"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8"></a>    <span class="at">x     =</span> <span class="st">"Espérance de vie (années)"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9"></a>    <span class="at">y     =</span> <span class="st">"Nombre de pays"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10"></a>    <span class="at">fill  =</span> <span class="st">"Continent"</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="personnaliser-et-sauvegarder" class="slide level2">
+<h2>Personnaliser et sauvegarder</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>mon_graphique <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp, <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="at">plot.title    =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb13-9"><a href="#cb13-9"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mon graphique"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12"></a></span>
+<span id="cb13-13"><a href="#cb13-13"></a><span class="co"># Sauvegarder</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="fu">ggsave</span>(<span class="st">"graphique.png"</span>, <span class="at">plot =</span> mon_graphique, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="r-et-lia-comment-travailler-intelligemment" class="title-slide slide level1 center">
+<h1>3. R et l’IA : comment travailler intelligemment</h1>
+
+</section>
+<section id="la-révolution-et-ses-limites" class="slide level2 center">
+<h2>La révolution (et ses limites)</h2>
+<div class="r-fit-text">
+<p>L’IA peut écrire du code R.</p>
+</div>
+<div class="fragment">
+<div class="r-fit-text">
+<p>Mais elle peut aussi se tromper.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="r-fit-text">
+<p><strong>Votre travail : comprendre et valider.</strong></p>
+</div>
+</div>
+</section>
+<section id="la-règle-dor" class="slide level2">
+<h2>La règle d’or</h2>
+<blockquote>
+<p>« Pour utiliser l’IA avec R, il faut comprendre R. »</p>
+</blockquote>
+<ul>
+<li>L’IA génère du code <strong>plausible</strong>, pas toujours <strong>correct</strong></li>
+<li>Elle ne connaît pas <strong>vos données</strong> spécifiques</li>
+<li>Elle peut utiliser des fonctions <strong>obsolètes</strong> ou <strong>mal adaptées</strong></li>
+<li>Elle peut inventer des fonctions qui <strong>n’existent pas</strong> <em>(hallucinations)</em></li>
+</ul>
+<div class="fragment">
+<p><strong>La bonne nouvelle :</strong> avec les bases solides que vous avez, vous pouvez lire, comprendre et corriger du code généré par IA.</p>
+</div>
+</section>
+<section id="le-workflow-avec-lia" class="slide level2">
+<h2>Le workflow avec l’IA</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>1. Formuler une demande précise</strong></p>
+<pre><code>Contexte : j'ai un data frame R avec
+les colonnes "pays", "annee", "pib",
+"esperance_vie" et "continent".
+
+Tâche : avec tidyverse, crée un nuage
+de points montrant la relation entre
+pib (axe x, échelle log) et
+esperance_vie (axe y), coloré par
+continent, pour l'année 2007 seulement.</code></pre>
+</div><div class="column" style="width:50%;">
+<p><strong>2. Lire le code avant de l’exécuter</strong></p>
+<p>Posez-vous ces questions :</p>
+<ul>
+<li>Est-ce que je reconnais les fonctions?</li>
+<li>Le nom des colonnes correspond-il à mes données?</li>
+<li>Y a-t-il des <code>install.packages()</code>?</li>
+<li>Ça fait bien ce que je veux?</li>
+</ul>
+<p><strong>3. Exécuter ligne par ligne</strong></p>
+<p>Pas tout d’un coup! Ligne par ligne pour repérer les erreurs.</p>
+<p><strong>4. Corriger et adapter</strong></p>
+</div>
+</div>
+</section>
+<section id="comment-bien-prompter-pour-r" class="slide level2">
+<h2>Comment bien prompter pour R</h2>
+<p><strong>Donnez le contexte :</strong></p>
+<pre><code>J'utilise R avec tidyverse. Mes données s'appellent `df` et
+ont les colonnes : pays (character), annee (integer), valeur (numeric).</code></pre>
+<div class="fragment">
+<p><strong>Soyez précis sur la tâche :</strong></p>
+<pre><code>Filtre pour l'année 2020, calcule la moyenne de `valeur`
+par pays, et crée un graphique en barres horizontal avec ggplot2.</code></pre>
+</div>
+<div class="fragment">
+<p><strong>Itérez :</strong></p>
+<pre><code>J'ai cette erreur : [copiez l'erreur exacte].
+Voici mon code : [copiez votre code].</code></pre>
+</div>
+</section>
+<section id="erreurs-communes-de-lia-en-r" class="slide level2">
+<h2>Erreurs communes de l’IA en R</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Problème</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nom de fonction inventé</td>
+<td><code>dplyr::filter_where()</code></td>
+</tr>
+<tr class="even">
+<td>Version obsolète</td>
+<td><code>gather()</code> au lieu de <code>pivot_longer()</code></td>
+</tr>
+<tr class="odd">
+<td>Nom de colonne incorrect</td>
+<td><code>data$Pays</code> au lieu de <code>data$pays</code></td>
+</tr>
+<tr class="even">
+<td>Package non installé</td>
+<td>Oublie de mentionner <code>install.packages()</code></td>
+</tr>
+<tr class="odd">
+<td>Logique incorrecte</td>
+<td><code>filter(year = 2007)</code> au lieu de <code>==</code></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p><strong>Votre meilleur outil de validation :</strong> lire l’aide d’une fonction avec <code>?filter</code> ou <code>help(filter)</code></p>
+</div>
+</section>
+<section id="démonstration-en-direct" class="slide level2">
+<h2>Démonstration en direct</h2>
+<p>Prompt que je vais soumettre à Claude :</p>
+<pre><code>En R avec tidyverse et le package gapminder, écris un code qui :
+1. Filtre les données pour l'année 2007
+2. Calcule le PIB total par continent (sum de pop * gdpPercap)
+3. Affiche un graphique en barres horizontal, trié du plus grand
+   au plus petit, avec des couleurs différentes par continent.
+Ajoute des commentaires expliquant chaque étape.</code></pre>
+<p><em>[Démonstration live — validation du code généré ensemble]</em></p>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="analyse-textuelle-automatisée" class="title-slide slide level1 center">
+<h1>4. Analyse textuelle automatisée</h1>
+
+</section>
+<section id="pourquoi-en-sciences-sociales" class="slide level2">
+<h2>Pourquoi en sciences sociales?</h2>
+<p>Les sciences sociales sont riches en données <strong>textuelles</strong> :</p>
+<ul>
+<li>Entrevues et groupes focaux</li>
+<li>Réponses ouvertes à des sondages</li>
+<li>Publications sur les réseaux sociaux</li>
+<li>Articles de journaux et discours politiques</li>
+<li>Documents gouvernementaux</li>
+</ul>
+<div class="fragment">
+<p><strong>Le problème :</strong> des centaines ou milliers de textes, impossible à analyser manuellement.</p>
+<p><strong>La solution :</strong> l’analyse textuelle automatisée avec R.</p>
+</div>
+</section>
+<section id="deux-approches-complémentaires" class="slide level2">
+<h2>Deux approches complémentaires</h2>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Approche</th>
+<th>Outils</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Manuelle</strong></td>
+<td>NVivo, Atlas.ti</td>
+<td>Analyse qualitative fine, petits corpus</td>
+</tr>
+<tr class="even">
+<td><strong>Automatisée</strong></td>
+<td>R (stringr, tidytext)</td>
+<td>Grandes quantités de texte, patterns</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Aujourd’hui on fait de l’<strong>automatisé</strong> — mais les deux se complètent!</p>
+</div>
+</section>
+<section id="nos-données-textuelles" class="slide level2">
+<h2>Nos données textuelles</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb19-2"><a href="#cb19-2"></a></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="co"># Exemple : réponses à une question ouverte de sondage sur les</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="co"># priorités politiques (traduit en anglais pour l'analyse de sentiment)</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a>reponses <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb19-6"><a href="#cb19-6"></a>  <span class="at">id       =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
+<span id="cb19-7"><a href="#cb19-7"></a>  <span class="at">auteur   =</span> <span class="fu">c</span>(<span class="st">"Répondant A"</span>, <span class="st">"Répondant B"</span>, <span class="st">"Répondant C"</span>, <span class="st">"Répondant D"</span>,</span>
+<span id="cb19-8"><a href="#cb19-8"></a>               <span class="st">"Répondant E"</span>, <span class="st">"Répondant F"</span>, <span class="st">"Répondant G"</span>, <span class="st">"Répondant H"</span>),</span>
+<span id="cb19-9"><a href="#cb19-9"></a>  <span class="at">texte    =</span> <span class="fu">c</span>(</span>
+<span id="cb19-10"><a href="#cb19-10"></a>    <span class="st">"The government must invest more in clean energy and protect the environment"</span>,</span>
+<span id="cb19-11"><a href="#cb19-11"></a>    <span class="st">"The cost of living crisis is terrible, prices are too high for working families"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12"></a>    <span class="st">"Our healthcare system needs urgent reform and more funding immediately"</span>,</span>
+<span id="cb19-13"><a href="#cb19-13"></a>    <span class="st">"I appreciate the government's efforts on climate change and housing affordability"</span>,</span>
+<span id="cb19-14"><a href="#cb19-14"></a>    <span class="st">"Education should be free and accessible to all young people in this country"</span>,</span>
+<span id="cb19-15"><a href="#cb19-15"></a>    <span class="st">"The economy is struggling and the government has failed to address inflation"</span>,</span>
+<span id="cb19-16"><a href="#cb19-16"></a>    <span class="st">"We need stronger social programs and better support for vulnerable communities"</span>,</span>
+<span id="cb19-17"><a href="#cb19-17"></a>    <span class="st">"This government's terrible policies have destroyed our economic opportunities"</span></span>
+<span id="cb19-18"><a href="#cb19-18"></a>  )</span>
+<span id="cb19-19"><a href="#cb19-19"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="stringr-manipulation-de-texte" class="slide level2">
+<h2>4.1 stringr : manipulation de texte</h2>
+<p>stringr fait partie de <strong>tidyverse</strong> — pas besoin d’installation supplémentaire.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># Les fonctions principales</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>texte <span class="ot">&lt;-</span> <span class="st">"Le Parti libéral, le Parti conservateur et le Bloc québécois"</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="co"># Convertir en minuscules</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="fu">str_to_lower</span>(texte)</span>
+<span id="cb20-6"><a href="#cb20-6"></a></span>
+<span id="cb20-7"><a href="#cb20-7"></a><span class="co"># Détecter un patron (retourne TRUE/FALSE)</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="fu">str_detect</span>(texte, <span class="st">"libéral"</span>)</span>
+<span id="cb20-9"><a href="#cb20-9"></a></span>
+<span id="cb20-10"><a href="#cb20-10"></a><span class="co"># Compter les occurrences</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a><span class="fu">str_count</span>(texte, <span class="st">"Parti"</span>)</span>
+<span id="cb20-12"><a href="#cb20-12"></a></span>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="co"># Remplacer</span></span>
+<span id="cb20-14"><a href="#cb20-14"></a><span class="fu">str_replace_all</span>(texte, <span class="st">"Parti"</span>, <span class="st">"parti"</span>)</span>
+<span id="cb20-15"><a href="#cb20-15"></a></span>
+<span id="cb20-16"><a href="#cb20-16"></a><span class="co"># Extraire selon un patron</span></span>
+<span id="cb20-17"><a href="#cb20-17"></a><span class="fu">str_extract_all</span>(texte, <span class="st">"Parti </span><span class="sc">\\</span><span class="st">w+"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="stringr-avec-un-data-frame" class="slide level2">
+<h2>stringr avec un data frame</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>textes_politiques <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="at">titre =</span> <span class="fu">c</span>(</span>
+<span id="cb21-3"><a href="#cb21-3"></a>    <span class="st">"Le Parti libéral annonce un budget déficitaire"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4"></a>    <span class="st">"Le Bloc québécois défend l'autonomie du Québec"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5"></a>    <span class="st">"Le NPD propose de hausser le salaire minimum"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6"></a>    <span class="st">"Le Parti conservateur critique les dépenses du gouvernement"</span>,</span>
+<span id="cb21-7"><a href="#cb21-7"></a>    <span class="st">"Le Parti libéral investit dans le logement abordable"</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a>  )</span>
+<span id="cb21-9"><a href="#cb21-9"></a>)</span>
+<span id="cb21-10"><a href="#cb21-10"></a></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="co"># Compter les mentions de "Parti libéral"</span></span>
+<span id="cb21-12"><a href="#cb21-12"></a>textes_politiques <span class="sc">|&gt;</span></span>
+<span id="cb21-13"><a href="#cb21-13"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-14"><a href="#cb21-14"></a>    <span class="at">mention_liberal =</span> <span class="fu">str_detect</span>(titre, <span class="st">"libéral|Libéral"</span>),</span>
+<span id="cb21-15"><a href="#cb21-15"></a>    <span class="at">nb_mots         =</span> <span class="fu">str_count</span>(titre, <span class="st">"</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
+<span id="cb21-16"><a href="#cb21-16"></a>    <span class="at">titre_min       =</span> <span class="fu">str_to_lower</span>(titre)</span>
+<span id="cb21-17"><a href="#cb21-17"></a>  )</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tidytext-tokenisation" class="slide level2">
+<h2>4.2 tidytext : tokenisation</h2>
+<p><strong>Tokeniser</strong> = découper un texte en unités (mots, phrases, n-grammes).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">install.packages</span>(<span class="st">"tidytext"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb22-3"><a href="#cb22-3"></a></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="co"># Tokeniser nos réponses de sondage</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>mots <span class="ot">&lt;-</span> reponses <span class="sc">|&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="fu">unnest_tokens</span>(</span>
+<span id="cb22-7"><a href="#cb22-7"></a>    <span class="at">output =</span> mot,   <span class="co"># nom de la nouvelle colonne</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a>    <span class="at">input  =</span> texte  <span class="co"># colonne à découper</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a>  )</span>
+<span id="cb22-10"><a href="#cb22-10"></a></span>
+<span id="cb22-11"><a href="#cb22-11"></a><span class="co"># Résultat : une ligne par mot</span></span>
+<span id="cb22-12"><a href="#cb22-12"></a>mots</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<pre><code># A tibble: 80 × 3
+   id    auteur       mot
+ 1     1 Répondant A  the
+ 2     1 Répondant A  government
+ 3     1 Répondant A  must
+...</code></pre>
+</div>
+</section>
+<section id="enlever-les-mots-vides-stop-words" class="slide level2">
+<h2>Enlever les mots vides (stop words)</h2>
+<p>Les <strong>mots vides</strong> (stop words) sont fréquents mais sans signification : <em>the, a, is, in…</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Mots vides intégrés à tidytext (en anglais)</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="fu">data</span>(stop_words)</span>
+<span id="cb24-3"><a href="#cb24-3"></a></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="co"># Enlever les mots vides</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>mots_propres <span class="ot">&lt;-</span> mots <span class="sc">|&gt;</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"mot"</span> <span class="ot">=</span> <span class="st">"word"</span>))</span>
+<span id="cb24-7"><a href="#cb24-7"></a></span>
+<span id="cb24-8"><a href="#cb24-8"></a><span class="co"># Voir les mots restants</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a>mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb24-10"><a href="#cb24-10"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>Pour le français : <code>stopwords::stopwords("fr")</code> ou le package <code>stopwords</code></p>
+</div>
+</section>
+<section id="visualiser-les-mots-fréquents" class="slide level2">
+<h2>Visualiser les mots fréquents</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">15</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(mot, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#003875"</span>) <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-8"><a href="#cb25-8"></a>    <span class="at">title =</span> <span class="st">"15 mots les plus fréquents dans les réponses"</span>,</span>
+<span id="cb25-9"><a href="#cb25-9"></a>    <span class="at">x     =</span> <span class="st">"Mot"</span>,</span>
+<span id="cb25-10"><a href="#cb25-10"></a>    <span class="at">y     =</span> <span class="st">"Fréquence"</span></span>
+<span id="cb25-11"><a href="#cb25-11"></a>  ) <span class="sc">+</span></span>
+<span id="cb25-12"><a href="#cb25-12"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb25-13"><a href="#cb25-13"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="analyse-de-sentiment" class="slide level2">
+<h2>4.3 Analyse de sentiment</h2>
+<p>L’analyse de sentiment mesure le <strong>ton</strong> d’un texte (positif, négatif, neutre).</p>
+<p>Principe : associer chaque mot à un score de sentiment à partir d’un <strong>lexique</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Plusieurs lexiques disponibles dans tidytext</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="co"># - "bing"  : positif / négatif</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="co"># - "afinn" : score de -5 à +5</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="co"># - "nrc"   : émotions (peur, joie, colère...)</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="co"># Charger le lexique bing</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a>bing <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span>
+<span id="cb26-8"><a href="#cb26-8"></a></span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="co"># Voir les premières entrées</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>bing <span class="sc">|&gt;</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="calculer-le-sentiment-par-répondant" class="slide level2">
+<h2>Calculer le sentiment par répondant</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># Joindre les mots avec le lexique</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>sentiment_par_auteur <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a>  <span class="fu">inner_join</span>(bing, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"mot"</span> <span class="ot">=</span> <span class="st">"word"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4"></a>  <span class="fu">count</span>(auteur, sentiment) <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb27-6"><a href="#cb27-6"></a>    <span class="at">names_from  =</span> sentiment,</span>
+<span id="cb27-7"><a href="#cb27-7"></a>    <span class="at">values_from =</span> n,</span>
+<span id="cb27-8"><a href="#cb27-8"></a>    <span class="at">values_fill =</span> <span class="dv">0</span></span>
+<span id="cb27-9"><a href="#cb27-9"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb27-10"><a href="#cb27-10"></a>  <span class="fu">mutate</span>(<span class="at">score_net =</span> positive <span class="sc">-</span> negative)</span>
+<span id="cb27-11"><a href="#cb27-11"></a></span>
+<span id="cb27-12"><a href="#cb27-12"></a>sentiment_par_auteur</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualiser-le-sentiment" class="slide level2">
+<h2>Visualiser le sentiment</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>sentiment_par_auteur <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(auteur, score_net),</span>
+<span id="cb28-3"><a href="#cb28-3"></a>             <span class="at">y =</span> score_net,</span>
+<span id="cb28-4"><a href="#cb28-4"></a>             <span class="at">fill =</span> score_net <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"firebrick"</span>, <span class="st">"#2ca25f"</span>)) <span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb28-8"><a href="#cb28-8"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb28-9"><a href="#cb28-9"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-10"><a href="#cb28-10"></a>    <span class="at">title    =</span> <span class="st">"Ton des réponses par répondant"</span>,</span>
+<span id="cb28-11"><a href="#cb28-11"></a>    <span class="at">subtitle =</span> <span class="st">"Score net = mots positifs − mots négatifs"</span>,</span>
+<span id="cb28-12"><a href="#cb28-12"></a>    <span class="at">x        =</span> <span class="st">"Répondant"</span>,</span>
+<span id="cb28-13"><a href="#cb28-13"></a>    <span class="at">y        =</span> <span class="st">"Score de sentiment net"</span></span>
+<span id="cb28-14"><a href="#cb28-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-15"><a href="#cb28-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="pour-aller-plus-loin-en-analyse-textuelle" class="slide level2">
+<h2>Pour aller plus loin en analyse textuelle</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># Fréquence TF-IDF (mots distinctifs par groupe)</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">count</span>(auteur, mot) <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a>  <span class="fu">bind_tf_idf</span>(mot, auteur, n) <span class="sc">|&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tf_idf))</span>
+<span id="cb29-6"><a href="#cb29-6"></a></span>
+<span id="cb29-7"><a href="#cb29-7"></a><span class="co"># Bigrammes (paires de mots consécutifs)</span></span>
+<span id="cb29-8"><a href="#cb29-8"></a>reponses <span class="sc">|&gt;</span></span>
+<span id="cb29-9"><a href="#cb29-9"></a>  <span class="fu">unnest_tokens</span>(bigram, texte, <span class="at">token =</span> <span class="st">"ngrams"</span>, <span class="at">n =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-10"><a href="#cb29-10"></a>  <span class="fu">count</span>(bigram, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-11"><a href="#cb29-11"></a></span>
+<span id="cb29-12"><a href="#cb29-12"></a><span class="co"># Topic modeling (LDA) — pour corpus plus grands</span></span>
+<span id="cb29-13"><a href="#cb29-13"></a><span class="co"># install.packages("topicmodels")</span></span>
+<span id="cb29-14"><a href="#cb29-14"></a><span class="co"># library(topicmodels)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>Ressource incontournable : <strong><a href="https://www.tidytextmining.com/">Text Mining with R</a></strong> (Julia Silge &amp; David Robinson) — gratuit en ligne!</p>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="un-cadeau" class="title-slide slide level1 center">
+<h1>Un cadeau! 🎁</h1>
+
+</section>
+<section id="vos-ressources-essentielles" class="slide level2">
+<h2>Vos ressources essentielles</h2>
+<p><strong>Apprendre R en faisant :</strong></p>
+<ul>
+<li><a href="https://swirlstats.com/">swirl</a> — tutoriels interactifs dans RStudio</li>
+<li><a href="https://r4ds.hadley.nz/">R for Data Science</a> — LE livre, gratuit en ligne (Hadley Wickham)</li>
+<li><a href="https://www.tidytextmining.com/">Text Mining with R</a> — analyse textuelle, gratuit en ligne</li>
+</ul>
+<p><strong>Aide rapide :</strong></p>
+<ul>
+<li><a href="https://rstudio.github.io/cheatsheets/html/data-transformation.html">Cheatsheet dplyr</a></li>
+<li><a href="https://rstudio.github.io/cheatsheets/html/data-visualization.html">Cheatsheet ggplot2</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/r">Stack Overflow</a> — communauté R</li>
+</ul>
+<p><strong>IA + R :</strong></p>
+<ul>
+<li><a href="https://claude.ai">Claude</a> ou <a href="https://chatgpt.com">ChatGPT</a> — assistants de code</li>
+<li>Règle d’or : toujours valider le code avant de faire confiance aux résultats</li>
+</ul>
+</section>
+<section id="le-contenu-de-cet-atelier-est-sur-github" class="slide level2">
+<h2>Le contenu de cet atelier est sur GitHub</h2>
+<div class="r-fit-text">
+<p><strong><a href="https://github.com/clessn">github.com/clessn/atelier-fss-20mars2026</a></strong></p>
+</div>
+<p>Vous y trouverez :</p>
+<ul>
+<li>Ces slides (HTML)</li>
+<li>Le script R pour l’atelier pratique (<code>exercices.R</code>)</li>
+<li>Les données utilisées</li>
+</ul>
+</section>
+<section id="leiom-notre-école-de-méthodes" class="slide level2">
+<h2>L’EIOM — notre école de méthodes</h2>
+<ul>
+<li><strong>Interdisciplinaire</strong> : sciences sociales, droit, gestion…</li>
+<li>5 éditions depuis 2020</li>
+<li>5 jours intensifs, 3 crédits</li>
+<li>Prochaine édition à l’automne</li>
+</ul>
+<div class="r-fit-text">
+<p><a href="https://eiom.ca/">eiom.ca</a></p>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="h-à-15h-atelier-pratique" class="title-slide slide level1 center">
+<h1>13h à 15h : Atelier pratique</h1>
+
+</section>
+<section id="comment-fonctionne-latelier" class="slide level2">
+<h2>Comment fonctionne l’atelier</h2>
+<p><strong>Présentiel seulement</strong></p>
+<ol type="1">
+<li>Ouvrez le script <code>exercices.R</code> depuis GitHub</li>
+<li>Travaillez à votre rythme — les exercices sont organisés en sections</li>
+<li>Posez vos questions! Je circule.</li>
+</ol>
+<div class="fragment">
+<p><strong>Vous avez vos propres données?</strong></p>
+<p>Profitez-en pour les explorer avec les outils d’aujourd’hui. Je vous aide à adapter le code à votre contexte.</p>
+</div>
+<div class="fragment">
+<p><strong>Les exercices couvrent :</strong></p>
+<ul>
+<li>Manipulation avec dplyr (gapminder)</li>
+<li>Visualisation avec ggplot2</li>
+<li>Analyse textuelle (stringr + tidytext)</li>
+<li>BONUS : régression linéaire</li>
+</ul>
+</div>
+</section>
+<section id="merci" class="slide level2 center">
+<h2>Merci!</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>Des questions?</p>
+<p><strong>Adrien Cloutier</strong><br>
+<a href="mailto:adrien.cloutier.1@ulaval.ca">adrien.cloutier.1@ulaval.ca</a><br>
+<a href="https://adriencloutier.com">adriencloutier.com</a></p>
+</div><div class="column" style="width:40%;">
+<p><img data-src="images/UL_FSS_N_d.png"></p>
+<p><img data-src="images/logo_CLESSN.png"></p>
+</div>
+</div>
+<p><img src="images/logo_CLESSN.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>FSS — Université Laval — 20 mars 2026</p>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slides_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slides_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1200,
+
+        height: 750,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copié");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copié");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
