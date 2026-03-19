@@ -1,0 +1,464 @@
+---
+title: "Exercices — Approfondissement en analyse de données avec R"
+subtitle: "FSS — Université Laval — 20 mars 2026"
+author: "Adrien Cloutier"
+lang: fr
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-title: "Sections"
+    toc-depth: 2
+    code-fold: false
+    highlight-style: github
+execute:
+  echo: true
+  eval: false
+  warning: false
+  message: false
+---
+
+## Mise en place
+
+Avant de commencer, chargez les packages nécessaires :
+
+```{r}
+library(tidyverse)
+library(gapminder)
+library(tidytext)
+```
+
+Les données **Gapminder** contiennent des informations sur 142 pays de 1952 à 2007 (toutes les 5 ans) :
+
+```{r}
+glimpse(gapminder)
+```
+
+---
+
+## Section 1 : dplyr
+
+### Exercice 1.1 — filter, select, arrange
+
+Filtrez les données pour obtenir uniquement les **pays d'Asie en 2007**.
+Sélectionnez seulement les colonnes `country`, `lifeExp`, `gdpPercap`.
+Triez par espérance de vie **décroissante**.
+
+> **Question :** Combien de pays asiatiques ont une espérance de vie supérieure à 75 ans?
+
+```{r}
+# Votre code ici
+gapminder |>
+  filter(???) |>
+  select(???) |>
+  arrange(???)
+```
+
+::: {.callout-tip collapse="true"}
+## Correction
+
+```{r}
+gapminder |>
+  filter(year == 2007, continent == "Asia") |>
+  select(country, lifeExp, gdpPercap) |>
+  arrange(desc(lifeExp))
+```
+
+**Réponse :** 9 pays asiatiques ont une espérance de vie > 75 ans en 2007.
+:::
+
+---
+
+### Exercice 1.2 — group_by + summarise
+
+Calculez, pour **chaque continent et chaque année**, la **médiane** du PIB per capita.
+Nommez la colonne `pib_median`.
+Affichez seulement les données depuis **1990**.
+
+```{r}
+# Votre code ici
+gapminder |>
+  filter(???) |>
+  group_by(???) |>
+  summarise(???)
+```
+
+::: {.callout-tip collapse="true"}
+## Correction
+
+```{r}
+gapminder |>
+  filter(year >= 1990) |>
+  group_by(continent, year) |>
+  summarise(pib_median = median(gdpPercap), .groups = "drop")
+```
+:::
+
+---
+
+### Exercice 1.3 — mutate
+
+Créez une nouvelle colonne `pib_total` qui correspond à `pop * gdpPercap`.
+Trouvez les **5 pays avec le PIB total le plus élevé** en 2007.
+
+```{r}
+# Votre code ici
+gapminder |>
+  filter(???) |>
+  mutate(???) |>
+  arrange(???) |>
+  slice_head(n = 5)
+```
+
+::: {.callout-tip collapse="true"}
+## Correction
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  mutate(pib_total = pop * gdpPercap) |>
+  arrange(desc(pib_total)) |>
+  slice_head(n = 5)
+```
+:::
+
+---
+
+## Section 2 : ggplot2
+
+### Exercice 2.1 — Nuage de points
+
+Créez un nuage de points avec :
+
+- Axe X : PIB per capita (**échelle logarithmique** avec `scale_x_log10()`)
+- Axe Y : Espérance de vie
+- Couleur : continent
+- Taille des points : population
+- Données : **2007 seulement**
+- Titre, étiquettes d'axes, thème minimal
+
+```{r}
+# Votre code ici
+gapminder |>
+  filter(???) |>
+  ggplot(aes(???)) +
+  geom_point(???) +
+  scale_x_log10() +
+  labs(???) +
+  theme_minimal()
+```
+
+::: {.callout-tip collapse="true"}
+## Correction
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap,
+             y = lifeExp,
+             color = continent,
+             size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_x_log10() +
+  labs(
+    title    = "PIB per capita et espérance de vie (2007)",
+    subtitle = "Chaque point représente un pays",
+    x        = "PIB per capita (échelle log)",
+    y        = "Espérance de vie (années)",
+    color    = "Continent",
+    size     = "Population"
+  ) +
+  theme_minimal()
+```
+:::
+
+---
+
+### Exercice 2.2 — Évolution dans le temps
+
+Tracez l'évolution de l'**espérance de vie moyenne** par continent de 1952 à 2007.
+Utilisez `geom_line()` avec une ligne par continent.
+
+> **Astuce :** Calculez d'abord la moyenne avec `group_by()` + `summarise()`, puis passez le résultat à ggplot.
+
+```{r}
+# Votre code ici
+gapminder |>
+  group_by(???) |>
+  summarise(???) |>
+  ggplot(aes(x = year, y = ???, color = continent)) +
+  geom_line(linewidth = 1) +
+  labs(???) +
+  theme_minimal()
+```
+
+::: {.callout-tip collapse="true"}
+## Correction
+
+```{r}
+gapminder |>
+  group_by(continent, year) |>
+  summarise(esperance_moy = mean(lifeExp), .groups = "drop") |>
+  ggplot(aes(x = year, y = esperance_moy, color = continent)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Évolution de l'espérance de vie par continent (1952–2007)",
+    x     = "Année",
+    y     = "Espérance de vie moyenne (années)",
+    color = "Continent"
+  ) +
+  theme_minimal()
+```
+:::
+
+---
+
+### Exercice 2.3 — Histogramme
+
+Faites un histogramme de la distribution du **PIB per capita** en 2007.
+
+- Utilisez `fill = continent` pour colorer par continent
+- Ajoutez `alpha = 0.6` pour la transparence
+- Appliquez `scale_x_log10()`
+
+```{r}
+# Votre code ici
+```
+
+::: {.callout-tip collapse="true"}
+## Correction
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap, fill = continent)) +
+  geom_histogram(bins = 30, alpha = 0.6) +
+  scale_x_log10() +
+  labs(
+    title = "Distribution du PIB per capita par continent (2007)",
+    x     = "PIB per capita (échelle log)",
+    y     = "Nombre de pays",
+    fill  = "Continent"
+  ) +
+  theme_minimal()
+```
+:::
+
+---
+
+## Section 3 : Analyse textuelle
+
+### Les données
+
+```{r}
+reponses <- tibble(
+  id     = 1:8,
+  groupe = c("Centre", "Droite", "Centre", "Gauche",
+             "Centre", "Droite", "Gauche", "Droite"),
+  texte  = c(
+    "The government must invest more in clean energy and protect the environment",
+    "The cost of living crisis is terrible, prices are too high for working families",
+    "Our healthcare system needs urgent reform and more funding immediately",
+    "I appreciate the government's efforts on climate change and housing affordability",
+    "Education should be free and accessible to all young people in this country",
+    "The economy is struggling and the government has failed to address inflation",
+    "We need stronger social programs and better support for vulnerable communities",
+    "This government's terrible policies have destroyed our economic opportunities"
+  )
+)
+```
+
+---
+
+### Exercice 3.1 — stringr
+
+Avec le data frame `reponses` :
+
+a) Créez une colonne `nb_mots` avec le nombre de mots dans chaque réponse (`str_count(texte, "\\w+")`)
+b) Créez une colonne `mentionne_gouvernement` (TRUE/FALSE) si `"government"` apparaît
+c) Filtrez pour garder seulement les réponses qui mentionnent `"government"`
+
+```{r}
+# Votre code ici
+reponses |>
+  mutate(
+    nb_mots                = str_count(???, "\\w+"),
+    mentionne_gouvernement = str_detect(???, ???)
+  ) |>
+  filter(???)
+```
+
+::: {.callout-tip collapse="true"}
+## Correction
+
+```{r}
+reponses |>
+  mutate(
+    nb_mots                = str_count(texte, "\\w+"),
+    mentionne_gouvernement = str_detect(texte, "government")
+  ) |>
+  filter(mentionne_gouvernement)
+```
+:::
+
+---
+
+### Exercice 3.2 — Fréquences de mots
+
+1. Tokenisez les réponses avec `unnest_tokens()`
+2. Enlevez les mots vides (`anti_join` avec `stop_words`)
+3. Comptez et visualisez les **10 mots les plus fréquents**
+
+```{r}
+# Étape 1 : tokeniser
+mots <- reponses |>
+  unnest_tokens(???, ???)
+
+# Étape 2 : enlever les stop words
+data(stop_words)
+
+mots_propres <- mots |>
+  anti_join(???, by = c(??? = "word"))
+
+# Étape 3 : visualiser
+mots_propres |>
+  count(???, sort = TRUE) |>
+  slice_head(n = 10) |>
+  ggplot(aes(x = reorder(mot, n), y = n)) +
+  geom_col(fill = "#003875") +
+  coord_flip() +
+  labs(title = "10 mots les plus fréquents", x = "Mot", y = "Fréquence") +
+  theme_minimal()
+```
+
+::: {.callout-tip collapse="true"}
+## Correction
+
+```{r}
+mots <- reponses |>
+  unnest_tokens(mot, texte)
+
+data(stop_words)
+
+mots_propres <- mots |>
+  anti_join(stop_words, by = c("mot" = "word"))
+
+mots_propres |>
+  count(mot, sort = TRUE) |>
+  slice_head(n = 10) |>
+  ggplot(aes(x = reorder(mot, n), y = n)) +
+  geom_col(fill = "#003875") +
+  coord_flip() +
+  labs(title = "10 mots les plus fréquents", x = "Mot", y = "Fréquence") +
+  theme_minimal()
+```
+:::
+
+---
+
+### Exercice 3.3 — Analyse de sentiment par groupe
+
+Calculez le **score de sentiment net** (positifs − négatifs) pour chaque groupe politique (`Centre`, `Droite`, `Gauche`) avec le lexique `"bing"`.
+Visualisez le résultat sous forme de graphique en barres.
+
+> **Rappel :** Score net = nombre de mots positifs − nombre de mots négatifs
+
+```{r}
+bing <- get_sentiments("bing")
+
+mots_propres |>
+  inner_join(???, by = c("mot" = "word")) |>
+  count(???, sentiment) |>
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) |>
+  mutate(score_net = positive - negative) |>
+  ggplot(aes(x = reorder(groupe, score_net), y = score_net, fill = score_net > 0)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("firebrick", "#2ca25f")) +
+  coord_flip() +
+  labs(title = "Ton des réponses par groupe politique",
+       x = "Groupe", y = "Score net (positifs − négatifs)") +
+  theme_minimal()
+```
+
+::: {.callout-tip collapse="true"}
+## Correction
+
+```{r}
+bing <- get_sentiments("bing")
+
+mots_propres |>
+  inner_join(bing, by = c("mot" = "word")) |>
+  count(groupe, sentiment) |>
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) |>
+  mutate(score_net = positive - negative) |>
+  ggplot(aes(x = reorder(groupe, score_net), y = score_net, fill = score_net > 0)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_manual(values = c("firebrick", "#2ca25f")) +
+  coord_flip() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    title    = "Ton des réponses par groupe politique",
+    subtitle = "Score net = mots positifs − mots négatifs",
+    x        = "Groupe",
+    y        = "Score de sentiment net"
+  ) +
+  theme_minimal()
+```
+:::
+
+---
+
+## BONUS : Régression linéaire
+
+### Exercice BONUS
+
+Avec les données Gapminder pour **2007** :
+
+1. Créez une colonne `log_pib` = `log(gdpPercap)`
+2. Faites une régression linéaire : `lifeExp ~ log_pib`
+3. Affichez le résumé avec `summary()`
+4. Interprétez : l'effet est-il statistiquement significatif? Positif ou négatif? Substantivement important?
+
+```{r}
+data_2007 <- gapminder |>
+  filter(year == 2007) |>
+  mutate(log_pib = log(gdpPercap))
+
+modele <- lm(???, data = data_2007)
+summary(modele)
+```
+
+::: {.callout-tip collapse="true"}
+## Correction et interprétation
+
+```{r}
+data_2007 <- gapminder |>
+  filter(year == 2007) |>
+  mutate(log_pib = log(gdpPercap))
+
+modele <- lm(lifeExp ~ log_pib, data = data_2007)
+summary(modele)
+```
+
+**Visualisation :**
+
+```{r}
+data_2007 |>
+  ggplot(aes(x = log_pib, y = lifeExp)) +
+  geom_point(aes(color = continent), alpha = 0.7) +
+  geom_smooth(method = "lm", color = "black", se = TRUE) +
+  labs(
+    title = "Régression : log(PIB per capita) → Espérance de vie",
+    x     = "Log du PIB per capita",
+    y     = "Espérance de vie (années)",
+    color = "Continent"
+  ) +
+  theme_minimal()
+```
+
+**Interprétation :** L'effet est positif et statistiquement significatif (p < 0.001). Chaque augmentation d'une unité du log du PIB per capita est associée à une augmentation d'environ 7–8 ans d'espérance de vie. L'effet est substantivement important (R² ≈ 0.65).
+:::
+
+---
+
+*Questions? [adrien.cloutier.1@ulaval.ca](mailto:adrien.cloutier.1@ulaval.ca)*
