@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Approfondissement en analyse de données avec R</title>
+<title>Approfondissement en R - Approfondissement en analyse de données avec R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,30 +57,101 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="index_files/libs/clipboard/clipboard.min.js"></script>
-<script src="index_files/libs/quarto-html/quarto.js"></script>
-<script src="index_files/libs/quarto-html/popper.min.js"></script>
-<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="index_files/libs/quarto-html/anchor.min.js"></script>
-<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
 
 
 </head>
 
-<body class="fullcontent">
+<body class="nav-fixed fullcontent">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Approfondissement en R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./slides.html" rel="" target="">
+ <span class="menu-text">Slides</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./exercices.html" rel="" target="">
+ <span class="menu-text">Exercices</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/AdriClout/atelier-fss-20mars2026" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Approfondissement en analyse de données avec R</h1>
-<p class="subtitle lead">FSS — Université Laval</p>
+<p class="subtitle lead">FSS — Université Laval — 20 mars 2026</p>
 </div>
 
 
@@ -95,64 +166,105 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p><strong>Date :</strong> 20 mars 2026 <strong>Heure :</strong> 9h à 12h (formation) — 13h à 15h (atelier pratique, présentiel seulement) <strong>Lieu :</strong> Pavillon Jean-Charles-Bonenfant, local 4285 <strong>Formateur :</strong> Adrien Cloutier, Université Laval</p>
-<hr>
-<section id="matériel-de-latelier" class="level2">
-<h2 class="anchored" data-anchor-id="matériel-de-latelier">Matériel de l’atelier</h2>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Ressource</th>
-<th>Lien</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>📊 Slides</td>
-<td><a href="slides.html">slides.html</a></td>
-</tr>
-<tr class="even">
-<td>💻 Exercices</td>
-<td><a href="exercices.html">exercices.html</a></td>
-</tr>
-<tr class="odd">
-<td>📁 Script R brut</td>
-<td><a href="exercices.R">exercices.R</a></td>
-</tr>
-</tbody>
-</table>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>📅 <strong>20 mars 2026</strong> &nbsp;|&nbsp; 🕘 9h–12h (formation) · 13h–15h (atelier pratique, présentiel) &nbsp;|&nbsp; 📍 Jean-Charles-Bonenfant, local 4285</p>
+</div>
+</div>
+</div>
+<section id="matériel" class="level2">
+<h2 class="anchored" data-anchor-id="matériel">Matériel</h2>
+<div class="grid">
+<section id="slides" class="level3 g-col-4">
+<h3 class="anchored" data-anchor-id="slides">📊 Slides</h3>
+<p>Présentation de la journée — dplyr, ggplot2, IA et analyse textuelle.</p>
+<p><a href="slides.html" class="btn btn-primary">Ouvrir les slides →</a></p>
+</section>
+<section id="exercices" class="level3 g-col-4">
+<h3 class="anchored" data-anchor-id="exercices">💻 Exercices</h3>
+<p>Exercices interactifs avec corrections cachées pour l’atelier pratique.</p>
+<p><a href="exercices.html" class="btn btn-primary">Ouvrir les exercices →</a></p>
+</section>
+<section id="script-r" class="level3 g-col-4">
+<h3 class="anchored" data-anchor-id="script-r">📁 Script R</h3>
+<p>Le script brut <code>.R</code> à ouvrir dans RStudio pendant l’atelier.</p>
+<p><a href="exercices.R" class="btn btn-outline-secondary">Télécharger exercices.R →</a></p>
+</section>
+</div>
 <hr>
 </section>
 <section id="avant-latelier" class="level2">
 <h2 class="anchored" data-anchor-id="avant-latelier">Avant l’atelier</h2>
-<p>Installez R et RStudio, puis exécutez dans la <strong>console</strong> de RStudio :</p>
+<p>Installez R et RStudio, puis exécutez ceci dans la <strong>console</strong> de RStudio :</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"gapminder"</span>, <span class="st">"tidytext"</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="plan-de-la-journée" class="level2">
 <h2 class="anchored" data-anchor-id="plan-de-la-journée">Plan de la journée</h2>
-<ol type="1">
-<li>Rappel : dplyr et le pipe</li>
-<li>Visualisation avec ggplot2</li>
-<li>R et l’IA : comment travailler intelligemment</li>
-<li>Analyse textuelle automatisée avec R</li>
-</ol>
+<table class="table">
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Sujet</th>
+<th>Durée</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Rappel : dplyr et le pipe</td>
+<td>~20 min</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Visualisation avec ggplot2</td>
+<td>~30 min</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>R et l’IA : comment travailler intelligemment</td>
+<td>~25 min</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Analyse textuelle automatisée</td>
+<td>~45 min</td>
+</tr>
+<tr class="odd">
+<td>—</td>
+<td><em>Pause</em></td>
+<td>15 min</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>Atelier pratique <em>(présentiel seulement)</em></td>
+<td>13h–15h</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
 <section id="ressources-recommandées" class="level2">
 <h2 class="anchored" data-anchor-id="ressources-recommandées">Ressources recommandées</h2>
 <ul>
-<li><a href="https://r4ds.hadley.nz/">R for Data Science</a> — Hadley Wickham (gratuit en ligne)</li>
-<li><a href="https://www.tidytextmining.com/">Text Mining with R</a> — Julia Silge &amp; David Robinson (gratuit en ligne)</li>
+<li><a href="https://r4ds.hadley.nz/">R for Data Science</a> — Hadley Wickham <em>(gratuit en ligne)</em></li>
+<li><a href="https://www.tidytextmining.com/">Text Mining with R</a> — Julia Silge &amp; David Robinson <em>(gratuit en ligne)</em></li>
 <li><a href="https://rstudio.github.io/cheatsheets/html/data-transformation.html">Cheatsheet dplyr</a></li>
 <li><a href="https://rstudio.github.io/cheatsheets/html/data-visualization.html">Cheatsheet ggplot2</a></li>
 </ul>
 <hr>
-<p><em>Formation organisée par le <a href="https://www.appui-reussite.flsh.ulaval.ca/">Centre de soutien à l’apprentissage</a> de la FSS, Université Laval.</em></p>
+<div class="text-muted">
+<p><em>Formation organisée par le <a href="https://www.appui-reussite.flsh.ulaval.ca/">Centre de soutien à l’apprentissage</a> de la FSS, Université Laval. Formateur : Adrien Cloutier (<a href="mailto:adrien.cloutier.1@ulaval.ca">adrien.cloutier.1@ulaval.ca</a>).</em></p>
+</div>
+
+
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

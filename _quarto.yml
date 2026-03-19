@@ -1,0 +1,24 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Approfondissement en R"
+  navbar:
+    background: "#003875"
+    foreground: white
+    left:
+      - text: "Accueil"
+        file: index.qmd
+      - text: "Slides"
+        file: slides.qmd
+      - text: "Exercices"
+        file: exercices.qmd
+    right:
+      - icon: github
+        href: https://github.com/AdriClout/atelier-fss-20mars2026
+
+format:
+  html:
+    theme: cosmo
+    lang: fr

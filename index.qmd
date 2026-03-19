@@ -1,33 +1,45 @@
 ---
 title: "Approfondissement en analyse de données avec R"
-subtitle: "FSS — Université Laval"
-lang: fr
-format:
-  html:
-    theme: cosmo
-    toc: false
+subtitle: "FSS — Université Laval — 20 mars 2026"
+toc: false
 ---
 
-**Date :** 20 mars 2026
-**Heure :** 9h à 12h (formation) — 13h à 15h (atelier pratique, présentiel seulement)
-**Lieu :** Pavillon Jean-Charles-Bonenfant, local 4285
-**Formateur :** Adrien Cloutier, Université Laval
+::: {.callout-note appearance="minimal"}
+📅 **20 mars 2026** &nbsp;|&nbsp; 🕘 9h–12h (formation) · 13h–15h (atelier pratique, présentiel) &nbsp;|&nbsp; 📍 Jean-Charles-Bonenfant, local 4285
+:::
 
----
+## Matériel
 
-## Matériel de l'atelier
+::: {.grid}
 
-| Ressource | Lien |
-|---|---|
-| 📊 Slides | [slides.html](slides.html) |
-| 💻 Exercices | [exercices.html](exercices.html) |
-| 📁 Script R brut | [exercices.R](exercices.R) |
+::: {.g-col-4}
+### 📊 Slides
+Présentation de la journée — dplyr, ggplot2, IA et analyse textuelle.
+
+[Ouvrir les slides →](slides.html){.btn .btn-primary}
+:::
+
+::: {.g-col-4}
+### 💻 Exercices
+Exercices interactifs avec corrections cachées pour l'atelier pratique.
+
+[Ouvrir les exercices →](exercices.html){.btn .btn-primary}
+:::
+
+::: {.g-col-4}
+### 📁 Script R
+Le script brut `.R` à ouvrir dans RStudio pendant l'atelier.
+
+[Télécharger exercices.R →](exercices.R){.btn .btn-outline-secondary}
+:::
+
+:::
 
 ---
 
 ## Avant l'atelier
 
-Installez R et RStudio, puis exécutez dans la **console** de RStudio :
+Installez R et RStudio, puis exécutez ceci dans la **console** de RStudio :
 
 ```r
 install.packages(c("tidyverse", "gapminder", "tidytext"))
@@ -37,20 +49,26 @@ install.packages(c("tidyverse", "gapminder", "tidytext"))
 
 ## Plan de la journée
 
-1. Rappel : dplyr et le pipe
-2. Visualisation avec ggplot2
-3. R et l'IA : comment travailler intelligemment
-4. Analyse textuelle automatisée avec R
+| # | Sujet | Durée |
+|---|---|---|
+| 1 | Rappel : dplyr et le pipe | ~20 min |
+| 2 | Visualisation avec ggplot2 | ~30 min |
+| 3 | R et l'IA : comment travailler intelligemment | ~25 min |
+| 4 | Analyse textuelle automatisée | ~45 min |
+| — | *Pause* | 15 min |
+| 5 | Atelier pratique *(présentiel seulement)* | 13h–15h |
 
 ---
 
 ## Ressources recommandées
 
-- [R for Data Science](https://r4ds.hadley.nz/) — Hadley Wickham (gratuit en ligne)
-- [Text Mining with R](https://www.tidytextmining.com/) — Julia Silge & David Robinson (gratuit en ligne)
+- [R for Data Science](https://r4ds.hadley.nz/) — Hadley Wickham *(gratuit en ligne)*
+- [Text Mining with R](https://www.tidytextmining.com/) — Julia Silge & David Robinson *(gratuit en ligne)*
 - [Cheatsheet dplyr](https://rstudio.github.io/cheatsheets/html/data-transformation.html)
 - [Cheatsheet ggplot2](https://rstudio.github.io/cheatsheets/html/data-visualization.html)
 
 ---
 
-*Formation organisée par le [Centre de soutien à l'apprentissage](https://www.appui-reussite.flsh.ulaval.ca/) de la FSS, Université Laval.*
+::: {.text-muted}
+*Formation organisée par le [Centre de soutien à l'apprentissage](https://www.appui-reussite.flsh.ulaval.ca/) de la FSS, Université Laval. Formateur : Adrien Cloutier ([adrien.cloutier.1@ulaval.ca](mailto:adrien.cloutier.1@ulaval.ca)).*
+:::

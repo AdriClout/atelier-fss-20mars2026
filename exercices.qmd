@@ -3,14 +3,10 @@ title: "Exercices — Approfondissement en analyse de données avec R"
 subtitle: "FSS — Université Laval — 20 mars 2026"
 author: "Adrien Cloutier"
 lang: fr
-format:
-  html:
-    theme: cosmo
-    toc: true
-    toc-title: "Sections"
-    toc-depth: 2
-    code-fold: false
-    highlight-style: github
+toc: true
+toc-title: "Sections"
+toc-depth: 2
+highlight-style: github
 execute:
   echo: true
   eval: false

@@ -3,7 +3,6 @@ title: "Approfondissement en analyse de données avec R"
 subtitle: "ggplot2, analyse textuelle et IA"
 author: "Adrien Cloutier | Université Laval"
 date: "20 mars 2026"
-lang: fr
 format:
   revealjs:
     theme: simple

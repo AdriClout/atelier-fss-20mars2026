@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<script src="slides_files/libs/clipboard/clipboard.min.js"></script>
-<script src="slides_files/libs/quarto-html/tabby.min.js"></script>
-<script src="slides_files/libs/quarto-html/popper.min.js"></script>
-<script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<html lang="en"><head>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/tabby.min.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Adrien Cloutier | Université Laval">
   <meta name="dcterms.date" content="2026-03-20">
-  <title>Approfondissement en analyse de données avec R</title>
+  <title>Approfondissement en R - Approfondissement en analyse de données avec R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -96,11 +96,11 @@
     code span.vs { color: #032f62; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto.css">
-  <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
+  <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -460,7 +460,7 @@ Adrien Cloutier | Université Laval
 <p>Tout ce dont vous avez besoin est dans le package <strong>tidyverse</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)  <span class="co"># une seule fois</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(tidyverse)             <span class="co"># à chaque session</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(tidyverse)             <span class="co"># à chaque session</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -471,7 +471,7 @@ Adrien Cloutier | Université Laval
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">library</span>(gapminder)</span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="co"># Regarder les données</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">glimpse</span>(gapminder)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">glimpse</span>(gapminder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <pre><code>Rows: 1,704
@@ -495,7 +495,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <span id="cb4-5"><a href="#cb4-5"></a>gapminder <span class="sc">|&gt;</span></span>
 <span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
 <span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">select</span>(country, lifeExp) <span class="sc">|&gt;</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p><strong>Raccourci clavier :</strong> <code>Ctrl + Shift + M</code> (Windows) ou <code>Cmd + Shift + M</code> (Mac)</p>
@@ -546,7 +546,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>,</span>
 <span id="cb5-4"><a href="#cb5-4"></a>         continent <span class="sc">==</span> <span class="st">"Americas"</span>,</span>
 <span id="cb5-5"><a href="#cb5-5"></a>         lifeExp <span class="sc">&gt;</span> <span class="dv">75</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">select</span>(country, lifeExp, gdpPercap)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">select</span>(country, lifeExp, gdpPercap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <div class="cell">
@@ -556,7 +556,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <span id="cb6-4"><a href="#cb6-4"></a><span class="co"># &gt;   (plus grand que)</span></span>
 <span id="cb6-5"><a href="#cb6-5"></a><span class="co"># &lt;   (plus petit que)</span></span>
 <span id="cb6-6"><a href="#cb6-6"></a><span class="co"># &amp;   (et)</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># |   (ou)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># |   (ou)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -568,7 +568,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">mutate</span>(<span class="at">pop_millions =</span> pop <span class="sc">/</span> <span class="dv">1000000</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-5"><a href="#cb7-5"></a>  <span class="fu">select</span>(country, pop_millions) <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pop_millions))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pop_millions))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <div class="cell">
@@ -580,7 +580,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <span id="cb8-6"><a href="#cb8-6"></a>    <span class="at">esperance_moy =</span> <span class="fu">mean</span>(lifeExp),</span>
 <span id="cb8-7"><a href="#cb8-7"></a>    <span class="at">nb_pays       =</span> <span class="fu">n</span>()</span>
 <span id="cb8-8"><a href="#cb8-8"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(esperance_moy))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-9"><a href="#cb8-9"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(esperance_moy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -599,7 +599,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> gapminder,         <span class="co"># 1. les données</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>       <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap,        <span class="co"># 2. les axes et couleurs (aesthetics)</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>           <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">geom_point</span>()                   <span class="co"># 3. le type de graphique (geom)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">geom_point</span>()                   <span class="co"># 3. le type de graphique (geom)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Les éléments de base :</p>
@@ -629,7 +629,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <span id="cb10-13"><a href="#cb10-13"></a>    <span class="at">color  =</span> <span class="st">"Continent"</span>,</span>
 <span id="cb10-14"><a href="#cb10-14"></a>    <span class="at">size   =</span> <span class="st">"Population"</span></span>
 <span id="cb10-15"><a href="#cb10-15"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-16"><a href="#cb10-16"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-16"><a href="#cb10-16"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="graphique-en-barres-geom_col" class="slide level2">
@@ -649,7 +649,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <span id="cb11-12"><a href="#cb11-12"></a>    <span class="at">x     =</span> <span class="st">"Continent"</span>,</span>
 <span id="cb11-13"><a href="#cb11-13"></a>    <span class="at">y     =</span> <span class="st">"Espérance de vie (années)"</span></span>
 <span id="cb11-14"><a href="#cb11-14"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-15"><a href="#cb11-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-15"><a href="#cb11-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="histogramme-geom_histogram" class="slide level2">
@@ -666,7 +666,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <span id="cb12-9"><a href="#cb12-9"></a>    <span class="at">y     =</span> <span class="st">"Nombre de pays"</span>,</span>
 <span id="cb12-10"><a href="#cb12-10"></a>    <span class="at">fill  =</span> <span class="st">"Continent"</span></span>
 <span id="cb12-11"><a href="#cb12-11"></a>  ) <span class="sc">+</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-12"><a href="#cb12-12"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="personnaliser-et-sauvegarder" class="slide level2">
@@ -685,7 +685,7 @@ $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, …</code></pre>
 <span id="cb13-11"><a href="#cb13-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mon graphique"</span>)</span>
 <span id="cb13-12"><a href="#cb13-12"></a></span>
 <span id="cb13-13"><a href="#cb13-13"></a><span class="co"># Sauvegarder</span></span>
-<span id="cb13-14"><a href="#cb13-14"></a><span class="fu">ggsave</span>(<span class="st">"graphique.png"</span>, <span class="at">plot =</span> mon_graphique, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="fu">ggsave</span>(<span class="st">"graphique.png"</span>, <span class="at">plot =</span> mon_graphique, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -895,7 +895,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb19-16"><a href="#cb19-16"></a>    <span class="st">"We need stronger social programs and better support for vulnerable communities"</span>,</span>
 <span id="cb19-17"><a href="#cb19-17"></a>    <span class="st">"This government's terrible policies have destroyed our economic opportunities"</span></span>
 <span id="cb19-18"><a href="#cb19-18"></a>  )</span>
-<span id="cb19-19"><a href="#cb19-19"></a>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-19"><a href="#cb19-19"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="stringr-manipulation-de-texte" class="slide level2">
@@ -918,7 +918,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb20-14"><a href="#cb20-14"></a><span class="fu">str_replace_all</span>(texte, <span class="st">"Parti"</span>, <span class="st">"parti"</span>)</span>
 <span id="cb20-15"><a href="#cb20-15"></a></span>
 <span id="cb20-16"><a href="#cb20-16"></a><span class="co"># Extraire selon un patron</span></span>
-<span id="cb20-17"><a href="#cb20-17"></a><span class="fu">str_extract_all</span>(texte, <span class="st">"Parti </span><span class="sc">\\</span><span class="st">w+"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-17"><a href="#cb20-17"></a><span class="fu">str_extract_all</span>(texte, <span class="st">"Parti </span><span class="sc">\\</span><span class="st">w+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="stringr-avec-un-data-frame" class="slide level2">
@@ -940,7 +940,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb21-14"><a href="#cb21-14"></a>    <span class="at">mention_liberal =</span> <span class="fu">str_detect</span>(titre, <span class="st">"libéral|Libéral"</span>),</span>
 <span id="cb21-15"><a href="#cb21-15"></a>    <span class="at">nb_mots         =</span> <span class="fu">str_count</span>(titre, <span class="st">"</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
 <span id="cb21-16"><a href="#cb21-16"></a>    <span class="at">titre_min       =</span> <span class="fu">str_to_lower</span>(titre)</span>
-<span id="cb21-17"><a href="#cb21-17"></a>  )</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-17"><a href="#cb21-17"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="tidytext-tokenisation" class="slide level2">
@@ -958,7 +958,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb22-9"><a href="#cb22-9"></a>  )</span>
 <span id="cb22-10"><a href="#cb22-10"></a></span>
 <span id="cb22-11"><a href="#cb22-11"></a><span class="co"># Résultat : une ligne par mot</span></span>
-<span id="cb22-12"><a href="#cb22-12"></a>mots</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-12"><a href="#cb22-12"></a>mots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <pre><code># A tibble: 80 × 3
@@ -983,7 +983,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb24-8"><a href="#cb24-8"></a><span class="co"># Voir les mots restants</span></span>
 <span id="cb24-9"><a href="#cb24-9"></a>mots_propres <span class="sc">|&gt;</span></span>
 <span id="cb24-10"><a href="#cb24-10"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-11"><a href="#cb24-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Pour le français : <code>stopwords::stopwords("fr")</code> ou le package <code>stopwords</code></p>
@@ -1004,7 +1004,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb25-10"><a href="#cb25-10"></a>    <span class="at">y     =</span> <span class="st">"Fréquence"</span></span>
 <span id="cb25-11"><a href="#cb25-11"></a>  ) <span class="sc">+</span></span>
 <span id="cb25-12"><a href="#cb25-12"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb25-13"><a href="#cb25-13"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-13"><a href="#cb25-13"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="analyse-de-sentiment" class="slide level2">
@@ -1022,7 +1022,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb26-8"><a href="#cb26-8"></a></span>
 <span id="cb26-9"><a href="#cb26-9"></a><span class="co"># Voir les premières entrées</span></span>
 <span id="cb26-10"><a href="#cb26-10"></a>bing <span class="sc">|&gt;</span></span>
-<span id="cb26-11"><a href="#cb26-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-11"><a href="#cb26-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="calculer-le-sentiment-par-répondant" class="slide level2">
@@ -1039,7 +1039,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb27-9"><a href="#cb27-9"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb27-10"><a href="#cb27-10"></a>  <span class="fu">mutate</span>(<span class="at">score_net =</span> positive <span class="sc">-</span> negative)</span>
 <span id="cb27-11"><a href="#cb27-11"></a></span>
-<span id="cb27-12"><a href="#cb27-12"></a>sentiment_par_auteur</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-12"><a href="#cb27-12"></a>sentiment_par_auteur</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualiser-le-sentiment" class="slide level2">
@@ -1059,7 +1059,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb28-12"><a href="#cb28-12"></a>    <span class="at">x        =</span> <span class="st">"Répondant"</span>,</span>
 <span id="cb28-13"><a href="#cb28-13"></a>    <span class="at">y        =</span> <span class="st">"Score de sentiment net"</span></span>
 <span id="cb28-14"><a href="#cb28-14"></a>  ) <span class="sc">+</span></span>
-<span id="cb28-15"><a href="#cb28-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-15"><a href="#cb28-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="pour-aller-plus-loin-en-analyse-textuelle" class="slide level2">
@@ -1078,7 +1078,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <span id="cb29-11"><a href="#cb29-11"></a></span>
 <span id="cb29-12"><a href="#cb29-12"></a><span class="co"># Topic modeling (LDA) — pour corpus plus grands</span></span>
 <span id="cb29-13"><a href="#cb29-13"></a><span class="co"># install.packages("topicmodels")</span></span>
-<span id="cb29-14"><a href="#cb29-14"></a><span class="co"># library(topicmodels)</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-14"><a href="#cb29-14"></a><span class="co"># library(topicmodels)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Ressource incontournable : <strong><a href="https://www.tidytextmining.com/">Text Mining with R</a></strong> (Julia Silge &amp; David Robinson) — gratuit en ligne!</p>
@@ -1179,6 +1179,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <p><img data-src="images/logo_CLESSN.png"></p>
 </div>
 </div>
+
 <p><img src="images/logo_CLESSN.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p>FSS — Université Laval — 20 mars 2026</p>
@@ -1188,19 +1189,19 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="slides_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="site_libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="slides_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="slides_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -1484,12 +1485,12 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
         // flash "checked"
         button.classList.add('code-copy-button-checked');
         var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copié");
+        button.setAttribute("title", "Copied!");
         let tooltip;
         if (window.bootstrap) {
           button.setAttribute("data-bs-toggle", "tooltip");
           button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copié");
+          button.setAttribute("data-bs-title", "Copied!");
           tooltip = new bootstrap.Tooltip(button, 
             { trigger: "manual", 
               customClass: "code-copy-button-tooltip",
