@@ -197,7 +197,6 @@ gapminder |>
 | `mutate()` | Créer / modifier | `mutate(pib_mil = pop * gdpPercap)` |
 | `arrange()` | Trier | `arrange(desc(lifeExp))` |
 | `rename()` | Renommer | `rename(pays = country)` |
-| `group_by()` + `summarise()` | Résumer par groupe | voir ci-dessous |
 
 ## `group_by()` + `summarise()`
 
