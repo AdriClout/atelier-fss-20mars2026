@@ -40,7 +40,7 @@ execute:
 - Co-coordonnateur du CAPP (Centre d'analyses des politiques publiques)
 - Cocréateur de l'EIOM (École interdisciplinaire Outils & Méthodes — [eiom.ca](https://eiom.ca/))
 - Certified Scrum Master & Notion certified
-- Membre du GRCP, CÉCD
+- Membre du GRCP, CÉCD, OVBIA, CIEQ
 
 ## Plan de la journée
 
