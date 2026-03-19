@@ -822,16 +822,31 @@ Nouvel IDE de Posit (les créateurs de RStudio), conçu pour R et Python — int
 :::
 :::
 
-## GitHub Copilot — gratuit pour les étudiants 🎓
+## Outils IA — accès gratuit pour les étudiants 🎓
 
-GitHub Copilot est une IA qui **complète votre code en temps réel** dans l'éditeur, comme un collègue qui connaît tout par cœur.
+::: {.columns}
+::: {.column width="50%"}
+**GitHub Copilot**
 
-**Pour y accéder gratuitement :**
+IA intégrée à l'éditeur — complète votre code en temps réel.
 
-1.  Créez un compte GitHub avec votre adresse universitaire
-2.  Demandez le [**GitHub Student Developer Pack**](https://education.github.com/pack) — inclut Copilot + des dizaines d'outils gratuits
-3.  Installez [Positron](https://positron.posit.co/) ou [VS Code](https://code.visualstudio.com/)
-4.  Connectez Copilot dans l'éditeur
+**Gratuit via le [GitHub Student Developer Pack](https://education.github.com/pack) :**
+
+1. Compte GitHub avec adresse universitaire
+2. Demander le Student Pack
+3. Activer dans Positron ou VS Code
+:::
+::: {.column width="50%"}
+**Google Gemini**
+
+Assistant conversationnel puissant pour générer, expliquer et déboguer du code.
+
+**Accès gratuit pour les étudiants :**
+
+- [**Google for Students**](https://edu.google.com/intl/ALL_ca/workspace-for-education/gemini/) — Gemini Advanced inclus avec Google Workspace for Education
+- Ou [gemini.google.com](https://gemini.google.com) (version gratuite déjà très capable)
+:::
+:::
 
 ## Le workflow avec l'IA
 
