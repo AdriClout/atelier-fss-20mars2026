@@ -8,7 +8,7 @@
 
 <meta name="author" content="Adrien Cloutier">
 
-<title>Approfondissement en R - Exercices — Approfondissement en analyse de données avec R</title>
+<title>Approfondissement en R - Exercices pratiques</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -98,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -144,27 +144,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Sections</h2>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table des matières</h2>
    
   <ul class="collapse">
-  <li><a href="#mise-en-place" id="toc-mise-en-place" class="nav-link active" data-scroll-target="#mise-en-place">Mise en place</a></li>
-  <li><a href="#section-1-dplyr-avancé" id="toc-section-1-dplyr-avancé" class="nav-link" data-scroll-target="#section-1-dplyr-avancé">Section 1 : dplyr avancé</a></li>
-  <li><a href="#section-2-ggplot2" id="toc-section-2-ggplot2" class="nav-link" data-scroll-target="#section-2-ggplot2">Section 2 : ggplot2</a></li>
-  <li><a href="#section-3-analyse-textuelle" id="toc-section-3-analyse-textuelle" class="nav-link" data-scroll-target="#section-3-analyse-textuelle">Section 3 : Analyse textuelle</a></li>
-  <li><a href="#bonus-régression-linéaire" id="toc-bonus-régression-linéaire" class="nav-link" data-scroll-target="#bonus-régression-linéaire">BONUS : Régression linéaire</a></li>
+  <li><a href="#mise-en-place" id="toc-mise-en-place" class="nav-link active" data-scroll-target="#mise-en-place"><span class="header-section-number">1</span> Mise en place</a></li>
+  <li><a href="#section-1-dplyr-avancé" id="toc-section-1-dplyr-avancé" class="nav-link" data-scroll-target="#section-1-dplyr-avancé"><span class="header-section-number">2</span> Section 1 : dplyr avancé</a></li>
+  <li><a href="#section-2-ggplot2" id="toc-section-2-ggplot2" class="nav-link" data-scroll-target="#section-2-ggplot2"><span class="header-section-number">3</span> Section 2 : ggplot2</a></li>
+  <li><a href="#section-3-analyse-textuelle" id="toc-section-3-analyse-textuelle" class="nav-link" data-scroll-target="#section-3-analyse-textuelle"><span class="header-section-number">4</span> Section 3 : Analyse textuelle</a></li>
+  <li><a href="#bonus-régression-linéaire" id="toc-bonus-régression-linéaire" class="nav-link" data-scroll-target="#bonus-régression-linéaire"><span class="header-section-number">5</span> BONUS : Régression linéaire</a></li>
   </ul>
 </nav>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exercices — Approfondissement en analyse de données avec R</h1>
-<p class="subtitle lead">FSS — Université Laval — 20 mars 2026</p>
+<h1 class="title">Exercices pratiques</h1>
+<p class="subtitle lead">Approfondissement en analyse de données avec R — FSS, Université Laval</p>
 </div>
 
 
@@ -185,8 +188,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="mise-en-place" class="level2">
-<h2 class="anchored" data-anchor-id="mise-en-place">Mise en place</h2>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Suite de :</strong> <a href="https://www.etienneproulx.org/R_intro_fss/exercices.html">Initiation à l’analyse de données avec R</a> — Les exercices de base (filter, select, group_by, ggplot2 intro) sont disponibles sur le site du premier atelier. Les exercices ci-dessous reprennent là où ce premier atelier s’est arrêté.</p>
+</div>
+</div>
+</div>
+<section id="mise-en-place" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="mise-en-place"><span class="header-section-number">1</span> Mise en place</h2>
 <p>Avant de commencer, chargez les packages nécessaires :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -213,10 +226,10 @@ Note
 </div>
 </div>
 </section>
-<section id="section-1-dplyr-avancé" class="level2">
-<h2 class="anchored" data-anchor-id="section-1-dplyr-avancé">Section 1 : dplyr avancé</h2>
-<section id="exercice-1.1-mutate-avec-case_when" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-1.1-mutate-avec-case_when">Exercice 1.1 — mutate() avec case_when()</h3>
+<section id="section-1-dplyr-avancé" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="section-1-dplyr-avancé"><span class="header-section-number">2</span> Section 1 : dplyr avancé</h2>
+<section id="exercice-1.1-mutate-avec-case_when" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="exercice-1.1-mutate-avec-case_when"><span class="header-section-number">2.1</span> Exercice 1.1 — mutate() avec case_when()</h3>
 <p><code>case_when()</code> permet de créer une variable catégorielle à partir de conditions multiples, comme un <code>if/else</code> appliqué à toute une colonne.</p>
 <p>En 2007, créez une colonne <code>cat_richesse</code> qui classe chaque pays en :</p>
 <ul>
@@ -267,8 +280,8 @@ Correction
 </div>
 <hr>
 </section>
-<section id="exercice-1.2-summarise-avancé" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-1.2-summarise-avancé">Exercice 1.2 — summarise() avancé</h3>
+<section id="exercice-1.2-summarise-avancé" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="exercice-1.2-summarise-avancé"><span class="header-section-number">2.2</span> Exercice 1.2 — summarise() avancé</h3>
 <p>Calculez, pour chaque continent en <strong>2007</strong>, les statistiques suivantes sur l’espérance de vie : - la moyenne (<code>mean</code>) - la médiane (<code>median</code>) - l’écart-type (<code>sd</code>) - le minimum et le maximum - le nombre de pays (<code>n()</code>)</p>
 <p>Triez du continent avec la plus haute espérance de vie moyenne au plus bas.</p>
 <div class="cell">
@@ -316,8 +329,8 @@ Correction
 </div>
 <hr>
 </section>
-<section id="exercice-1.3-left_join-fusionner-deux-tableaux" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-1.3-left_join-fusionner-deux-tableaux">Exercice 1.3 — left_join() : fusionner deux tableaux</h3>
+<section id="exercice-1.3-left_join-fusionner-deux-tableaux" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="exercice-1.3-left_join-fusionner-deux-tableaux"><span class="header-section-number">2.3</span> Exercice 1.3 — left_join() : fusionner deux tableaux</h3>
 <p><code>left_join()</code> fusionne deux data frames à partir d’une colonne commune.</p>
 <p>Créez ce tableau de régions géopolitiques :</p>
 <div class="cell">
@@ -373,10 +386,10 @@ Correction
 <hr>
 </section>
 </section>
-<section id="section-2-ggplot2" class="level2">
-<h2 class="anchored" data-anchor-id="section-2-ggplot2">Section 2 : ggplot2</h2>
-<section id="exercice-2.1-facet_wrap-petits-multiples" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-2.1-facet_wrap-petits-multiples">Exercice 2.1 — facet_wrap() : petits multiples</h3>
+<section id="section-2-ggplot2" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="section-2-ggplot2"><span class="header-section-number">3</span> Section 2 : ggplot2</h2>
+<section id="exercice-2.1-facet_wrap-petits-multiples" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="exercice-2.1-facet_wrap-petits-multiples"><span class="header-section-number">3.1</span> Exercice 2.1 — facet_wrap() : petits multiples</h3>
 <p><code>facet_wrap()</code> crée un graphique séparé pour chaque valeur d’une variable — très utile pour comparer des sous-groupes.</p>
 <p>Créez un <strong>nuage de points</strong> (PIB per capita en X, espérance de vie en Y) pour <strong>2007</strong>, avec :</p>
 <ul>
@@ -426,8 +439,8 @@ Correction
 </div>
 <hr>
 </section>
-<section id="exercice-2.2-évolution-dans-le-temps" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-2.2-évolution-dans-le-temps">Exercice 2.2 — Évolution dans le temps</h3>
+<section id="exercice-2.2-évolution-dans-le-temps" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="exercice-2.2-évolution-dans-le-temps"><span class="header-section-number">3.2</span> Exercice 2.2 — Évolution dans le temps</h3>
 <p>Tracez l’évolution de l’<strong>espérance de vie moyenne</strong> par continent de 1952 à 2007. Utilisez <code>geom_line()</code> avec une ligne par continent.</p>
 <blockquote class="blockquote">
 <p><strong>Astuce :</strong> Calculez d’abord la moyenne avec <code>group_by()</code> + <code>summarise()</code>, puis passez le résultat à ggplot.</p>
@@ -473,8 +486,8 @@ Correction
 </div>
 <hr>
 </section>
-<section id="exercice-2.3-histogramme" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-2.3-histogramme">Exercice 2.3 — Histogramme</h3>
+<section id="exercice-2.3-histogramme" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="exercice-2.3-histogramme"><span class="header-section-number">3.3</span> Exercice 2.3 — Histogramme</h3>
 <p>Faites un histogramme de la distribution du <strong>PIB per capita</strong> en 2007.</p>
 <ul>
 <li>Utilisez <code>fill = continent</code> pour colorer par continent</li>
@@ -516,10 +529,10 @@ Correction
 <hr>
 </section>
 </section>
-<section id="section-3-analyse-textuelle" class="level2">
-<h2 class="anchored" data-anchor-id="section-3-analyse-textuelle">Section 3 : Analyse textuelle</h2>
-<section id="les-données" class="level3">
-<h3 class="anchored" data-anchor-id="les-données">Les données</h3>
+<section id="section-3-analyse-textuelle" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="section-3-analyse-textuelle"><span class="header-section-number">4</span> Section 3 : Analyse textuelle</h2>
+<section id="les-données" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="les-données"><span class="header-section-number">4.1</span> Les données</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>reponses <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id     =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
@@ -539,8 +552,8 @@ Correction
 </div>
 <hr>
 </section>
-<section id="exercice-3.1-stringr" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-3.1-stringr">Exercice 3.1 — stringr</h3>
+<section id="exercice-3.1-stringr" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="exercice-3.1-stringr"><span class="header-section-number">4.2</span> Exercice 3.1 — stringr</h3>
 <p>Avec le data frame <code>reponses</code> :</p>
 <ol type="a">
 <li>Créez une colonne <code>nb_mots</code> avec le nombre de mots dans chaque réponse (<code>str_count(texte, "\\w+")</code>)</li>
@@ -581,8 +594,8 @@ Correction
 </div>
 <hr>
 </section>
-<section id="exercice-3.2-fréquences-de-mots" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-3.2-fréquences-de-mots">Exercice 3.2 — Fréquences de mots</h3>
+<section id="exercice-3.2-fréquences-de-mots" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="exercice-3.2-fréquences-de-mots"><span class="header-section-number">4.3</span> Exercice 3.2 — Fréquences de mots</h3>
 <ol type="1">
 <li>Tokenisez les réponses avec <code>unnest_tokens()</code></li>
 <li>Enlevez les mots vides (<code>anti_join</code> avec <code>stop_words</code>)</li>
@@ -644,8 +657,8 @@ Correction
 </div>
 <hr>
 </section>
-<section id="exercice-3.3-analyse-de-sentiment-par-groupe" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-3.3-analyse-de-sentiment-par-groupe">Exercice 3.3 — Analyse de sentiment par groupe</h3>
+<section id="exercice-3.3-analyse-de-sentiment-par-groupe" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="exercice-3.3-analyse-de-sentiment-par-groupe"><span class="header-section-number">4.4</span> Exercice 3.3 — Analyse de sentiment par groupe</h3>
 <p>Calculez le <strong>score de sentiment net</strong> (positifs − négatifs) pour chaque groupe politique (<code>Centre</code>, <code>Droite</code>, <code>Gauche</code>) avec le lexique <code>"bing"</code>. Visualisez le résultat sous forme de graphique en barres.</p>
 <blockquote class="blockquote">
 <p><strong>Rappel :</strong> Score net = nombre de mots positifs − nombre de mots négatifs</p>
@@ -705,10 +718,10 @@ Correction
 <hr>
 </section>
 </section>
-<section id="bonus-régression-linéaire" class="level2">
-<h2 class="anchored" data-anchor-id="bonus-régression-linéaire">BONUS : Régression linéaire</h2>
-<section id="exercice-bonus" class="level3">
-<h3 class="anchored" data-anchor-id="exercice-bonus">Exercice BONUS</h3>
+<section id="bonus-régression-linéaire" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="bonus-régression-linéaire"><span class="header-section-number">5</span> BONUS : Régression linéaire</h2>
+<section id="exercice-bonus" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="exercice-bonus"><span class="header-section-number">5.1</span> Exercice BONUS</h3>
 <p>Avec les données Gapminder pour <strong>2007</strong> :</p>
 <ol type="1">
 <li>Créez une colonne <code>log_pib</code> = <code>log(gdpPercap)</code></li>

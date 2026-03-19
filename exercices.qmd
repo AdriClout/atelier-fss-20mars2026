@@ -1,11 +1,13 @@
 ---
-title: "Exercices — Approfondissement en analyse de données avec R"
-subtitle: "FSS — Université Laval — 20 mars 2026"
+title: "Exercices pratiques"
+subtitle: "Approfondissement en analyse de données avec R — FSS, Université Laval"
 author: "Adrien Cloutier"
 lang: fr
 toc: true
-toc-title: "Sections"
+toc-title: "Table des matières"
 toc-depth: 2
+toc-location: left
+number-sections: true
 highlight-style: github
 execute:
   echo: true
@@ -13,6 +15,10 @@ execute:
   warning: false
   message: false
 ---
+
+::: {.callout-note appearance="minimal" icon=false}
+**Suite de :** [Initiation à l'analyse de données avec R](https://www.etienneproulx.org/R_intro_fss/exercices.html) — Les exercices de base (filter, select, group_by, ggplot2 intro) sont disponibles sur le site du premier atelier. Les exercices ci-dessous reprennent là où ce premier atelier s'est arrêté.
+:::
 
 ## Mise en place
 

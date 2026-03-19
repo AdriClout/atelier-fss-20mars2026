@@ -4,33 +4,35 @@ subtitle: "FSS — Université Laval — 20 mars 2026"
 toc: false
 ---
 
-::: {.callout-note appearance="minimal"}
-📅 **20 mars 2026** &nbsp;|&nbsp; 🕘 9h–12h (formation) · 13h–15h (atelier pratique, présentiel) &nbsp;|&nbsp; 📍 Jean-Charles-Bonenfant, local 4285
+::: {.callout-note appearance="minimal" icon=false}
+**Suite de :** [Initiation à l'analyse de données avec R](https://www.etienneproulx.org/R_intro_fss/) &nbsp;→&nbsp; Cet atelier reprend là où la semaine passée s'est arrêtée. Prérequis : objets R, data frames, pipe `|>`, verbes de base dplyr.
 :::
+
+---
 
 ## Matériel
 
 ::: {.grid}
 
 ::: {.g-col-4}
-### 📊 Slides
-Présentation de la journée — dplyr, ggplot2, IA et analyse textuelle.
+#### 📊 Slides
+Présentation de la journée — rappel, dplyr avancé, ggplot2, IA et analyse textuelle.
 
-[Ouvrir les slides →](slides.html){.btn .btn-primary}
+[Ouvrir les slides →](slides.html){.btn .btn-primary style="margin-top: 0.5rem;"}
 :::
 
 ::: {.g-col-4}
-### 💻 Exercices
+#### 💻 Exercices
 Exercices interactifs avec corrections cachées pour l'atelier pratique.
 
-[Ouvrir les exercices →](exercices.html){.btn .btn-primary}
+[Ouvrir les exercices →](exercices.html){.btn .btn-primary style="margin-top: 0.5rem;"}
 :::
 
 ::: {.g-col-4}
-### 📁 Script R
-Le script brut `.R` à ouvrir dans RStudio pendant l'atelier.
+#### 📁 Script R
+Script brut `.R` à ouvrir dans RStudio pendant l'atelier.
 
-[Télécharger exercices.R →](exercices.R){.btn .btn-outline-secondary}
+[Télécharger exercices.R →](exercices.R){.btn .btn-outline-secondary style="margin-top: 0.5rem;"}
 :::
 
 :::
@@ -39,7 +41,7 @@ Le script brut `.R` à ouvrir dans RStudio pendant l'atelier.
 
 ## Avant l'atelier
 
-Installez R et RStudio, puis exécutez ceci dans la **console** de RStudio :
+Installez R et RStudio si ce n'est pas déjà fait, puis exécutez ceci dans la **console** de RStudio :
 
 ```r
 install.packages(c("tidyverse", "gapminder", "tidytext"))
@@ -51,12 +53,12 @@ install.packages(c("tidyverse", "gapminder", "tidytext"))
 
 | # | Sujet | Durée |
 |---|---|---|
-| 1 | Rappel : dplyr et le pipe | ~20 min |
-| 2 | Visualisation avec ggplot2 | ~30 min |
+| — | Rappel : bases R et dplyr | ~30 min |
+| 1 | Aller plus loin avec dplyr (`case_when`, `left_join`) | ~20 min |
+| 2 | Visualisation avec ggplot2 | ~25 min |
 | 3 | R et l'IA : comment travailler intelligemment | ~25 min |
-| 4 | Analyse textuelle automatisée | ~45 min |
-| — | *Pause* | 15 min |
-| 5 | Atelier pratique *(présentiel seulement)* | 13h–15h |
+| 4 | Analyse textuelle automatisée | ~40 min |
+| — | *Atelier pratique* *(présentiel, 13h–15h)* | 2h |
 
 ---
 
@@ -69,6 +71,4 @@ install.packages(c("tidyverse", "gapminder", "tidytext"))
 
 ---
 
-::: {.text-muted}
-*Formation organisée par le [Centre de soutien à l'apprentissage](https://www.appui-reussite.flsh.ulaval.ca/) de la FSS, Université Laval. Formateur : Adrien Cloutier ([adrien.cloutier.1@ulaval.ca](mailto:adrien.cloutier.1@ulaval.ca)).*
-:::
+*Formation organisée par le [Centre de soutien à l'apprentissage](https://www.appui-reussite.flsh.ulaval.ca/) de la FSS, Université Laval. Formateur : Adrien Cloutier — [adrien.cloutier.1@ulaval.ca](mailto:adrien.cloutier.1@ulaval.ca)*

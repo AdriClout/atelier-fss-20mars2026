@@ -172,34 +172,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>📅 <strong>20 mars 2026</strong> &nbsp;|&nbsp; 🕘 9h–12h (formation) · 13h–15h (atelier pratique, présentiel) &nbsp;|&nbsp; 📍 Jean-Charles-Bonenfant, local 4285</p>
+<p><strong>Suite de :</strong> <a href="https://www.etienneproulx.org/R_intro_fss/">Initiation à l’analyse de données avec R</a> &nbsp;→&nbsp; Cet atelier reprend là où la semaine passée s’est arrêtée. Prérequis : objets R, data frames, pipe <code>|&gt;</code>, verbes de base dplyr.</p>
 </div>
 </div>
 </div>
+<hr>
 <section id="matériel" class="level2">
 <h2 class="anchored" data-anchor-id="matériel">Matériel</h2>
 <div class="grid">
-<section id="slides" class="level3 g-col-4">
-<h3 class="anchored" data-anchor-id="slides">📊 Slides</h3>
-<p>Présentation de la journée — dplyr, ggplot2, IA et analyse textuelle.</p>
-<p><a href="slides.html" class="btn btn-primary">Ouvrir les slides →</a></p>
+<section id="slides" class="level4 g-col-4">
+<h4 class="anchored" data-anchor-id="slides">📊 Slides</h4>
+<p>Présentation de la journée — rappel, dplyr avancé, ggplot2, IA et analyse textuelle.</p>
+<p><a href="slides.html" class="btn btn-primary" style="margin-top: 0.5rem;">Ouvrir les slides →</a></p>
 </section>
-<section id="exercices" class="level3 g-col-4">
-<h3 class="anchored" data-anchor-id="exercices">💻 Exercices</h3>
+<section id="exercices" class="level4 g-col-4">
+<h4 class="anchored" data-anchor-id="exercices">💻 Exercices</h4>
 <p>Exercices interactifs avec corrections cachées pour l’atelier pratique.</p>
-<p><a href="exercices.html" class="btn btn-primary">Ouvrir les exercices →</a></p>
+<p><a href="exercices.html" class="btn btn-primary" style="margin-top: 0.5rem;">Ouvrir les exercices →</a></p>
 </section>
-<section id="script-r" class="level3 g-col-4">
-<h3 class="anchored" data-anchor-id="script-r">📁 Script R</h3>
-<p>Le script brut <code>.R</code> à ouvrir dans RStudio pendant l’atelier.</p>
-<p><a href="exercices.R" class="btn btn-outline-secondary">Télécharger exercices.R →</a></p>
+<section id="script-r" class="level4 g-col-4">
+<h4 class="anchored" data-anchor-id="script-r">📁 Script R</h4>
+<p>Script brut <code>.R</code> à ouvrir dans RStudio pendant l’atelier.</p>
+<p><a href="exercices.R" class="btn btn-outline-secondary" style="margin-top: 0.5rem;">Télécharger exercices.R →</a></p>
 </section>
 </div>
 <hr>
 </section>
 <section id="avant-latelier" class="level2">
 <h2 class="anchored" data-anchor-id="avant-latelier">Avant l’atelier</h2>
-<p>Installez R et RStudio, puis exécutez ceci dans la <strong>console</strong> de RStudio :</p>
+<p>Installez R et RStudio si ce n’est pas déjà fait, puis exécutez ceci dans la <strong>console</strong> de RStudio :</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"gapminder"</span>, <span class="st">"tidytext"</span>))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
@@ -215,34 +216,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>Rappel : dplyr et le pipe</td>
-<td>~20 min</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Visualisation avec ggplot2</td>
+<td>—</td>
+<td>Rappel : bases R et dplyr</td>
 <td>~30 min</td>
 </tr>
+<tr class="even">
+<td>1</td>
+<td>Aller plus loin avec dplyr (<code>case_when</code>, <code>left_join</code>)</td>
+<td>~20 min</td>
+</tr>
 <tr class="odd">
+<td>2</td>
+<td>Visualisation avec ggplot2</td>
+<td>~25 min</td>
+</tr>
+<tr class="even">
 <td>3</td>
 <td>R et l’IA : comment travailler intelligemment</td>
 <td>~25 min</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>4</td>
 <td>Analyse textuelle automatisée</td>
-<td>~45 min</td>
-</tr>
-<tr class="odd">
-<td>—</td>
-<td><em>Pause</em></td>
-<td>15 min</td>
+<td>~40 min</td>
 </tr>
 <tr class="even">
-<td>5</td>
-<td>Atelier pratique <em>(présentiel seulement)</em></td>
-<td>13h–15h</td>
+<td>—</td>
+<td><em>Atelier pratique</em> <em>(présentiel, 13h–15h)</em></td>
+<td>2h</td>
 </tr>
 </tbody>
 </table>
@@ -257,9 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://rstudio.github.io/cheatsheets/html/data-visualization.html">Cheatsheet ggplot2</a></li>
 </ul>
 <hr>
-<div class="text-muted">
-<p><em>Formation organisée par le <a href="https://www.appui-reussite.flsh.ulaval.ca/">Centre de soutien à l’apprentissage</a> de la FSS, Université Laval. Formateur : Adrien Cloutier (<a href="mailto:adrien.cloutier.1@ulaval.ca">adrien.cloutier.1@ulaval.ca</a>).</em></p>
-</div>
+<p><em>Formation organisée par le <a href="https://www.appui-reussite.flsh.ulaval.ca/">Centre de soutien à l’apprentissage</a> de la FSS, Université Laval. Formateur : Adrien Cloutier — <a href="mailto:adrien.cloutier.1@ulaval.ca">adrien.cloutier.1@ulaval.ca</a></em></p>
 
 
 </section>
