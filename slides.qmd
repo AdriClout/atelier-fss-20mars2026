@@ -822,29 +822,29 @@ Nouvel IDE de Posit (les créateurs de RStudio), conçu pour R et Python — int
 :::
 :::
 
-## Outils IA — accès gratuit pour les étudiants 🎓
+## Outils gratuits pour les étudiants 🎓
 
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="33%"}
 **GitHub Copilot**
 
-IA intégrée à l'éditeur — complète votre code en temps réel.
+IA dans l'éditeur — complétion de code en temps réel.
 
-**Gratuit via le [GitHub Student Developer Pack](https://education.github.com/pack) :**
-
-1. Compte GitHub avec adresse universitaire
-2. Demander le Student Pack
-3. Activer dans Positron ou VS Code
+[**GitHub Student Developer Pack**](https://education.github.com/pack) — compte GitHub avec adresse universitaire → Copilot + dizaines d'outils gratuits.
 :::
-::: {.column width="50%"}
+::: {.column width="33%"}
 **Google Gemini**
 
-Assistant conversationnel puissant pour générer, expliquer et déboguer du code.
+Assistant pour générer, expliquer et déboguer du code.
 
-**Accès gratuit pour les étudiants :**
+[**Google Workspace for Education**](https://edu.google.com/intl/ALL_ca/workspace-for-education/gemini/) — Gemini Advanced souvent inclus. Sinon : [gemini.google.com](https://gemini.google.com) gratuit.
+:::
+::: {.column width="33%"}
+**DataCamp**
 
-- [**Google for Students**](https://edu.google.com/intl/ALL_ca/workspace-for-education/gemini/) — Gemini Advanced inclus avec Google Workspace for Education
-- Ou [gemini.google.com](https://gemini.google.com) (version gratuite déjà très capable)
+Cours interactifs R, Python, SQL, stats et ML — directement dans le navigateur.
+
+[**Activer l'accès gratuit →**](https://www.datacamp.com/groups/shared_links/eb5c78c872a775f17d2d2434b1ecd255b594b2c31ad701348869257e693c8515)
 :::
 :::
 
@@ -901,6 +901,7 @@ Des centaines de cours en R, Python, SQL, statistiques et science des données �
 
 **Apprendre R en faisant :**
 
+-   [DataCamp](https://www.datacamp.com/groups/shared_links/eb5c78c872a775f17d2d2434b1ecd255b594b2c31ad701348869257e693c8515) — cours interactifs R, Python, SQL *(accès gratuit via le lien partagé)*
 -   [swirl](https://swirlstats.com/) — tutoriels interactifs dans RStudio
 -   [R for Data Science](https://r4ds.hadley.nz/) — LE livre, gratuit en ligne (Hadley Wickham)
 -   [Text Mining with R](https://www.tidytextmining.com/) — analyse textuelle, gratuit en ligne
@@ -913,7 +914,7 @@ Des centaines de cours en R, Python, SQL, statistiques et science des données �
 
 **IA + R :**
 
--   [Claude](https://claude.ai) ou [ChatGPT](https://chatgpt.com) — assistants de code
+-   [Claude](https://claude.ai), [ChatGPT](https://chatgpt.com), [Gemini](https://gemini.google.com) — assistants de code
 -   Règle d'or : toujours valider le code avant de faire confiance aux résultats
 
 ## Le contenu de cet atelier est sur GitHub
