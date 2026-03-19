@@ -870,20 +870,6 @@ Pas tout d'un coup! Ligne par ligne pour repérer les erreurs.
 :::
 :::
 
-## Erreurs communes de l'IA en R
-
-| Problème | Exemple |
-|---|---|
-| Nom de fonction inventé | `dplyr::filter_where()` |
-| Version obsolète | `gather()` au lieu de `pivot_longer()` |
-| Nom de colonne incorrect | `data$Pays` au lieu de `data$pays` |
-| Package non installé | Oublie de mentionner `install.packages()` |
-| Logique incorrecte | `filter(year = 2007)` au lieu de `==` |
-
-. . .
-
-**Votre meilleur outil de validation :** lire l'aide d'une fonction avec `?filter` ou `help(filter)`
-
 ---
 
 # Un cadeau! 🎁
