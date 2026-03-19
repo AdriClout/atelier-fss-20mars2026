@@ -7,7 +7,7 @@ format:
   revealjs:
     theme: simple
     slide-number: c/t
-    footer: "FSS — Université Laval — 20 mars 2026"
+    footer: "[⬅ Accueil](index.html) &nbsp;·&nbsp; FSS — Université Laval — 20 mars 2026"
     highlight-style: github
     code-line-numbers: true
     scrollable: true
