@@ -74,6 +74,22 @@ Tout le contenu d'Étienne est disponible ici :
 On fait un **survol rapide** (~30 min) pour rafraîchir les mémoires.
 Si vous avez besoin de revoir en détail, le site d'Étienne est là.
 
+## Une ressource incontournable
+
+**Hadley Wickham** est le créateur de `tidyverse` — c'est lui qui a inventé `ggplot2`, `dplyr`, `tidyr` et la plupart des outils qu'on utilise aujourd'hui.
+
+Son livre ***R for Data Science*** est **gratuit en ligne** et couvre tout le cycle de l'analyse de données :
+
+> Importer → Organiser → Transformer → Visualiser → Modéliser → Communiquer
+
+. . .
+
+Le chapitre [**Workflow: basics**](https://r4ds.hadley.nz/workflow-basics.html) est un excellent point de départ pour consolider les bases — nommage des objets, conventions de style, bonnes pratiques.
+
+::: {.r-fit-text}
+[r4ds.hadley.nz](https://r4ds.hadley.nz/)
+:::
+
 ## R & RStudio : l'interface
 
 ::: {.columns}
