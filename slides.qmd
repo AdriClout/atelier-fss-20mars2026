@@ -170,7 +170,7 @@ mes_donnees$nom_colonne    # accéder à une colonne
 
 ```{r}
 #| eval: true
-gapminder
+gapminder |> slice_head(n = 6)
 ```
 
 ## Le pipe : `|>`
@@ -193,48 +193,52 @@ gapminder |>
 
 ```{r}
 #| eval: true
-#| output-location: column
+#| output-location: fragment
 gapminder |>
-  filter(year == 2007)
+  filter(year == 2007) |>
+  slice_head(n = 6)
 ```
 
 ## `select()` — garder des colonnes
 
 ```{r}
 #| eval: true
-#| output-location: column
+#| output-location: fragment
 gapminder |>
   filter(year == 2007) |>
-  select(country, continent, lifeExp)
+  select(country, continent, lifeExp) |>
+  slice_head(n = 6)
 ```
 
 ## `mutate()` — créer une colonne
 
 ```{r}
 #| eval: true
-#| output-location: column
+#| output-location: fragment
 gapminder |>
   filter(year == 2007) |>
   select(country, pop, gdpPercap) |>
-  mutate(pib_milliards = round(pop * gdpPercap / 1e9, 1))
+  mutate(pib_milliards = round(pop * gdpPercap / 1e9, 1)) |>
+  slice_head(n = 6)
 ```
 
 ## `arrange()` — trier
 
 ```{r}
 #| eval: true
-#| output-location: column
+#| output-location: fragment
 gapminder |>
   filter(year == 2007) |>
   select(country, lifeExp) |>
-  arrange(desc(lifeExp))
+  arrange(desc(lifeExp)) |>
+  slice_head(n = 6)
 ```
 
 ## `group_by()` + `summarise()` — résumer par groupe
 
 ```{r}
 #| eval: true
-#| output-location: column
+#| output-location: fragment
 gapminder |>
   filter(year == 2007) |>
   group_by(continent) |>
@@ -403,6 +407,35 @@ ggsave("graphique.png", plot = mon_graphique,
 
 # 2. Analyse textuelle automatisée
 
+```{r}
+#| echo: false
+#| eval: true
+reponses <- tibble(
+  id     = 1:8,
+  groupe = c("Centre", "Droite", "Centre", "Gauche",
+             "Centre", "Droite", "Gauche", "Droite"),
+  texte  = c(
+    "The government must invest more in clean energy and protect the environment",
+    "The cost of living crisis is terrible, prices are too high for working families",
+    "Our healthcare system needs urgent reform and more funding immediately",
+    "I appreciate the government's efforts on climate change and housing affordability",
+    "Education should be free and accessible to all young people in this country",
+    "The economy is struggling and the government has failed to address inflation",
+    "We need stronger social programs and better support for vulnerable communities",
+    "This government's terrible policies have destroyed our economic opportunities"
+  )
+)
+mots <- reponses |> unnest_tokens(mot, texte)
+data(stop_words)
+mots_propres <- mots |> anti_join(stop_words, by = c("mot" = "word"))
+bing <- get_sentiments("bing")
+sentiment_par_groupe <- mots_propres |>
+  inner_join(bing, by = c("mot" = "word")) |>
+  count(groupe, sentiment) |>
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) |>
+  mutate(score_net = positive - negative)
+```
+
 ## Pourquoi en sciences sociales?
 
 Les sciences sociales sont riches en données **textuelles** :
@@ -550,6 +583,8 @@ Pour le français : `stopwords::stopwords("fr")` ou le package `stopwords`
 ## Visualiser les mots fréquents
 
 ```{r}
+#| eval: true
+#| output-location: slide
 mots_propres |>
   count(mot, sort = TRUE) |>
   slice_head(n = 15) |>
@@ -588,6 +623,8 @@ bing |>
 ## Calculer le sentiment par groupe politique
 
 ```{r}
+#| eval: true
+#| output-location: fragment
 # Joindre les mots avec le lexique
 sentiment_par_groupe <- mots_propres |>
   inner_join(bing, by = c("mot" = "word")) |>
@@ -605,6 +642,8 @@ sentiment_par_groupe
 ## Visualiser le sentiment
 
 ```{r}
+#| eval: true
+#| output-location: slide
 sentiment_par_groupe |>
   ggplot(aes(x = reorder(groupe, score_net),
              y = score_net,

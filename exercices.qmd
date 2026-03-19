@@ -64,8 +64,8 @@ gapminder |>
   theme_minimal()
 ```
 
-::: {.callout-tip collapse="true"}
-## Correction
+::: {.panel-tabset}
+## Solution
 
 ```{r}
 gapminder |>
@@ -103,8 +103,8 @@ gapminder |>
   theme_minimal()
 ```
 
-::: {.callout-tip collapse="true"}
-## Correction
+::: {.panel-tabset}
+## Solution
 
 ```{r}
 gapminder |>
@@ -136,8 +136,8 @@ Faites un histogramme de la distribution du **PIB per capita** en 2007.
 # Votre code ici
 ```
 
-::: {.callout-tip collapse="true"}
-## Correction
+::: {.panel-tabset}
+## Solution
 
 ```{r}
 gapminder |>
@@ -199,8 +199,8 @@ reponses |>
   filter(???)
 ```
 
-::: {.callout-tip collapse="true"}
-## Correction
+::: {.panel-tabset}
+## Solution
 
 ```{r}
 reponses |>
@@ -242,8 +242,8 @@ mots_propres |>
   theme_minimal()
 ```
 
-::: {.callout-tip collapse="true"}
-## Correction
+::: {.panel-tabset}
+## Solution
 
 ```{r}
 mots <- reponses |>
@@ -291,8 +291,8 @@ mots_propres |>
   theme_minimal()
 ```
 
-::: {.callout-tip collapse="true"}
-## Correction
+::: {.panel-tabset}
+## Solution
 
 ```{r}
 bing <- get_sentiments("bing")
@@ -339,8 +339,8 @@ modele <- lm(???, data = data_2007)
 summary(modele)
 ```
 
-::: {.callout-tip collapse="true"}
-## Correction
+::: {.panel-tabset}
+## Solution
 
 ```{r}
 data_2007 <- gapminder |>
@@ -377,8 +377,8 @@ data_2007 |>
   theme_minimal()
 ```
 
-::: {.callout-tip collapse="true"}
-## Correction
+::: {.panel-tabset}
+## Solution
 
 ```{r}
 data_2007 |>
@@ -410,8 +410,8 @@ modelsummary(
 )
 ```
 
-::: {.callout-tip collapse="true"}
-## Correction et interprétation
+::: {.panel-tabset}
+## Solution
 
 ```{r}
 modele2 <- lm(lifeExp ~ log_pib + pop, data = data_2007)

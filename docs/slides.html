@@ -535,22 +535,17 @@ Adrien Cloutier | Université Laval
 <section id="les-données-gapminder" class="slide level2">
 <h2>Les données : Gapminder</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>gapminder</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>gapminder <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,704 × 6
-   country     continent  year lifeExp      pop gdpPercap
-   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
- 1 Afghanistan Asia       1952    28.8  8425333      779.
- 2 Afghanistan Asia       1957    30.3  9240934      821.
- 3 Afghanistan Asia       1962    32.0 10267083      853.
- 4 Afghanistan Asia       1967    34.0 11537966      836.
- 5 Afghanistan Asia       1972    36.1 13079460      740.
- 6 Afghanistan Asia       1977    38.4 14880372      786.
- 7 Afghanistan Asia       1982    39.9 12881816      978.
- 8 Afghanistan Asia       1987    40.8 13867957      852.
- 9 Afghanistan Asia       1992    41.7 16317921      649.
-10 Afghanistan Asia       1997    41.8 22227415      635.
-# ℹ 1,694 more rows</code></pre>
+<pre><code># A tibble: 6 × 6
+  country     continent  year lifeExp      pop gdpPercap
+  &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+1 Afghanistan Asia       1952    28.8  8425333      779.
+2 Afghanistan Asia       1957    30.3  9240934      821.
+3 Afghanistan Asia       1962    32.0 10267083      853.
+4 Afghanistan Asia       1967    34.0 11537966      836.
+5 Afghanistan Asia       1972    36.1 13079460      740.
+6 Afghanistan Asia       1977    38.4 14880372      786.</code></pre>
 </div>
 </div>
 </section>
@@ -570,117 +565,96 @@ Adrien Cloutier | Université Laval
 </section>
 <section id="filter-garder-des-lignes" class="slide level2">
 <h2><code>filter()</code> — garder des lignes</h2>
-<div class="cell columns column-output-location" data-layout-align="center">
-<div class="column">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div><div class="column">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 142 × 6
-   country     continent  year lifeExp       pop gdpPercap
-   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
- 1 Afghanistan Asia       2007    43.8  31889923      975.
- 2 Albania     Europe     2007    76.4   3600523     5937.
- 3 Algeria     Africa     2007    72.3  33333216     6223.
- 4 Angola      Africa     2007    42.7  12420476     4797.
- 5 Argentina   Americas   2007    75.3  40301927    12779.
- 6 Australia   Oceania    2007    81.2  20434176    34435.
- 7 Austria     Europe     2007    79.8   8199783    36126.
- 8 Bahrain     Asia       2007    75.6    708573    29796.
- 9 Bangladesh  Asia       2007    64.1 150448339     1391.
-10 Belgium     Europe     2007    79.4  10392226    33693.
-# ℹ 132 more rows</code></pre>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  country     continent  year lifeExp      pop gdpPercap
+  &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+1 Afghanistan Asia       2007    43.8 31889923      975.
+2 Albania     Europe     2007    76.4  3600523     5937.
+3 Algeria     Africa     2007    72.3 33333216     6223.
+4 Angola      Africa     2007    42.7 12420476     4797.
+5 Argentina   Americas   2007    75.3 40301927    12779.
+6 Australia   Oceania    2007    81.2 20434176    34435.</code></pre>
 </div>
 </div>
 </section>
 <section id="select-garder-des-colonnes" class="slide level2">
 <h2><code>select()</code> — garder des colonnes</h2>
-<div class="cell columns column-output-location" data-layout-align="center">
-<div class="column">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>gapminder <span class="sc">|&gt;</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">select</span>(country, continent, lifeExp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div><div class="column">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 142 × 3
-   country     continent lifeExp
-   &lt;fct&gt;       &lt;fct&gt;       &lt;dbl&gt;
- 1 Afghanistan Asia         43.8
- 2 Albania     Europe       76.4
- 3 Algeria     Africa       72.3
- 4 Angola      Africa       42.7
- 5 Argentina   Americas     75.3
- 6 Australia   Oceania      81.2
- 7 Austria     Europe       79.8
- 8 Bahrain     Asia         75.6
- 9 Bangladesh  Asia         64.1
-10 Belgium     Europe       79.4
-# ℹ 132 more rows</code></pre>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">select</span>(country, continent, lifeExp) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  country     continent lifeExp
+  &lt;fct&gt;       &lt;fct&gt;       &lt;dbl&gt;
+1 Afghanistan Asia         43.8
+2 Albania     Europe       76.4
+3 Algeria     Africa       72.3
+4 Angola      Africa       42.7
+5 Argentina   Americas     75.3
+6 Australia   Oceania      81.2</code></pre>
 </div>
 </div>
 </section>
 <section id="mutate-créer-une-colonne" class="slide level2">
 <h2><code>mutate()</code> — créer une colonne</h2>
-<div class="cell columns column-output-location" data-layout-align="center">
-<div class="column">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>gapminder <span class="sc">|&gt;</span></span>
 <span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
 <span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">select</span>(country, pop, gdpPercap) <span class="sc">|&gt;</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">mutate</span>(<span class="at">pib_milliards =</span> <span class="fu">round</span>(pop <span class="sc">*</span> gdpPercap <span class="sc">/</span> <span class="fl">1e9</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div><div class="column">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 142 × 4
-   country           pop gdpPercap pib_milliards
-   &lt;fct&gt;           &lt;int&gt;     &lt;dbl&gt;         &lt;dbl&gt;
- 1 Afghanistan  31889923      975.          31.1
- 2 Albania       3600523     5937.          21.4
- 3 Algeria      33333216     6223.         207. 
- 4 Angola       12420476     4797.          59.6
- 5 Argentina    40301927    12779.         515  
- 6 Australia    20434176    34435.         704. 
- 7 Austria       8199783    36126.         296. 
- 8 Bahrain        708573    29796.          21.1
- 9 Bangladesh  150448339     1391.         209. 
-10 Belgium      10392226    33693.         350. 
-# ℹ 132 more rows</code></pre>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">mutate</span>(<span class="at">pib_milliards =</span> <span class="fu">round</span>(pop <span class="sc">*</span> gdpPercap <span class="sc">/</span> <span class="fl">1e9</span>, <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  country          pop gdpPercap pib_milliards
+  &lt;fct&gt;          &lt;int&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+1 Afghanistan 31889923      975.          31.1
+2 Albania      3600523     5937.          21.4
+3 Algeria     33333216     6223.         207. 
+4 Angola      12420476     4797.          59.6
+5 Argentina   40301927    12779.         515  
+6 Australia   20434176    34435.         704. </code></pre>
 </div>
 </div>
 </section>
 <section id="arrange-trier" class="slide level2">
 <h2><code>arrange()</code> — trier</h2>
-<div class="cell columns column-output-location" data-layout-align="center">
-<div class="column">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>gapminder <span class="sc">|&gt;</span></span>
 <span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
 <span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">select</span>(country, lifeExp) <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div><div class="column">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 142 × 2
-   country          lifeExp
-   &lt;fct&gt;              &lt;dbl&gt;
- 1 Japan               82.6
- 2 Hong Kong, China    82.2
- 3 Iceland             81.8
- 4 Switzerland         81.7
- 5 Australia           81.2
- 6 Spain               80.9
- 7 Sweden              80.9
- 8 Israel              80.7
- 9 France              80.7
-10 Canada              80.7
-# ℹ 132 more rows</code></pre>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp)) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  country          lifeExp
+  &lt;fct&gt;              &lt;dbl&gt;
+1 Japan               82.6
+2 Hong Kong, China    82.2
+3 Iceland             81.8
+4 Switzerland         81.7
+5 Australia           81.2
+6 Spain               80.9</code></pre>
 </div>
 </div>
 </section>
 <section id="group_by-summarise-résumer-par-groupe" class="slide level2">
 <h2><code>group_by()</code> + <code>summarise()</code> — résumer par groupe</h2>
-<div class="cell columns column-output-location" data-layout-align="center">
-<div class="column">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>gapminder <span class="sc">|&gt;</span></span>
 <span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
 <span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
@@ -688,7 +662,8 @@ Adrien Cloutier | Université Laval
 <span id="cb15-5"><a href="#cb15-5"></a>    <span class="at">esperance_moy =</span> <span class="fu">mean</span>(lifeExp),</span>
 <span id="cb15-6"><a href="#cb15-6"></a>    <span class="at">nb_pays       =</span> <span class="fu">n</span>()</span>
 <span id="cb15-7"><a href="#cb15-7"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div><div class="column">
+</div>
+<div class="cell fragment" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 3
   continent esperance_moy nb_pays
@@ -698,7 +673,6 @@ Adrien Cloutier | Université Laval
 3 Asia               70.7      33
 4 Europe             77.6      30
 5 Oceania            80.7       2</code></pre>
-</div>
 </div>
 </div>
 </section>
@@ -1099,8 +1073,17 @@ Adrien Cloutier | Université Laval
 <span id="cb31-12"><a href="#cb31-12"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb31-13"><a href="#cb31-13"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+
 </section>
-<section id="analyse-de-sentiment" class="slide level2">
+<section id="visualiser-les-mots-fréquents-output" class="slide level2 output-location-slide"><h2>Visualiser les mots fréquents</h2><div class="cell output-location-slide" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-26-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="analyse-de-sentiment" class="slide level2">
 <h2>2.3 Analyse de sentiment</h2>
 <p>L’analyse de sentiment mesure le <strong>ton</strong> d’un texte (positif, négatif, neutre).</p>
 <p>Principe : associer chaque mot à un score de sentiment à partir d’un <strong>lexique</strong>.</p>
@@ -1134,47 +1117,66 @@ Adrien Cloutier | Université Laval
 <span id="cb33-11"><a href="#cb33-11"></a></span>
 <span id="cb33-12"><a href="#cb33-12"></a>sentiment_par_groupe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  groupe negative positive score_net
+  &lt;chr&gt;     &lt;int&gt;    &lt;int&gt;     &lt;int&gt;
+1 Centre        1        5         4
+2 Droite        5        0        -5
+3 Gauche        1        2         1</code></pre>
+</div>
+</div>
 </section>
 <section id="visualiser-le-sentiment" class="slide level2">
 <h2>Visualiser le sentiment</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>sentiment_par_groupe <span class="sc">|&gt;</span></span>
-<span id="cb34-2"><a href="#cb34-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(groupe, score_net),</span>
-<span id="cb34-3"><a href="#cb34-3"></a>             <span class="at">y =</span> score_net,</span>
-<span id="cb34-4"><a href="#cb34-4"></a>             <span class="at">fill =</span> score_net <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb34-5"><a href="#cb34-5"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb34-6"><a href="#cb34-6"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"firebrick"</span>, <span class="st">"#2ca25f"</span>)) <span class="sc">+</span></span>
-<span id="cb34-7"><a href="#cb34-7"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb34-8"><a href="#cb34-8"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb34-9"><a href="#cb34-9"></a>  <span class="fu">labs</span>(</span>
-<span id="cb34-10"><a href="#cb34-10"></a>    <span class="at">title    =</span> <span class="st">"Ton des réponses par groupe politique"</span>,</span>
-<span id="cb34-11"><a href="#cb34-11"></a>    <span class="at">subtitle =</span> <span class="st">"Score net = mots positifs − mots négatifs"</span>,</span>
-<span id="cb34-12"><a href="#cb34-12"></a>    <span class="at">x        =</span> <span class="st">"Groupe politique"</span>,</span>
-<span id="cb34-13"><a href="#cb34-13"></a>    <span class="at">y        =</span> <span class="st">"Score de sentiment net"</span></span>
-<span id="cb34-14"><a href="#cb34-14"></a>  ) <span class="sc">+</span></span>
-<span id="cb34-15"><a href="#cb34-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>sentiment_par_groupe <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(groupe, score_net),</span>
+<span id="cb35-3"><a href="#cb35-3"></a>             <span class="at">y =</span> score_net,</span>
+<span id="cb35-4"><a href="#cb35-4"></a>             <span class="at">fill =</span> score_net <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"firebrick"</span>, <span class="st">"#2ca25f"</span>)) <span class="sc">+</span></span>
+<span id="cb35-7"><a href="#cb35-7"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb35-8"><a href="#cb35-8"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb35-9"><a href="#cb35-9"></a>  <span class="fu">labs</span>(</span>
+<span id="cb35-10"><a href="#cb35-10"></a>    <span class="at">title    =</span> <span class="st">"Ton des réponses par groupe politique"</span>,</span>
+<span id="cb35-11"><a href="#cb35-11"></a>    <span class="at">subtitle =</span> <span class="st">"Score net = mots positifs − mots négatifs"</span>,</span>
+<span id="cb35-12"><a href="#cb35-12"></a>    <span class="at">x        =</span> <span class="st">"Groupe politique"</span>,</span>
+<span id="cb35-13"><a href="#cb35-13"></a>    <span class="at">y        =</span> <span class="st">"Score de sentiment net"</span></span>
+<span id="cb35-14"><a href="#cb35-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb35-15"><a href="#cb35-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+
 </section>
-<section id="nuage-de-mots-wordcloud" class="slide level2">
+<section id="visualiser-le-sentiment-output" class="slide level2 output-location-slide"><h2>Visualiser le sentiment</h2><div class="cell output-location-slide" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-29-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="nuage-de-mots-wordcloud" class="slide level2">
 <h2>2.4 Nuage de mots (wordcloud)</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="co"># Compter les mots (après avoir enlevé les stop words)</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a>freq <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
-<span id="cb35-3"><a href="#cb35-3"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb35-4"><a href="#cb35-4"></a></span>
-<span id="cb35-5"><a href="#cb35-5"></a><span class="co"># Générer le nuage de mots</span></span>
-<span id="cb35-6"><a href="#cb35-6"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb35-7"><a href="#cb35-7"></a><span class="fu">wordcloud</span>(</span>
-<span id="cb35-8"><a href="#cb35-8"></a>  <span class="at">words  =</span> freq<span class="sc">$</span>mot,</span>
-<span id="cb35-9"><a href="#cb35-9"></a>  <span class="at">freq   =</span> freq<span class="sc">$</span>n,</span>
-<span id="cb35-10"><a href="#cb35-10"></a>  <span class="at">min.freq    =</span> <span class="dv">1</span>,</span>
-<span id="cb35-11"><a href="#cb35-11"></a>  <span class="at">max.words   =</span> <span class="dv">50</span>,</span>
-<span id="cb35-12"><a href="#cb35-12"></a>  <span class="at">random.order =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb35-13"><a href="#cb35-13"></a>  <span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>)</span>
-<span id="cb35-14"><a href="#cb35-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># Compter les mots (après avoir enlevé les stop words)</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>freq <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-4"><a href="#cb36-4"></a></span>
+<span id="cb36-5"><a href="#cb36-5"></a><span class="co"># Générer le nuage de mots</span></span>
+<span id="cb36-6"><a href="#cb36-6"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb36-7"><a href="#cb36-7"></a><span class="fu">wordcloud</span>(</span>
+<span id="cb36-8"><a href="#cb36-8"></a>  <span class="at">words  =</span> freq<span class="sc">$</span>mot,</span>
+<span id="cb36-9"><a href="#cb36-9"></a>  <span class="at">freq   =</span> freq<span class="sc">$</span>n,</span>
+<span id="cb36-10"><a href="#cb36-10"></a>  <span class="at">min.freq    =</span> <span class="dv">1</span>,</span>
+<span id="cb36-11"><a href="#cb36-11"></a>  <span class="at">max.words   =</span> <span class="dv">50</span>,</span>
+<span id="cb36-12"><a href="#cb36-12"></a>  <span class="at">random.order =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb36-13"><a href="#cb36-13"></a>  <span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>)</span>
+<span id="cb36-14"><a href="#cb36-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="slides_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section class="slide level2">
 
 </section></section>
@@ -1213,33 +1215,33 @@ Adrien Cloutier | Université Laval
 <li>→ Doivent être en <code>numeric</code></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="fu">class</span>(ma_variable)        <span class="co"># vérifier le type</span></span>
-<span id="cb36-2"><a href="#cb36-2"></a><span class="fu">as.factor</span>(ma_variable)    <span class="co"># convertir en catégorielle</span></span>
-<span id="cb36-3"><a href="#cb36-3"></a><span class="fu">as.numeric</span>(ma_variable)   <span class="co"># convertir en numérique</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">class</span>(ma_variable)        <span class="co"># vérifier le type</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a><span class="fu">as.factor</span>(ma_variable)    <span class="co"># convertir en catégorielle</span></span>
+<span id="cb37-3"><a href="#cb37-3"></a><span class="fu">as.numeric</span>(ma_variable)   <span class="co"># convertir en numérique</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
 <section id="nettoyer-les-variables-avant-la-régression" class="slide level2">
 <h2>Nettoyer les variables avant la régression</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="co"># Les valeurs manquantes doivent être codées NA (pas -99 ou 999)</span></span>
-<span id="cb37-2"><a href="#cb37-2"></a>Data<span class="sc">$</span>revenu <span class="ot">&lt;-</span> Data<span class="sc">$</span>revenu_brut</span>
-<span id="cb37-3"><a href="#cb37-3"></a>Data<span class="sc">$</span>revenu[Data<span class="sc">$</span>revenu_brut <span class="sc">==</span> <span class="sc">-</span><span class="dv">99</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb37-4"><a href="#cb37-4"></a></span>
-<span id="cb37-5"><a href="#cb37-5"></a><span class="co"># Vérifier avec summary</span></span>
-<span id="cb37-6"><a href="#cb37-6"></a><span class="fu">summary</span>(Data<span class="sc">$</span>revenu)</span>
-<span id="cb37-7"><a href="#cb37-7"></a></span>
-<span id="cb37-8"><a href="#cb37-8"></a><span class="co"># Vérifier les catégories d'une variable</span></span>
-<span id="cb37-9"><a href="#cb37-9"></a><span class="fu">table</span>(Data<span class="sc">$</span>genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="co"># Les valeurs manquantes doivent être codées NA (pas -99 ou 999)</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a>Data<span class="sc">$</span>revenu <span class="ot">&lt;-</span> Data<span class="sc">$</span>revenu_brut</span>
+<span id="cb38-3"><a href="#cb38-3"></a>Data<span class="sc">$</span>revenu[Data<span class="sc">$</span>revenu_brut <span class="sc">==</span> <span class="sc">-</span><span class="dv">99</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb38-4"><a href="#cb38-4"></a></span>
+<span id="cb38-5"><a href="#cb38-5"></a><span class="co"># Vérifier avec summary</span></span>
+<span id="cb38-6"><a href="#cb38-6"></a><span class="fu">summary</span>(Data<span class="sc">$</span>revenu)</span>
+<span id="cb38-7"><a href="#cb38-7"></a></span>
+<span id="cb38-8"><a href="#cb38-8"></a><span class="co"># Vérifier les catégories d'une variable</span></span>
+<span id="cb38-9"><a href="#cb38-9"></a><span class="fu">table</span>(Data<span class="sc">$</span>genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="régression-linéaire-simple" class="slide level2">
 <h2>Régression linéaire simple</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="co"># lm(variable_dependante ~ variable_independante, data = ...)</span></span>
-<span id="cb38-2"><a href="#cb38-2"></a>modele <span class="ot">&lt;-</span> <span class="fu">lm</span>(lifeExp <span class="sc">~</span> gdpPercap, <span class="at">data =</span> gapminder)</span>
-<span id="cb38-3"><a href="#cb38-3"></a></span>
-<span id="cb38-4"><a href="#cb38-4"></a><span class="fu">summary</span>(modele)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># lm(variable_dependante ~ variable_independante, data = ...)</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a>modele <span class="ot">&lt;-</span> <span class="fu">lm</span>(lifeExp <span class="sc">~</span> gdpPercap, <span class="at">data =</span> gapminder)</span>
+<span id="cb39-3"><a href="#cb39-3"></a></span>
+<span id="cb39-4"><a href="#cb39-4"></a><span class="fu">summary</span>(modele)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Lire les résultats :</strong></p>
 <ul>
@@ -1251,13 +1253,13 @@ Adrien Cloutier | Université Laval
 <section id="régression-multiple" class="slide level2">
 <h2>Régression multiple</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># Ajouter des variables avec +</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a>modele_multiple <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
-<span id="cb39-3"><a href="#cb39-3"></a>  lifeExp <span class="sc">~</span> gdpPercap <span class="sc">+</span> pop <span class="sc">+</span> continent,</span>
-<span id="cb39-4"><a href="#cb39-4"></a>  <span class="at">data =</span> gapminder <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>)</span>
-<span id="cb39-5"><a href="#cb39-5"></a>)</span>
-<span id="cb39-6"><a href="#cb39-6"></a></span>
-<span id="cb39-7"><a href="#cb39-7"></a><span class="fu">summary</span>(modele_multiple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># Ajouter des variables avec +</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a>modele_multiple <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb40-3"><a href="#cb40-3"></a>  lifeExp <span class="sc">~</span> gdpPercap <span class="sc">+</span> pop <span class="sc">+</span> continent,</span>
+<span id="cb40-4"><a href="#cb40-4"></a>  <span class="at">data =</span> gapminder <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>)</span>
+<span id="cb40-5"><a href="#cb40-5"></a>)</span>
+<span id="cb40-6"><a href="#cb40-6"></a></span>
+<span id="cb40-7"><a href="#cb40-7"></a><span class="fu">summary</span>(modele_multiple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Chaque coefficient = effet de cette variable <strong>en contrôlant pour toutes les autres</strong>.</p>
@@ -1266,13 +1268,13 @@ Adrien Cloutier | Université Laval
 <section id="tableau-de-régression-avec-modelsummary" class="slide level2">
 <h2>Tableau de régression avec modelsummary</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># Tableau comparant deux modèles</span></span>
-<span id="cb40-2"><a href="#cb40-2"></a><span class="fu">modelsummary</span>(</span>
-<span id="cb40-3"><a href="#cb40-3"></a>  <span class="fu">list</span>(<span class="st">"Modèle simple"</span>   <span class="ot">=</span> modele,</span>
-<span id="cb40-4"><a href="#cb40-4"></a>       <span class="st">"Modèle multiple"</span> <span class="ot">=</span> modele_multiple),</span>
-<span id="cb40-5"><a href="#cb40-5"></a>  <span class="at">stars =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb40-6"><a href="#cb40-6"></a>  <span class="at">output =</span> <span class="st">"tableau_regression.docx"</span>   <span class="co"># exporte en Word!</span></span>
-<span id="cb40-7"><a href="#cb40-7"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># Tableau comparant deux modèles</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a><span class="fu">modelsummary</span>(</span>
+<span id="cb41-3"><a href="#cb41-3"></a>  <span class="fu">list</span>(<span class="st">"Modèle simple"</span>   <span class="ot">=</span> modele,</span>
+<span id="cb41-4"><a href="#cb41-4"></a>       <span class="st">"Modèle multiple"</span> <span class="ot">=</span> modele_multiple),</span>
+<span id="cb41-5"><a href="#cb41-5"></a>  <span class="at">stars =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb41-6"><a href="#cb41-6"></a>  <span class="at">output =</span> <span class="st">"tableau_regression.docx"</span>   <span class="co"># exporte en Word!</span></span>
+<span id="cb41-7"><a href="#cb41-7"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p><code>modelsummary</code> exporte en Word, PDF, HTML, Excel — parfait pour vos mémoires et articles.</p>
