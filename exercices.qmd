@@ -28,6 +28,7 @@ Avant de commencer, chargez les packages nécessaires :
 library(tidyverse)
 library(gapminder)
 library(tidytext)
+library(wordcloud)
 library(modelsummary)
 ```
 
@@ -319,12 +320,6 @@ mots_propres |>
 ---
 
 ## Section 3 : Régression linéaire
-
-Chargez le package supplémentaire :
-
-```{r}
-library(modelsummary)
-```
 
 ### Exercice 3.1 — Régression simple
 

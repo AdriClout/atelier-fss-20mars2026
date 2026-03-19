@@ -173,6 +173,22 @@ mes_donnees$nom_colonne    # accéder à une colonne
 gapminder
 ```
 
+## Le pipe : `|>`
+
+Le pipe **enchaîne** les opérations. Lisez-le comme *« puis »*.
+
+```{r}
+# Sans pipe — difficile à lire
+arrange(filter(gapminder, year == 2007), desc(lifeExp))
+
+# Avec pipe — naturel de gauche à droite
+gapminder |>
+  filter(year == 2007) |>
+  arrange(desc(lifeExp))
+```
+
+**Raccourci :** `Ctrl + Shift + M` (Win) / `Cmd + Shift + M` (Mac)
+
 ## `filter()` — garder des lignes
 
 ```{r}
@@ -227,22 +243,6 @@ gapminder |>
     nb_pays       = n()
   )
 ```
-
-## Le pipe : `|>`
-
-Le pipe **enchaîne** les opérations. Lisez-le comme *« puis »*.
-
-```{r}
-# Sans pipe — difficile à lire
-arrange(filter(gapminder, year == 2007), desc(lifeExp))
-
-# Avec pipe — naturel de gauche à droite
-gapminder |>
-  filter(year == 2007) |>
-  arrange(desc(lifeExp))
-```
-
-**Raccourci :** `Ctrl + Shift + M` (Win) / `Cmd + Shift + M` (Mac)
 
 ## Revoir les exercices d'Étienne?
 
@@ -433,15 +433,13 @@ Aujourd'hui on fait de l'**automatisé** — mais les deux se complètent!
 ## Nos données textuelles
 
 ```{r}
-library(tidyverse)
-
 # Exemple : réponses à une question ouverte de sondage sur les
 # priorités politiques (traduit en anglais pour l'analyse de sentiment)
 reponses <- tibble(
-  id       = 1:8,
-  auteur   = c("Répondant A", "Répondant B", "Répondant C", "Répondant D",
-               "Répondant E", "Répondant F", "Répondant G", "Répondant H"),
-  texte    = c(
+  id     = 1:8,
+  groupe = c("Centre", "Droite", "Centre", "Gauche",
+             "Centre", "Droite", "Gauche", "Droite"),
+  texte  = c(
     "The government must invest more in clean energy and protect the environment",
     "The cost of living crisis is terrible, prices are too high for working families",
     "Our healthcare system needs urgent reform and more funding immediately",
@@ -454,7 +452,7 @@ reponses <- tibble(
 )
 ```
 
-## 4.1 stringr : manipulation de texte
+## 2.1 stringr : manipulation de texte
 
 stringr fait partie de **tidyverse** — pas besoin d'installation supplémentaire.
 
@@ -500,14 +498,11 @@ textes_politiques |>
   )
 ```
 
-## 4.2 tidytext : tokenisation
+## 2.2 tidytext : tokenisation
 
 **Tokeniser** = découper un texte en unités (mots, phrases, n-grammes).
 
 ```{r}
-install.packages("tidytext")
-library(tidytext)
-
 # Tokeniser nos réponses de sondage
 mots <- reponses |>
   unnest_tokens(
@@ -522,10 +517,10 @@ mots
 ::: {.fragment}
 ```
 # A tibble: 80 × 3
-   id    auteur       mot
- 1     1 Répondant A  the
- 2     1 Répondant A  government
- 3     1 Répondant A  must
+   id    groupe  mot
+ 1     1 Centre  the
+ 2     1 Centre  government
+ 3     1 Centre  must
 ...
 ```
 :::
@@ -570,7 +565,7 @@ mots_propres |>
   theme(plot.title = element_text(face = "bold"))
 ```
 
-## 4.3 Analyse de sentiment
+## 2.3 Analyse de sentiment
 
 L'analyse de sentiment mesure le **ton** d'un texte (positif, négatif, neutre).
 
@@ -590,13 +585,13 @@ bing |>
   slice_head(n = 10)
 ```
 
-## Calculer le sentiment par répondant
+## Calculer le sentiment par groupe politique
 
 ```{r}
 # Joindre les mots avec le lexique
-sentiment_par_auteur <- mots_propres |>
+sentiment_par_groupe <- mots_propres |>
   inner_join(bing, by = c("mot" = "word")) |>
-  count(auteur, sentiment) |>
+  count(groupe, sentiment) |>
   pivot_wider(
     names_from  = sentiment,
     values_from = n,
@@ -604,14 +599,14 @@ sentiment_par_auteur <- mots_propres |>
   ) |>
   mutate(score_net = positive - negative)
 
-sentiment_par_auteur
+sentiment_par_groupe
 ```
 
 ## Visualiser le sentiment
 
 ```{r}
-sentiment_par_auteur |>
-  ggplot(aes(x = reorder(auteur, score_net),
+sentiment_par_groupe |>
+  ggplot(aes(x = reorder(groupe, score_net),
              y = score_net,
              fill = score_net > 0)) +
   geom_col(show.legend = FALSE) +
@@ -619,20 +614,42 @@ sentiment_par_auteur |>
   coord_flip() +
   geom_hline(yintercept = 0, linetype = "dashed") +
   labs(
-    title    = "Ton des réponses par répondant",
+    title    = "Ton des réponses par groupe politique",
     subtitle = "Score net = mots positifs − mots négatifs",
-    x        = "Répondant",
+    x        = "Groupe politique",
     y        = "Score de sentiment net"
   ) +
   theme_minimal()
 ```
 
-## 3.4 Wordcloud
+## 2.4 Nuage de mots (wordcloud)
 
 ```{r}
-install.packages("wordcloud")
-library(wordcloud)
+#| echo: false
+#| eval: true
+reponses <- tibble(
+  id     = 1:8,
+  groupe = c("Centre", "Droite", "Centre", "Gauche",
+             "Centre", "Droite", "Gauche", "Droite"),
+  texte  = c(
+    "The government must invest more in clean energy and protect the environment",
+    "The cost of living crisis is terrible, prices are too high for working families",
+    "Our healthcare system needs urgent reform and more funding immediately",
+    "I appreciate the government's efforts on climate change and housing affordability",
+    "Education should be free and accessible to all young people in this country",
+    "The economy is struggling and the government has failed to address inflation",
+    "We need stronger social programs and better support for vulnerable communities",
+    "This government's terrible policies have destroyed our economic opportunities"
+  )
+)
+mots <- reponses |> unnest_tokens(mot, texte)
+data(stop_words)
+mots_propres <- mots |> anti_join(stop_words, by = c("mot" = "word"))
+```
 
+```{r}
+#| eval: true
+#| fig-height: 4
 # Compter les mots (après avoir enlevé les stop words)
 freq <- mots_propres |>
   count(mot, sort = TRUE)
@@ -738,9 +755,6 @@ Chaque coefficient = effet de cette variable **en contrôlant pour toutes les au
 ## Tableau de régression avec modelsummary
 
 ```{r}
-install.packages("modelsummary")
-library(modelsummary)
-
 # Tableau comparant deux modèles
 modelsummary(
   list("Modèle simple"   = modele,
@@ -920,7 +934,7 @@ Des centaines de cours en R, Python, SQL, statistiques et science des données �
 ## Le contenu de cet atelier est sur GitHub
 
 ::: {.r-fit-text}
-**[github.com/clessn/atelier-fss-20mars2026](https://github.com/clessn)**
+**[github.com/AdriClout/atelier-fss-20mars2026](https://github.com/AdriClout/atelier-fss-20mars2026)**
 :::
 
 Vous y trouverez :
@@ -966,7 +980,7 @@ Je vous aide à adapter le code à votre contexte.
 -   Manipulation avec dplyr (gapminder)
 -   Visualisation avec ggplot2
 -   Analyse textuelle (stringr + tidytext)
--   BONUS : régression linéaire
+-   Régression linéaire
 
 ## Merci! {.center}
 

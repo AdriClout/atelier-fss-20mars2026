@@ -25,6 +25,8 @@
 library(tidyverse)
 library(gapminder)
 library(tidytext)
+library(wordcloud)
+library(modelsummary)
 
 
 # ==============================================================================
@@ -124,7 +126,7 @@ gapminder |>
   group_by(???) |>
   summarise(???) |>
   ggplot(aes(x = year, y = ???, color = continent)) +
-  geom_line(size = 1) +
+  geom_line(linewidth = 1) +
   labs(???) +
   theme_minimal()
 
@@ -215,7 +217,8 @@ reponses |>
   mutate(
     nb_mots                = str_count(???, "\\w+"),
     mentionne_gouvernement = str_detect(???, ???)
-  )
+  ) |>
+  filter(???)
 
 
 # ------ Exercice 3.2 : Tokenisation et fréquences ------
@@ -307,10 +310,10 @@ mots_propres |>
 
 
 # ==============================================================================
-# BONUS : RÉGRESSION LINÉAIRE
+# SECTION 3 : RÉGRESSION LINÉAIRE
 # ==============================================================================
 
-# ------ Exercice BONUS ------
+# ------ Exercice 3.1 ------
 # Avec les données Gapminder pour 2007 :
 # 1. Faites une régression linéaire : lifeExp ~ log(gdpPercap)
 # 2. Affichez le résumé (summary)

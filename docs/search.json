@@ -53,7 +53,7 @@
     "href": "exercices.html#mise-en-place",
     "title": "Exercices pratiques",
     "section": "1 Mise en place",
-    "text": "1 Mise en place\nAvant de commencer, chargez les packages nécessaires :\n\nlibrary(tidyverse)\nlibrary(gapminder)\nlibrary(tidytext)\nlibrary(modelsummary)\n\nLes données Gapminder contiennent des informations sur 142 pays de 1952 à 2007 (toutes les 5 ans) :\n\nglimpse(gapminder)"
+    "text": "1 Mise en place\nAvant de commencer, chargez les packages nécessaires :\n\nlibrary(tidyverse)\nlibrary(gapminder)\nlibrary(tidytext)\nlibrary(wordcloud)\nlibrary(modelsummary)\n\nLes données Gapminder contiennent des informations sur 142 pays de 1952 à 2007 (toutes les 5 ans) :\n\nglimpse(gapminder)"
   },
   {
     "objectID": "exercices.html#section-1-ggplot2",
@@ -74,7 +74,7 @@
     "href": "exercices.html#section-3-régression-linéaire",
     "title": "Exercices pratiques",
     "section": "4 Section 3 : Régression linéaire",
-    "text": "4 Section 3 : Régression linéaire\nChargez le package supplémentaire :\n\nlibrary(modelsummary)\n\n\n4.1 Exercice 3.1 — Régression simple\nAvec les données Gapminder pour 2007 :\n\nCréez un sous-ensemble data_2007 filtré sur 2007, et ajoutez une colonne log_pib = log(gdpPercap)\nFaites une régression linéaire : lifeExp ~ log_pib\nAffichez le résumé avec summary()\nInterprétez : l’effet est-il statistiquement significatif? Positif ou négatif?\n\n\ndata_2007 &lt;- gapminder |&gt;\n  filter(???) |&gt;\n  mutate(log_pib = log(???))\n\nmodele &lt;- lm(???, data = data_2007)\nsummary(modele)\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ndata_2007 &lt;- gapminder |&gt;\n  filter(year == 2007) |&gt;\n  mutate(log_pib = log(gdpPercap))\n\nmodele &lt;- lm(lifeExp ~ log_pib, data = data_2007)\nsummary(modele)\n\nInterprétation : L’effet est positif et significatif (p &lt; 0.001). Chaque augmentation d’une unité du log du PIB per capita est associée à ~7–8 ans de plus d’espérance de vie. R² ≈ 0.65.\n\n\n\n\n\n\n4.2 Exercice 3.2 — Visualiser la droite de régression\nReprésentez graphiquement la relation entre log_pib et lifeExp avec :\n\ngeom_point() coloré par continent\ngeom_smooth(method = \"lm\") pour la droite de régression\n\n\ndata_2007 |&gt;\n  ggplot(aes(x = ???, y = ???)) +\n  geom_point(aes(color = ???), alpha = 0.7) +\n  geom_smooth(method = \"lm\", color = \"black\", se = TRUE) +\n  labs(\n    title = \"Régression : log(PIB per capita) → Espérance de vie\",\n    x     = \"Log du PIB per capita\",\n    y     = \"Espérance de vie (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ndata_2007 |&gt;\n  ggplot(aes(x = log_pib, y = lifeExp)) +\n  geom_point(aes(color = continent), alpha = 0.7) +\n  geom_smooth(method = \"lm\", color = \"black\", se = TRUE) +\n  labs(\n    title = \"Régression : log(PIB per capita) → Espérance de vie\",\n    x     = \"Log du PIB per capita\",\n    y     = \"Espérance de vie (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n4.3 Exercice 3.3 — Régression multiple\nAjoutez pop comme deuxième prédicteur. Comparez les deux modèles avec modelsummary().\n\nmodele2 &lt;- lm(lifeExp ~ log_pib + pop, data = data_2007)\n\nmodelsummary(\n  list(\"Modèle 1\" = modele, \"Modèle 2\" = modele2),\n  stars = TRUE\n)\n\n\n\n\n\n\n\nCorrection et interprétation\n\n\n\n\n\n\nmodele2 &lt;- lm(lifeExp ~ log_pib + pop, data = data_2007)\n\nmodelsummary(\n  list(\"Modèle 1\" = modele, \"Modèle 2\" = modele2),\n  stars = TRUE\n)\n\nÀ observer : L’effet du log_pib reste stable entre les deux modèles. La population (pop) n’a pratiquement aucun effet sur l’espérance de vie une fois le PIB contrôlé.\n\n\n\n\nQuestions? adrien.cloutier.1@ulaval.ca"
+    "text": "4 Section 3 : Régression linéaire\n\n4.1 Exercice 3.1 — Régression simple\nAvec les données Gapminder pour 2007 :\n\nCréez un sous-ensemble data_2007 filtré sur 2007, et ajoutez une colonne log_pib = log(gdpPercap)\nFaites une régression linéaire : lifeExp ~ log_pib\nAffichez le résumé avec summary()\nInterprétez : l’effet est-il statistiquement significatif? Positif ou négatif?\n\n\ndata_2007 &lt;- gapminder |&gt;\n  filter(???) |&gt;\n  mutate(log_pib = log(???))\n\nmodele &lt;- lm(???, data = data_2007)\nsummary(modele)\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ndata_2007 &lt;- gapminder |&gt;\n  filter(year == 2007) |&gt;\n  mutate(log_pib = log(gdpPercap))\n\nmodele &lt;- lm(lifeExp ~ log_pib, data = data_2007)\nsummary(modele)\n\nInterprétation : L’effet est positif et significatif (p &lt; 0.001). Chaque augmentation d’une unité du log du PIB per capita est associée à ~7–8 ans de plus d’espérance de vie. R² ≈ 0.65.\n\n\n\n\n\n\n4.2 Exercice 3.2 — Visualiser la droite de régression\nReprésentez graphiquement la relation entre log_pib et lifeExp avec :\n\ngeom_point() coloré par continent\ngeom_smooth(method = \"lm\") pour la droite de régression\n\n\ndata_2007 |&gt;\n  ggplot(aes(x = ???, y = ???)) +\n  geom_point(aes(color = ???), alpha = 0.7) +\n  geom_smooth(method = \"lm\", color = \"black\", se = TRUE) +\n  labs(\n    title = \"Régression : log(PIB per capita) → Espérance de vie\",\n    x     = \"Log du PIB per capita\",\n    y     = \"Espérance de vie (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nCorrection\n\n\n\n\n\n\ndata_2007 |&gt;\n  ggplot(aes(x = log_pib, y = lifeExp)) +\n  geom_point(aes(color = continent), alpha = 0.7) +\n  geom_smooth(method = \"lm\", color = \"black\", se = TRUE) +\n  labs(\n    title = \"Régression : log(PIB per capita) → Espérance de vie\",\n    x     = \"Log du PIB per capita\",\n    y     = \"Espérance de vie (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n4.3 Exercice 3.3 — Régression multiple\nAjoutez pop comme deuxième prédicteur. Comparez les deux modèles avec modelsummary().\n\nmodele2 &lt;- lm(lifeExp ~ log_pib + pop, data = data_2007)\n\nmodelsummary(\n  list(\"Modèle 1\" = modele, \"Modèle 2\" = modele2),\n  stars = TRUE\n)\n\n\n\n\n\n\n\nCorrection et interprétation\n\n\n\n\n\n\nmodele2 &lt;- lm(lifeExp ~ log_pib + pop, data = data_2007)\n\nmodelsummary(\n  list(\"Modèle 1\" = modele, \"Modèle 2\" = modele2),\n  stars = TRUE\n)\n\nÀ observer : L’effet du log_pib reste stable entre les deux modèles. La population (pop) n’a pratiquement aucun effet sur l’espérance de vie une fois le PIB contrôlé.\n\n\n\n\nQuestions? adrien.cloutier.1@ulaval.ca"
   },
   {
     "objectID": "slides.html#bravo-dêtre-là",
@@ -112,6 +112,13 @@
     "text": "La semaine passée avec Étienne\nTout le contenu d’Étienne est disponible ici :\n\netienneproulx.org/R_intro_fss\n\n\nOn fait un survol rapide (~30 min) pour rafraîchir les mémoires. Si vous avez besoin de revoir en détail, le site d’Étienne est là."
   },
   {
+    "objectID": "slides.html#une-ressource-incontournable",
+    "href": "slides.html#une-ressource-incontournable",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Une ressource incontournable",
+    "text": "Une ressource incontournable\nHadley Wickham est le créateur de tidyverse — c’est lui qui a inventé ggplot2, dplyr, tidyr et la plupart des outils qu’on utilise aujourd’hui.\nSon livre R for Data Science est gratuit en ligne et couvre tout le cycle de l’analyse de données :\n\nImporter → Organiser → Transformer → Visualiser → Modéliser → Communiquer\n\n\nLe chapitre Workflow: basics est un excellent point de départ pour consolider les bases — nommage des objets, conventions de style, bonnes pratiques.\n\nr4ds.hadley.nz"
+  },
+  {
     "objectID": "slides.html#r-rstudio-linterface",
     "href": "slides.html#r-rstudio-linterface",
     "title": "Approfondissement en analyse de données avec R",
@@ -137,28 +144,49 @@
     "href": "slides.html#les-données-gapminder",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Les données : Gapminder",
-    "text": "Les données : Gapminder\n\nlibrary(gapminder)\nglimpse(gapminder)\n\n\nRows: 1,704  |  Columns: 6\n$ country    \"Afghanistan\", \"Afghanistan\", …\n$ continent  Asia, Asia, …\n$ year       1952, 1957, …\n$ lifeExp    28.8, 30.3, …\n$ pop        8425333, 9240934, …\n$ gdpPercap  779.4, 820.9, …"
+    "text": "Les données : Gapminder\n\ngapminder\n\n# A tibble: 1,704 × 6\n   country     continent  year lifeExp      pop gdpPercap\n   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;\n 1 Afghanistan Asia       1952    28.8  8425333      779.\n 2 Afghanistan Asia       1957    30.3  9240934      821.\n 3 Afghanistan Asia       1962    32.0 10267083      853.\n 4 Afghanistan Asia       1967    34.0 11537966      836.\n 5 Afghanistan Asia       1972    36.1 13079460      740.\n 6 Afghanistan Asia       1977    38.4 14880372      786.\n 7 Afghanistan Asia       1982    39.9 12881816      978.\n 8 Afghanistan Asia       1987    40.8 13867957      852.\n 9 Afghanistan Asia       1992    41.7 16317921      649.\n10 Afghanistan Asia       1997    41.8 22227415      635.\n# ℹ 1,694 more rows"
   },
   {
     "objectID": "slides.html#le-pipe",
     "href": "slides.html#le-pipe",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Le pipe : |>",
-    "text": "Le pipe : |&gt;\nLe pipe enchaîne les opérations. Lisez-le comme « puis ».\n\n# Sans pipe\narrange(filter(gapminder, year == 2007), desc(lifeExp))\n\n# Avec pipe — bien plus lisible\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  arrange(desc(lifeExp))\n\nRaccourci : Ctrl + Shift + M (Win) / Cmd + Shift + M (Mac)"
+    "text": "Le pipe : |&gt;\nLe pipe enchaîne les opérations. Lisez-le comme « puis ».\n\n# Sans pipe — difficile à lire\narrange(filter(gapminder, year == 2007), desc(lifeExp))\n\n# Avec pipe — naturel de gauche à droite\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  arrange(desc(lifeExp))\n\nRaccourci : Ctrl + Shift + M (Win) / Cmd + Shift + M (Mac)"
   },
   {
-    "objectID": "slides.html#les-6-verbes-de-dplyr-rappel-éclair",
-    "href": "slides.html#les-6-verbes-de-dplyr-rappel-éclair",
+    "objectID": "slides.html#filter-garder-des-lignes",
+    "href": "slides.html#filter-garder-des-lignes",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "Les 6 verbes de dplyr — rappel éclair",
-    "text": "Les 6 verbes de dplyr — rappel éclair\n\n\n\nVerbe\nAction\nExemple\n\n\n\n\nfilter()\nGarder des lignes\nfilter(year == 2007)\n\n\nselect()\nGarder des colonnes\nselect(country, lifeExp)\n\n\nmutate()\nCréer / modifier\nmutate(pib_mil = pop * gdpPercap)\n\n\narrange()\nTrier\narrange(desc(lifeExp))\n\n\nrename()\nRenommer\nrename(pays = country)\n\n\ngroup_by() + summarise()\nRésumer par groupe\nvoir ci-dessous"
+    "section": "filter() — garder des lignes",
+    "text": "filter() — garder des lignes\n\n\ngapminder |&gt;\n  filter(year == 2007)\n\n\n# A tibble: 142 × 6\n   country     continent  year lifeExp       pop gdpPercap\n   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;\n 1 Afghanistan Asia       2007    43.8  31889923      975.\n 2 Albania     Europe     2007    76.4   3600523     5937.\n 3 Algeria     Africa     2007    72.3  33333216     6223.\n 4 Angola      Africa     2007    42.7  12420476     4797.\n 5 Argentina   Americas   2007    75.3  40301927    12779.\n 6 Australia   Oceania    2007    81.2  20434176    34435.\n 7 Austria     Europe     2007    79.8   8199783    36126.\n 8 Bahrain     Asia       2007    75.6    708573    29796.\n 9 Bangladesh  Asia       2007    64.1 150448339     1391.\n10 Belgium     Europe     2007    79.4  10392226    33693.\n# ℹ 132 more rows"
   },
   {
-    "objectID": "slides.html#group_by-summarise",
-    "href": "slides.html#group_by-summarise",
+    "objectID": "slides.html#select-garder-des-colonnes",
+    "href": "slides.html#select-garder-des-colonnes",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "group_by() + summarise()",
-    "text": "group_by() + summarise()\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(esperance_moy = mean(lifeExp), nb_pays = n())"
+    "section": "select() — garder des colonnes",
+    "text": "select() — garder des colonnes\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  select(country, continent, lifeExp)\n\n\n# A tibble: 142 × 3\n   country     continent lifeExp\n   &lt;fct&gt;       &lt;fct&gt;       &lt;dbl&gt;\n 1 Afghanistan Asia         43.8\n 2 Albania     Europe       76.4\n 3 Algeria     Africa       72.3\n 4 Angola      Africa       42.7\n 5 Argentina   Americas     75.3\n 6 Australia   Oceania      81.2\n 7 Austria     Europe       79.8\n 8 Bahrain     Asia         75.6\n 9 Bangladesh  Asia         64.1\n10 Belgium     Europe       79.4\n# ℹ 132 more rows"
+  },
+  {
+    "objectID": "slides.html#mutate-créer-une-colonne",
+    "href": "slides.html#mutate-créer-une-colonne",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "mutate() — créer une colonne",
+    "text": "mutate() — créer une colonne\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  select(country, pop, gdpPercap) |&gt;\n  mutate(pib_milliards = round(pop * gdpPercap / 1e9, 1))\n\n\n# A tibble: 142 × 4\n   country           pop gdpPercap pib_milliards\n   &lt;fct&gt;           &lt;int&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n 1 Afghanistan  31889923      975.          31.1\n 2 Albania       3600523     5937.          21.4\n 3 Algeria      33333216     6223.         207. \n 4 Angola       12420476     4797.          59.6\n 5 Argentina    40301927    12779.         515  \n 6 Australia    20434176    34435.         704. \n 7 Austria       8199783    36126.         296. \n 8 Bahrain        708573    29796.          21.1\n 9 Bangladesh  150448339     1391.         209. \n10 Belgium      10392226    33693.         350. \n# ℹ 132 more rows"
+  },
+  {
+    "objectID": "slides.html#arrange-trier",
+    "href": "slides.html#arrange-trier",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "arrange() — trier",
+    "text": "arrange() — trier\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  select(country, lifeExp) |&gt;\n  arrange(desc(lifeExp))\n\n\n# A tibble: 142 × 2\n   country          lifeExp\n   &lt;fct&gt;              &lt;dbl&gt;\n 1 Japan               82.6\n 2 Hong Kong, China    82.2\n 3 Iceland             81.8\n 4 Switzerland         81.7\n 5 Australia           81.2\n 6 Spain               80.9\n 7 Sweden              80.9\n 8 Israel              80.7\n 9 France              80.7\n10 Canada              80.7\n# ℹ 132 more rows"
+  },
+  {
+    "objectID": "slides.html#group_by-summarise-résumer-par-groupe",
+    "href": "slides.html#group_by-summarise-résumer-par-groupe",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "group_by() + summarise() — résumer par groupe",
+    "text": "group_by() + summarise() — résumer par groupe\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(\n    esperance_moy = mean(lifeExp),\n    nb_pays       = n()\n  )\n\n\n# A tibble: 5 × 3\n  continent esperance_moy nb_pays\n  &lt;fct&gt;             &lt;dbl&gt;   &lt;int&gt;\n1 Africa             54.8      52\n2 Americas           73.6      25\n3 Asia               70.7      33\n4 Europe             77.6      30\n5 Oceania            80.7       2"
   },
   {
     "objectID": "slides.html#revoir-les-exercices-détienne",
@@ -172,77 +200,63 @@
     "href": "slides.html#la-logique-de-ggplot2",
     "title": "Approfondissement en analyse de données avec R",
     "section": "La logique de ggplot2",
-    "text": "La logique de ggplot2\nggplot2 est basé sur une grammaire des graphiques : on assemble des couches.\n\nggplot(data = gapminder,         # 1. les données\n       aes(x = gdpPercap,        # 2. les axes et couleurs (aesthetics)\n           y = lifeExp)) +\n  geom_point()                   # 3. le type de graphique (geom)\n\n\nLes éléments de base :\n\nggplot() — initialise le graphique\naes() — mappe les variables aux propriétés visuelles\ngeom_*() — choisit le type de figure\n+ — ajoute des couches (pas un pipe!)"
+    "text": "La logique de ggplot2\nggplot2 est basé sur une grammaire des graphiques : on assemble des couches.\n\nggplot() — initialise le graphique avec les données\naes() — mappe les variables aux propriétés visuelles (x, y, couleur, taille…)\ngeom_*() — choisit le type de figure (points, barres, lignes…)\n+ — ajoute des couches (pas un pipe!)\n\n\nOn va construire ce graphique couche par couche →"
   },
   {
-    "objectID": "slides.html#nuage-de-points-geom_point",
-    "href": "slides.html#nuage-de-points-geom_point",
+    "objectID": "slides.html#couche-1-la-toile-vide",
+    "href": "slides.html#couche-1-la-toile-vide",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "Nuage de points : geom_point()",
-    "text": "Nuage de points : geom_point()\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap,\n             y = lifeExp,\n             color = continent,   # couleur par continent\n             size = pop)) +       # taille par population\n  geom_point(alpha = 0.7) +       # alpha = transparence\n  scale_x_log10() +               # axe X en échelle log\n  labs(\n    title  = \"PIB per capita et espérance de vie (2007)\",\n    x      = \"PIB per capita (échelle log)\",\n    y      = \"Espérance de vie (années)\",\n    color  = \"Continent\",\n    size   = \"Population\"\n  ) +\n  theme_minimal()"
+    "section": "Couche 1 — la toile vide",
+    "text": "Couche 1 — la toile vide\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap,\n             y = lifeExp))"
+  },
+  {
+    "objectID": "slides.html#couche-2-geom_point",
+    "href": "slides.html#couche-2-geom_point",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Couche 2 — geom_point()",
+    "text": "Couche 2 — geom_point()\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap,\n             y = lifeExp)) +\n  geom_point()"
+  },
+  {
+    "objectID": "slides.html#couche-3-couleur-et-taille",
+    "href": "slides.html#couche-3-couleur-et-taille",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Couche 3 — couleur et taille",
+    "text": "Couche 3 — couleur et taille\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap,\n             y = lifeExp,\n             color = continent,\n             size  = pop)) +\n  geom_point(alpha = 0.7)"
+  },
+  {
+    "objectID": "slides.html#couche-4-scale_x_log10",
+    "href": "slides.html#couche-4-scale_x_log10",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Couche 4 — scale_x_log10()",
+    "text": "Couche 4 — scale_x_log10()\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap,\n             y = lifeExp,\n             color = continent,\n             size  = pop)) +\n  geom_point(alpha = 0.7) +\n  scale_x_log10()"
+  },
+  {
+    "objectID": "slides.html#couche-5-labs-theme_minimal",
+    "href": "slides.html#couche-5-labs-theme_minimal",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Couche 5 — labs() + theme_minimal()",
+    "text": "Couche 5 — labs() + theme_minimal()\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap,\n             y = lifeExp,\n             color = continent,\n             size  = pop)) +\n  geom_point(alpha = 0.7) +\n  scale_x_log10() +\n  labs(\n    title = \"PIB per capita et espérance de vie (2007)\",\n    x     = \"PIB per capita (échelle log)\",\n    y     = \"Espérance de vie (années)\",\n    color = \"Continent\",\n    size  = \"Population\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides.html#graphique-en-barres-geom_col",
     "href": "slides.html#graphique-en-barres-geom_col",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Graphique en barres : geom_col()",
-    "text": "Graphique en barres : geom_col()\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(esperance_moy = mean(lifeExp)) |&gt;\n  ggplot(aes(x = reorder(continent, esperance_moy),\n             y = esperance_moy,\n             fill = continent)) +\n  geom_col(show.legend = FALSE) +\n  coord_flip() +                  # barres horizontales\n  labs(\n    title = \"Espérance de vie moyenne par continent (2007)\",\n    x     = \"Continent\",\n    y     = \"Espérance de vie (années)\"\n  ) +\n  theme_minimal()"
+    "text": "Graphique en barres : geom_col()\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(esperance_moy = mean(lifeExp)) |&gt;\n  ggplot(aes(x = reorder(continent, esperance_moy),\n             y = esperance_moy,\n             fill = continent)) +\n  geom_col(show.legend = FALSE) +\n  coord_flip() +\n  labs(\n    title = \"Espérance de vie moyenne par continent (2007)\",\n    x     = \"Continent\",\n    y     = \"Espérance de vie (années)\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides.html#histogramme-geom_histogram",
     "href": "slides.html#histogramme-geom_histogram",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Histogramme : geom_histogram()",
-    "text": "Histogramme : geom_histogram()\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = lifeExp,\n             fill = continent)) +\n  geom_histogram(bins = 30, alpha = 0.7) +\n  labs(\n    title = \"Distribution de l'espérance de vie (2007)\",\n    x     = \"Espérance de vie (années)\",\n    y     = \"Nombre de pays\",\n    fill  = \"Continent\"\n  ) +\n  theme_minimal()"
+    "text": "Histogramme : geom_histogram()\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = lifeExp, fill = continent)) +\n  geom_histogram(bins = 30, alpha = 0.7) +\n  labs(\n    title = \"Distribution de l'espérance de vie (2007)\",\n    x     = \"Espérance de vie (années)\",\n    y     = \"Nombre de pays\",\n    fill  = \"Continent\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides.html#personnaliser-et-sauvegarder",
     "href": "slides.html#personnaliser-et-sauvegarder",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Personnaliser et sauvegarder",
-    "text": "Personnaliser et sauvegarder\n\nmon_graphique &lt;- gapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent)) +\n  geom_point(alpha = 0.7) +\n  scale_x_log10() +\n  theme_minimal() +\n  theme(\n    plot.title    = element_text(size = 16, face = \"bold\"),\n    legend.position = \"bottom\"\n  ) +\n  labs(title = \"Mon graphique\")\n\n# Sauvegarder\nggsave(\"graphique.png\", plot = mon_graphique, width = 10, height = 7, dpi = 300)"
-  },
-  {
-    "objectID": "slides.html#la-révolution-et-ses-limites",
-    "href": "slides.html#la-révolution-et-ses-limites",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "La révolution (et ses limites)",
-    "text": "La révolution (et ses limites)\n\nL’IA peut écrire du code R.\n\n\n\nMais elle peut aussi se tromper.\n\n\n\n\nVotre travail : comprendre et valider."
-  },
-  {
-    "objectID": "slides.html#la-règle-dor",
-    "href": "slides.html#la-règle-dor",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "La règle d’or",
-    "text": "La règle d’or\n\n« Pour utiliser l’IA avec R, il faut comprendre R. »\n\n\nL’IA génère du code plausible, pas toujours correct\nElle ne connaît pas vos données spécifiques\nElle peut utiliser des fonctions obsolètes ou mal adaptées\nElle peut inventer des fonctions qui n’existent pas (hallucinations)\n\n\nLa bonne nouvelle : avec les bases solides que vous avez, vous pouvez lire, comprendre et corriger du code généré par IA."
-  },
-  {
-    "objectID": "slides.html#le-workflow-avec-lia",
-    "href": "slides.html#le-workflow-avec-lia",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Le workflow avec l’IA",
-    "text": "Le workflow avec l’IA\n\n\n1. Formuler une demande précise\nContexte : j'ai un data frame R avec\nles colonnes \"pays\", \"annee\", \"pib\",\n\"esperance_vie\" et \"continent\".\n\nTâche : avec tidyverse, crée un nuage\nde points montrant la relation entre\npib (axe x, échelle log) et\nesperance_vie (axe y), coloré par\ncontinent, pour l'année 2007 seulement.\n\n2. Lire le code avant de l’exécuter\nPosez-vous ces questions :\n\nEst-ce que je reconnais les fonctions?\nLe nom des colonnes correspond-il à mes données?\nY a-t-il des install.packages()?\nÇa fait bien ce que je veux?\n\n3. Exécuter ligne par ligne\nPas tout d’un coup! Ligne par ligne pour repérer les erreurs.\n4. Corriger et adapter"
-  },
-  {
-    "objectID": "slides.html#comment-bien-prompter-pour-r",
-    "href": "slides.html#comment-bien-prompter-pour-r",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Comment bien prompter pour R",
-    "text": "Comment bien prompter pour R\nDonnez le contexte :\nJ'utilise R avec tidyverse. Mes données s'appellent `df` et\nont les colonnes : pays (character), annee (integer), valeur (numeric).\n\nSoyez précis sur la tâche :\nFiltre pour l'année 2020, calcule la moyenne de `valeur`\npar pays, et crée un graphique en barres horizontal avec ggplot2.\n\n\nItérez :\nJ'ai cette erreur : [copiez l'erreur exacte].\nVoici mon code : [copiez votre code]."
-  },
-  {
-    "objectID": "slides.html#erreurs-communes-de-lia-en-r",
-    "href": "slides.html#erreurs-communes-de-lia-en-r",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Erreurs communes de l’IA en R",
-    "text": "Erreurs communes de l’IA en R\n\n\n\nProblème\nExemple\n\n\n\n\nNom de fonction inventé\ndplyr::filter_where()\n\n\nVersion obsolète\ngather() au lieu de pivot_longer()\n\n\nNom de colonne incorrect\ndata$Pays au lieu de data$pays\n\n\nPackage non installé\nOublie de mentionner install.packages()\n\n\nLogique incorrecte\nfilter(year = 2007) au lieu de ==\n\n\n\n\nVotre meilleur outil de validation : lire l’aide d’une fonction avec ?filter ou help(filter)"
-  },
-  {
-    "objectID": "slides.html#démonstration-en-direct",
-    "href": "slides.html#démonstration-en-direct",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Démonstration en direct",
-    "text": "Démonstration en direct\nPrompt que je vais soumettre à Claude :\nEn R avec tidyverse et le package gapminder, écris un code qui :\n1. Filtre les données pour l'année 2007\n2. Calcule le PIB total par continent (sum de pop * gdpPercap)\n3. Affiche un graphique en barres horizontal, trié du plus grand\n   au plus petit, avec des couleurs différentes par continent.\nAjoute des commentaires expliquant chaque étape.\n[Démonstration live — validation du code généré ensemble]"
+    "text": "Personnaliser et sauvegarder\n\nmon_graphique &lt;- gapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent)) +\n  geom_point(alpha = 0.7) +\n  scale_x_log10() +\n  theme_minimal() +\n  theme(legend.position = \"bottom\") +\n  labs(title = \"Mon graphique\")\n\n# Sauvegarder en PNG haute résolution\nggsave(\"graphique.png\", plot = mon_graphique,\n       width = 10, height = 7, dpi = 300)"
   },
   {
     "objectID": "slides.html#pourquoi-en-sciences-sociales",
@@ -263,14 +277,14 @@
     "href": "slides.html#nos-données-textuelles",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Nos données textuelles",
-    "text": "Nos données textuelles\n\nlibrary(tidyverse)\n\n# Exemple : réponses à une question ouverte de sondage sur les\n# priorités politiques (traduit en anglais pour l'analyse de sentiment)\nreponses &lt;- tibble(\n  id       = 1:8,\n  auteur   = c(\"Répondant A\", \"Répondant B\", \"Répondant C\", \"Répondant D\",\n               \"Répondant E\", \"Répondant F\", \"Répondant G\", \"Répondant H\"),\n  texte    = c(\n    \"The government must invest more in clean energy and protect the environment\",\n    \"The cost of living crisis is terrible, prices are too high for working families\",\n    \"Our healthcare system needs urgent reform and more funding immediately\",\n    \"I appreciate the government's efforts on climate change and housing affordability\",\n    \"Education should be free and accessible to all young people in this country\",\n    \"The economy is struggling and the government has failed to address inflation\",\n    \"We need stronger social programs and better support for vulnerable communities\",\n    \"This government's terrible policies have destroyed our economic opportunities\"\n  )\n)"
+    "text": "Nos données textuelles\n\n# Exemple : réponses à une question ouverte de sondage sur les\n# priorités politiques (traduit en anglais pour l'analyse de sentiment)\nreponses &lt;- tibble(\n  id     = 1:8,\n  groupe = c(\"Centre\", \"Droite\", \"Centre\", \"Gauche\",\n             \"Centre\", \"Droite\", \"Gauche\", \"Droite\"),\n  texte  = c(\n    \"The government must invest more in clean energy and protect the environment\",\n    \"The cost of living crisis is terrible, prices are too high for working families\",\n    \"Our healthcare system needs urgent reform and more funding immediately\",\n    \"I appreciate the government's efforts on climate change and housing affordability\",\n    \"Education should be free and accessible to all young people in this country\",\n    \"The economy is struggling and the government has failed to address inflation\",\n    \"We need stronger social programs and better support for vulnerable communities\",\n    \"This government's terrible policies have destroyed our economic opportunities\"\n  )\n)"
   },
   {
     "objectID": "slides.html#stringr-manipulation-de-texte",
     "href": "slides.html#stringr-manipulation-de-texte",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "4.1 stringr : manipulation de texte",
-    "text": "4.1 stringr : manipulation de texte\nstringr fait partie de tidyverse — pas besoin d’installation supplémentaire.\n\n# Les fonctions principales\ntexte &lt;- \"Le Parti libéral, le Parti conservateur et le Bloc québécois\"\n\n# Convertir en minuscules\nstr_to_lower(texte)\n\n# Détecter un patron (retourne TRUE/FALSE)\nstr_detect(texte, \"libéral\")\n\n# Compter les occurrences\nstr_count(texte, \"Parti\")\n\n# Remplacer\nstr_replace_all(texte, \"Parti\", \"parti\")\n\n# Extraire selon un patron\nstr_extract_all(texte, \"Parti \\\\w+\")"
+    "section": "2.1 stringr : manipulation de texte",
+    "text": "2.1 stringr : manipulation de texte\nstringr fait partie de tidyverse — pas besoin d’installation supplémentaire.\n\n# Les fonctions principales\ntexte &lt;- \"Le Parti libéral, le Parti conservateur et le Bloc québécois\"\n\n# Convertir en minuscules\nstr_to_lower(texte)\n\n# Détecter un patron (retourne TRUE/FALSE)\nstr_detect(texte, \"libéral\")\n\n# Compter les occurrences\nstr_count(texte, \"Parti\")\n\n# Remplacer\nstr_replace_all(texte, \"Parti\", \"parti\")\n\n# Extraire selon un patron\nstr_extract_all(texte, \"Parti \\\\w+\")"
   },
   {
     "objectID": "slides.html#stringr-avec-un-data-frame",
@@ -283,8 +297,8 @@
     "objectID": "slides.html#tidytext-tokenisation",
     "href": "slides.html#tidytext-tokenisation",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "4.2 tidytext : tokenisation",
-    "text": "4.2 tidytext : tokenisation\nTokeniser = découper un texte en unités (mots, phrases, n-grammes).\n\ninstall.packages(\"tidytext\")\nlibrary(tidytext)\n\n# Tokeniser nos réponses de sondage\nmots &lt;- reponses |&gt;\n  unnest_tokens(\n    output = mot,   # nom de la nouvelle colonne\n    input  = texte  # colonne à découper\n  )\n\n# Résultat : une ligne par mot\nmots\n\n\n# A tibble: 80 × 3\n   id    auteur       mot\n 1     1 Répondant A  the\n 2     1 Répondant A  government\n 3     1 Répondant A  must\n..."
+    "section": "2.2 tidytext : tokenisation",
+    "text": "2.2 tidytext : tokenisation\nTokeniser = découper un texte en unités (mots, phrases, n-grammes).\n\n# Tokeniser nos réponses de sondage\nmots &lt;- reponses |&gt;\n  unnest_tokens(\n    output = mot,   # nom de la nouvelle colonne\n    input  = texte  # colonne à découper\n  )\n\n# Résultat : une ligne par mot\nmots\n\n\n# A tibble: 80 × 3\n   id    groupe  mot\n 1     1 Centre  the\n 2     1 Centre  government\n 3     1 Centre  must\n..."
   },
   {
     "objectID": "slides.html#enlever-les-mots-vides-stop-words",
@@ -304,29 +318,29 @@
     "objectID": "slides.html#analyse-de-sentiment",
     "href": "slides.html#analyse-de-sentiment",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "4.3 Analyse de sentiment",
-    "text": "4.3 Analyse de sentiment\nL’analyse de sentiment mesure le ton d’un texte (positif, négatif, neutre).\nPrincipe : associer chaque mot à un score de sentiment à partir d’un lexique.\n\n# Plusieurs lexiques disponibles dans tidytext\n# - \"bing\"  : positif / négatif\n# - \"afinn\" : score de -5 à +5\n# - \"nrc\"   : émotions (peur, joie, colère...)\n\n# Charger le lexique bing\nbing &lt;- get_sentiments(\"bing\")\n\n# Voir les premières entrées\nbing |&gt;\n  slice_head(n = 10)"
+    "section": "2.3 Analyse de sentiment",
+    "text": "2.3 Analyse de sentiment\nL’analyse de sentiment mesure le ton d’un texte (positif, négatif, neutre).\nPrincipe : associer chaque mot à un score de sentiment à partir d’un lexique.\n\n# Plusieurs lexiques disponibles dans tidytext\n# - \"bing\"  : positif / négatif\n# - \"afinn\" : score de -5 à +5\n# - \"nrc\"   : émotions (peur, joie, colère...)\n\n# Charger le lexique bing\nbing &lt;- get_sentiments(\"bing\")\n\n# Voir les premières entrées\nbing |&gt;\n  slice_head(n = 10)"
   },
   {
-    "objectID": "slides.html#calculer-le-sentiment-par-répondant",
-    "href": "slides.html#calculer-le-sentiment-par-répondant",
+    "objectID": "slides.html#calculer-le-sentiment-par-groupe-politique",
+    "href": "slides.html#calculer-le-sentiment-par-groupe-politique",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "Calculer le sentiment par répondant",
-    "text": "Calculer le sentiment par répondant\n\n# Joindre les mots avec le lexique\nsentiment_par_auteur &lt;- mots_propres |&gt;\n  inner_join(bing, by = c(\"mot\" = \"word\")) |&gt;\n  count(auteur, sentiment) |&gt;\n  pivot_wider(\n    names_from  = sentiment,\n    values_from = n,\n    values_fill = 0\n  ) |&gt;\n  mutate(score_net = positive - negative)\n\nsentiment_par_auteur"
+    "section": "Calculer le sentiment par groupe politique",
+    "text": "Calculer le sentiment par groupe politique\n\n# Joindre les mots avec le lexique\nsentiment_par_groupe &lt;- mots_propres |&gt;\n  inner_join(bing, by = c(\"mot\" = \"word\")) |&gt;\n  count(groupe, sentiment) |&gt;\n  pivot_wider(\n    names_from  = sentiment,\n    values_from = n,\n    values_fill = 0\n  ) |&gt;\n  mutate(score_net = positive - negative)\n\nsentiment_par_groupe"
   },
   {
     "objectID": "slides.html#visualiser-le-sentiment",
     "href": "slides.html#visualiser-le-sentiment",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Visualiser le sentiment",
-    "text": "Visualiser le sentiment\n\nsentiment_par_auteur |&gt;\n  ggplot(aes(x = reorder(auteur, score_net),\n             y = score_net,\n             fill = score_net &gt; 0)) +\n  geom_col(show.legend = FALSE) +\n  scale_fill_manual(values = c(\"firebrick\", \"#2ca25f\")) +\n  coord_flip() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  labs(\n    title    = \"Ton des réponses par répondant\",\n    subtitle = \"Score net = mots positifs − mots négatifs\",\n    x        = \"Répondant\",\n    y        = \"Score de sentiment net\"\n  ) +\n  theme_minimal()"
+    "text": "Visualiser le sentiment\n\nsentiment_par_groupe |&gt;\n  ggplot(aes(x = reorder(groupe, score_net),\n             y = score_net,\n             fill = score_net &gt; 0)) +\n  geom_col(show.legend = FALSE) +\n  scale_fill_manual(values = c(\"firebrick\", \"#2ca25f\")) +\n  coord_flip() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  labs(\n    title    = \"Ton des réponses par groupe politique\",\n    subtitle = \"Score net = mots positifs − mots négatifs\",\n    x        = \"Groupe politique\",\n    y        = \"Score de sentiment net\"\n  ) +\n  theme_minimal()"
   },
   {
-    "objectID": "slides.html#wordcloud",
-    "href": "slides.html#wordcloud",
+    "objectID": "slides.html#nuage-de-mots-wordcloud",
+    "href": "slides.html#nuage-de-mots-wordcloud",
     "title": "Approfondissement en analyse de données avec R",
-    "section": "3.4 Wordcloud",
-    "text": "3.4 Wordcloud\n\ninstall.packages(\"wordcloud\")\nlibrary(wordcloud)\n\n# Compter les mots (après avoir enlevé les stop words)\nfreq &lt;- mots_propres |&gt;\n  count(mot, sort = TRUE)\n\n# Générer le nuage de mots\nset.seed(42)\nwordcloud(\n  words  = freq$mot,\n  freq   = freq$n,\n  min.freq    = 1,\n  max.words   = 50,\n  random.order = FALSE,\n  colors = brewer.pal(8, \"Dark2\")\n)"
+    "section": "2.4 Nuage de mots (wordcloud)",
+    "text": "2.4 Nuage de mots (wordcloud)\n\n# Compter les mots (après avoir enlevé les stop words)\nfreq &lt;- mots_propres |&gt;\n  count(mot, sort = TRUE)\n\n# Générer le nuage de mots\nset.seed(42)\nwordcloud(\n  words  = freq$mot,\n  freq   = freq$n,\n  min.freq    = 1,\n  max.words   = 50,\n  random.order = FALSE,\n  colors = brewer.pal(8, \"Dark2\")\n)"
   },
   {
     "objectID": "slides.html#pourquoi-la-régression",
@@ -368,7 +382,7 @@
     "href": "slides.html#tableau-de-régression-avec-modelsummary",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Tableau de régression avec modelsummary",
-    "text": "Tableau de régression avec modelsummary\n\ninstall.packages(\"modelsummary\")\nlibrary(modelsummary)\n\n# Tableau comparant deux modèles\nmodelsummary(\n  list(\"Modèle simple\"   = modele,\n       \"Modèle multiple\" = modele_multiple),\n  stars = TRUE,\n  output = \"tableau_regression.docx\"   # exporte en Word!\n)\n\n\nmodelsummary exporte en Word, PDF, HTML, Excel — parfait pour vos mémoires et articles."
+    "text": "Tableau de régression avec modelsummary\n\n# Tableau comparant deux modèles\nmodelsummary(\n  list(\"Modèle simple\"   = modele,\n       \"Modèle multiple\" = modele_multiple),\n  stars = TRUE,\n  output = \"tableau_regression.docx\"   # exporte en Word!\n)\n\n\nmodelsummary exporte en Word, PDF, HTML, Excel — parfait pour vos mémoires et articles."
   },
   {
     "objectID": "slides.html#corrélation-causalité",
@@ -376,6 +390,41 @@
     "title": "Approfondissement en analyse de données avec R",
     "section": "Corrélation ≠ causalité",
     "text": "Corrélation ≠ causalité\n\n\nNombre de naissances ~ nombre de cigognes par pays (p = 0.008). Pas de causalité : variable confondante = taille du pays."
+  },
+  {
+    "objectID": "slides.html#la-révolution-et-ses-limites",
+    "href": "slides.html#la-révolution-et-ses-limites",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "La révolution (et ses limites)",
+    "text": "La révolution (et ses limites)\n\nL’IA peut écrire du code R.\n\n\n\nMais elle peut aussi se tromper.\n\n\n\n\nVotre travail : comprendre et valider."
+  },
+  {
+    "objectID": "slides.html#la-règle-dor",
+    "href": "slides.html#la-règle-dor",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "La règle d’or",
+    "text": "La règle d’or\n\n« Pour utiliser l’IA avec R, il faut comprendre R. »\n\n\nL’IA génère du code plausible, pas toujours correct\nElle ne connaît pas vos données spécifiques\nElle peut utiliser des fonctions obsolètes ou mal adaptées\nElle peut inventer des fonctions qui n’existent pas (hallucinations)\n\n\nLa bonne nouvelle : avec les bases solides que vous avez, vous pouvez lire, comprendre et corriger du code généré par IA."
+  },
+  {
+    "objectID": "slides.html#rstudio-et-lia-les-limites",
+    "href": "slides.html#rstudio-et-lia-les-limites",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "RStudio et l’IA : les limites",
+    "text": "RStudio et l’IA : les limites\nRStudio est excellent pour apprendre R, mais son intégration IA est limitée :\n\nPas d’autocomplétion IA native\nPas de suggestion de code en temps réel\nLe plugin Copilot pour RStudio est expérimental et instable\n\n\nPour travailler sérieusement avec l’IA, deux alternatives s’imposent :\n\n\nPositron (recommandé)\nNouvel IDE de Posit (les créateurs de RStudio), conçu pour R et Python — intégration GitHub Copilot native.\n\nVS Code\nÉditeur universel très populaire — extensions R + GitHub Copilot disponibles."
+  },
+  {
+    "objectID": "slides.html#outils-gratuits-pour-les-étudiants",
+    "href": "slides.html#outils-gratuits-pour-les-étudiants",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Outils gratuits pour les étudiants 🎓",
+    "text": "Outils gratuits pour les étudiants 🎓\n\n\nGitHub Copilot\nIA dans l’éditeur — complétion de code en temps réel.\nGitHub Student Developer Pack — compte GitHub avec adresse universitaire → Copilot + dizaines d’outils gratuits.\n\nGoogle Gemini\nAssistant pour générer, expliquer et déboguer du code.\nGoogle Workspace for Education — Gemini Advanced souvent inclus. Sinon : gemini.google.com gratuit.\n\nDataCamp\nCours interactifs R, Python, SQL, stats et ML — directement dans le navigateur.\nActiver l’accès gratuit →"
+  },
+  {
+    "objectID": "slides.html#le-workflow-avec-lia",
+    "href": "slides.html#le-workflow-avec-lia",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Le workflow avec l’IA",
+    "text": "Le workflow avec l’IA\n\n\n1. Formuler une demande précise\nContexte : j'ai un data frame R avec\nles colonnes \"pays\", \"annee\", \"pib\",\n\"esperance_vie\" et \"continent\".\n\nTâche : avec tidyverse, crée un nuage\nde points montrant la relation entre\npib (axe x, échelle log) et\nesperance_vie (axe y), coloré par\ncontinent, pour l'année 2007 seulement.\n\n2. Lire le code avant de l’exécuter\nPosez-vous ces questions :\n\nEst-ce que je reconnais les fonctions?\nLe nom des colonnes correspond-il à mes données?\nY a-t-il des install.packages()?\nÇa fait bien ce que je veux?\n\n3. Exécuter ligne par ligne\nPas tout d’un coup! Ligne par ligne pour repérer les erreurs.\n4. Corriger et adapter"
   },
   {
     "objectID": "slides.html#abonnement-datacamp-gratuit",
@@ -389,14 +438,14 @@
     "href": "slides.html#vos-ressources-essentielles",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Vos ressources essentielles",
-    "text": "Vos ressources essentielles\nApprendre R en faisant :\n\nswirl — tutoriels interactifs dans RStudio\nR for Data Science — LE livre, gratuit en ligne (Hadley Wickham)\nText Mining with R — analyse textuelle, gratuit en ligne\n\nAide rapide :\n\nCheatsheet dplyr\nCheatsheet ggplot2\nStack Overflow — communauté R\n\nIA + R :\n\nClaude ou ChatGPT — assistants de code\nRègle d’or : toujours valider le code avant de faire confiance aux résultats"
+    "text": "Vos ressources essentielles\nApprendre R en faisant :\n\nDataCamp — cours interactifs R, Python, SQL (accès gratuit via le lien partagé)\nswirl — tutoriels interactifs dans RStudio\nR for Data Science — LE livre, gratuit en ligne (Hadley Wickham)\nText Mining with R — analyse textuelle, gratuit en ligne\n\nAide rapide :\n\nCheatsheet dplyr\nCheatsheet ggplot2\nStack Overflow — communauté R\n\nIA + R :\n\nClaude, ChatGPT, Gemini — assistants de code\nRègle d’or : toujours valider le code avant de faire confiance aux résultats"
   },
   {
     "objectID": "slides.html#le-contenu-de-cet-atelier-est-sur-github",
     "href": "slides.html#le-contenu-de-cet-atelier-est-sur-github",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Le contenu de cet atelier est sur GitHub",
-    "text": "Le contenu de cet atelier est sur GitHub\n\ngithub.com/clessn/atelier-fss-20mars2026\n\nVous y trouverez :\n\nCes slides (HTML)\nLe script R pour l’atelier pratique (exercices.R)\nLes données utilisées"
+    "text": "Le contenu de cet atelier est sur GitHub\n\ngithub.com/AdriClout/atelier-fss-20mars2026\n\nVous y trouverez :\n\nCes slides (HTML)\nLe script R pour l’atelier pratique (exercices.R)\nLes données utilisées"
   },
   {
     "objectID": "slides.html#leiom-notre-école-de-méthodes",
@@ -410,7 +459,7 @@
     "href": "slides.html#comment-fonctionne-latelier",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Comment fonctionne l’atelier",
-    "text": "Comment fonctionne l’atelier\nPrésentiel seulement\n\nOuvrez le script exercices.R depuis GitHub\nTravaillez à votre rythme — les exercices sont organisés en sections\nPosez vos questions! Je circule.\n\n\nVous avez vos propres données?\nProfitez-en pour les explorer avec les outils d’aujourd’hui. Je vous aide à adapter le code à votre contexte.\n\n\nLes exercices couvrent :\n\nManipulation avec dplyr (gapminder)\nVisualisation avec ggplot2\nAnalyse textuelle (stringr + tidytext)\nBONUS : régression linéaire"
+    "text": "Comment fonctionne l’atelier\nPrésentiel seulement\n\nOuvrez le script exercices.R depuis GitHub\nTravaillez à votre rythme — les exercices sont organisés en sections\nPosez vos questions! Je circule.\n\n\nVous avez vos propres données?\nProfitez-en pour les explorer avec les outils d’aujourd’hui. Je vous aide à adapter le code à votre contexte.\n\n\nLes exercices couvrent :\n\nManipulation avec dplyr (gapminder)\nVisualisation avec ggplot2\nAnalyse textuelle (stringr + tidytext)\nRégression linéaire"
   },
   {
     "objectID": "slides.html#merci",

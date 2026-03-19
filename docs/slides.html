@@ -554,12 +554,26 @@ Adrien Cloutier | Université Laval
 </div>
 </div>
 </section>
+<section id="le-pipe" class="slide level2">
+<h2>Le pipe : <code>|&gt;</code></h2>
+<p>Le pipe <strong>enchaîne</strong> les opérations. Lisez-le comme <em>« puis »</em>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Sans pipe — difficile à lire</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">arrange</span>(<span class="fu">filter</span>(gapminder, year <span class="sc">==</span> <span class="dv">2007</span>), <span class="fu">desc</span>(lifeExp))</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># Avec pipe — naturel de gauche à droite</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Raccourci :</strong> <code>Ctrl + Shift + M</code> (Win) / <code>Cmd + Shift + M</code> (Mac)</p>
+</section>
 <section id="filter-garder-des-lignes" class="slide level2">
 <h2><code>filter()</code> — garder des lignes</h2>
 <div class="cell columns column-output-location" data-layout-align="center">
 <div class="column">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 142 × 6
@@ -584,9 +598,9 @@ Adrien Cloutier | Université Laval
 <h2><code>select()</code> — garder des colonnes</h2>
 <div class="cell columns column-output-location" data-layout-align="center">
 <div class="column">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="fu">select</span>(country, continent, lifeExp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">select</span>(country, continent, lifeExp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 142 × 3
@@ -611,10 +625,10 @@ Adrien Cloutier | Université Laval
 <h2><code>mutate()</code> — créer une colonne</h2>
 <div class="cell columns column-output-location" data-layout-align="center">
 <div class="column">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">select</span>(country, pop, gdpPercap) <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">mutate</span>(<span class="at">pib_milliards =</span> <span class="fu">round</span>(pop <span class="sc">*</span> gdpPercap <span class="sc">/</span> <span class="fl">1e9</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">select</span>(country, pop, gdpPercap) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">mutate</span>(<span class="at">pib_milliards =</span> <span class="fu">round</span>(pop <span class="sc">*</span> gdpPercap <span class="sc">/</span> <span class="fl">1e9</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 142 × 4
@@ -639,10 +653,10 @@ Adrien Cloutier | Université Laval
 <h2><code>arrange()</code> — trier</h2>
 <div class="cell columns column-output-location" data-layout-align="center">
 <div class="column">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">select</span>(country, lifeExp) <span class="sc">|&gt;</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">select</span>(country, lifeExp) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 142 × 2
@@ -667,13 +681,13 @@ Adrien Cloutier | Université Laval
 <h2><code>group_by()</code> + <code>summarise()</code> — résumer par groupe</h2>
 <div class="cell columns column-output-location" data-layout-align="center">
 <div class="column">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb14-5"><a href="#cb14-5"></a>    <span class="at">esperance_moy =</span> <span class="fu">mean</span>(lifeExp),</span>
-<span id="cb14-6"><a href="#cb14-6"></a>    <span class="at">nb_pays       =</span> <span class="fu">n</span>()</span>
-<span id="cb14-7"><a href="#cb14-7"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb15-5"><a href="#cb15-5"></a>    <span class="at">esperance_moy =</span> <span class="fu">mean</span>(lifeExp),</span>
+<span id="cb15-6"><a href="#cb15-6"></a>    <span class="at">nb_pays       =</span> <span class="fu">n</span>()</span>
+<span id="cb15-7"><a href="#cb15-7"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 3
@@ -687,20 +701,6 @@ Adrien Cloutier | Université Laval
 </div>
 </div>
 </div>
-</section>
-<section id="le-pipe" class="slide level2">
-<h2>Le pipe : <code>|&gt;</code></h2>
-<p>Le pipe <strong>enchaîne</strong> les opérations. Lisez-le comme <em>« puis »</em>.</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Sans pipe — difficile à lire</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">arrange</span>(<span class="fu">filter</span>(gapminder, year <span class="sc">==</span> <span class="dv">2007</span>), <span class="fu">desc</span>(lifeExp))</span>
-<span id="cb16-3"><a href="#cb16-3"></a></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="co"># Avec pipe — naturel de gauche à droite</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Raccourci :</strong> <code>Ctrl + Shift + M</code> (Win) / <code>Cmd + Shift + M</code> (Mac)</p>
 </section>
 <section id="revoir-les-exercices-détienne" class="slide level2">
 <h2>Revoir les exercices d’Étienne?</h2>
@@ -975,29 +975,27 @@ Adrien Cloutier | Université Laval
 <section id="nos-données-textuelles" class="slide level2">
 <h2>Nos données textuelles</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb25-2"><a href="#cb25-2"></a></span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="co"># Exemple : réponses à une question ouverte de sondage sur les</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="co"># priorités politiques (traduit en anglais pour l'analyse de sentiment)</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a>reponses <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb25-6"><a href="#cb25-6"></a>  <span class="at">id       =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
-<span id="cb25-7"><a href="#cb25-7"></a>  <span class="at">auteur   =</span> <span class="fu">c</span>(<span class="st">"Répondant A"</span>, <span class="st">"Répondant B"</span>, <span class="st">"Répondant C"</span>, <span class="st">"Répondant D"</span>,</span>
-<span id="cb25-8"><a href="#cb25-8"></a>               <span class="st">"Répondant E"</span>, <span class="st">"Répondant F"</span>, <span class="st">"Répondant G"</span>, <span class="st">"Répondant H"</span>),</span>
-<span id="cb25-9"><a href="#cb25-9"></a>  <span class="at">texte    =</span> <span class="fu">c</span>(</span>
-<span id="cb25-10"><a href="#cb25-10"></a>    <span class="st">"The government must invest more in clean energy and protect the environment"</span>,</span>
-<span id="cb25-11"><a href="#cb25-11"></a>    <span class="st">"The cost of living crisis is terrible, prices are too high for working families"</span>,</span>
-<span id="cb25-12"><a href="#cb25-12"></a>    <span class="st">"Our healthcare system needs urgent reform and more funding immediately"</span>,</span>
-<span id="cb25-13"><a href="#cb25-13"></a>    <span class="st">"I appreciate the government's efforts on climate change and housing affordability"</span>,</span>
-<span id="cb25-14"><a href="#cb25-14"></a>    <span class="st">"Education should be free and accessible to all young people in this country"</span>,</span>
-<span id="cb25-15"><a href="#cb25-15"></a>    <span class="st">"The economy is struggling and the government has failed to address inflation"</span>,</span>
-<span id="cb25-16"><a href="#cb25-16"></a>    <span class="st">"We need stronger social programs and better support for vulnerable communities"</span>,</span>
-<span id="cb25-17"><a href="#cb25-17"></a>    <span class="st">"This government's terrible policies have destroyed our economic opportunities"</span></span>
-<span id="cb25-18"><a href="#cb25-18"></a>  )</span>
-<span id="cb25-19"><a href="#cb25-19"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># Exemple : réponses à une question ouverte de sondage sur les</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="co"># priorités politiques (traduit en anglais pour l'analyse de sentiment)</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>reponses <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb25-4"><a href="#cb25-4"></a>  <span class="at">id     =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
+<span id="cb25-5"><a href="#cb25-5"></a>  <span class="at">groupe =</span> <span class="fu">c</span>(<span class="st">"Centre"</span>, <span class="st">"Droite"</span>, <span class="st">"Centre"</span>, <span class="st">"Gauche"</span>,</span>
+<span id="cb25-6"><a href="#cb25-6"></a>             <span class="st">"Centre"</span>, <span class="st">"Droite"</span>, <span class="st">"Gauche"</span>, <span class="st">"Droite"</span>),</span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="at">texte  =</span> <span class="fu">c</span>(</span>
+<span id="cb25-8"><a href="#cb25-8"></a>    <span class="st">"The government must invest more in clean energy and protect the environment"</span>,</span>
+<span id="cb25-9"><a href="#cb25-9"></a>    <span class="st">"The cost of living crisis is terrible, prices are too high for working families"</span>,</span>
+<span id="cb25-10"><a href="#cb25-10"></a>    <span class="st">"Our healthcare system needs urgent reform and more funding immediately"</span>,</span>
+<span id="cb25-11"><a href="#cb25-11"></a>    <span class="st">"I appreciate the government's efforts on climate change and housing affordability"</span>,</span>
+<span id="cb25-12"><a href="#cb25-12"></a>    <span class="st">"Education should be free and accessible to all young people in this country"</span>,</span>
+<span id="cb25-13"><a href="#cb25-13"></a>    <span class="st">"The economy is struggling and the government has failed to address inflation"</span>,</span>
+<span id="cb25-14"><a href="#cb25-14"></a>    <span class="st">"We need stronger social programs and better support for vulnerable communities"</span>,</span>
+<span id="cb25-15"><a href="#cb25-15"></a>    <span class="st">"This government's terrible policies have destroyed our economic opportunities"</span></span>
+<span id="cb25-16"><a href="#cb25-16"></a>  )</span>
+<span id="cb25-17"><a href="#cb25-17"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="stringr-manipulation-de-texte" class="slide level2">
-<h2>4.1 stringr : manipulation de texte</h2>
+<h2>2.1 stringr : manipulation de texte</h2>
 <p>stringr fait partie de <strong>tidyverse</strong> — pas besoin d’installation supplémentaire.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Les fonctions principales</span></span>
@@ -1042,28 +1040,25 @@ Adrien Cloutier | Université Laval
 </div>
 </section>
 <section id="tidytext-tokenisation" class="slide level2">
-<h2>4.2 tidytext : tokenisation</h2>
+<h2>2.2 tidytext : tokenisation</h2>
 <p><strong>Tokeniser</strong> = découper un texte en unités (mots, phrases, n-grammes).</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">install.packages</span>(<span class="st">"tidytext"</span>)</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="fu">library</span>(tidytext)</span>
-<span id="cb28-3"><a href="#cb28-3"></a></span>
-<span id="cb28-4"><a href="#cb28-4"></a><span class="co"># Tokeniser nos réponses de sondage</span></span>
-<span id="cb28-5"><a href="#cb28-5"></a>mots <span class="ot">&lt;-</span> reponses <span class="sc">|&gt;</span></span>
-<span id="cb28-6"><a href="#cb28-6"></a>  <span class="fu">unnest_tokens</span>(</span>
-<span id="cb28-7"><a href="#cb28-7"></a>    <span class="at">output =</span> mot,   <span class="co"># nom de la nouvelle colonne</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a>    <span class="at">input  =</span> texte  <span class="co"># colonne à découper</span></span>
-<span id="cb28-9"><a href="#cb28-9"></a>  )</span>
-<span id="cb28-10"><a href="#cb28-10"></a></span>
-<span id="cb28-11"><a href="#cb28-11"></a><span class="co"># Résultat : une ligne par mot</span></span>
-<span id="cb28-12"><a href="#cb28-12"></a>mots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># Tokeniser nos réponses de sondage</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>mots <span class="ot">&lt;-</span> reponses <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a>  <span class="fu">unnest_tokens</span>(</span>
+<span id="cb28-4"><a href="#cb28-4"></a>    <span class="at">output =</span> mot,   <span class="co"># nom de la nouvelle colonne</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a>    <span class="at">input  =</span> texte  <span class="co"># colonne à découper</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a>  )</span>
+<span id="cb28-7"><a href="#cb28-7"></a></span>
+<span id="cb28-8"><a href="#cb28-8"></a><span class="co"># Résultat : une ligne par mot</span></span>
+<span id="cb28-9"><a href="#cb28-9"></a>mots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <pre><code># A tibble: 80 × 3
-   id    auteur       mot
- 1     1 Répondant A  the
- 2     1 Répondant A  government
- 3     1 Répondant A  must
+   id    groupe  mot
+ 1     1 Centre  the
+ 2     1 Centre  government
+ 3     1 Centre  must
 ...</code></pre>
 </div>
 </section>
@@ -1106,7 +1101,7 @@ Adrien Cloutier | Université Laval
 </div>
 </section>
 <section id="analyse-de-sentiment" class="slide level2">
-<h2>4.3 Analyse de sentiment</h2>
+<h2>2.3 Analyse de sentiment</h2>
 <p>L’analyse de sentiment mesure le <strong>ton</strong> d’un texte (positif, négatif, neutre).</p>
 <p>Principe : associer chaque mot à un score de sentiment à partir d’un <strong>lexique</strong>.</p>
 <div class="cell" data-layout-align="center">
@@ -1123,13 +1118,13 @@ Adrien Cloutier | Université Laval
 <span id="cb32-11"><a href="#cb32-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="calculer-le-sentiment-par-répondant" class="slide level2">
-<h2>Calculer le sentiment par répondant</h2>
+<section id="calculer-le-sentiment-par-groupe-politique" class="slide level2">
+<h2>Calculer le sentiment par groupe politique</h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="co"># Joindre les mots avec le lexique</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a>sentiment_par_auteur <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a>sentiment_par_groupe <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
 <span id="cb33-3"><a href="#cb33-3"></a>  <span class="fu">inner_join</span>(bing, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"mot"</span> <span class="ot">=</span> <span class="st">"word"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb33-4"><a href="#cb33-4"></a>  <span class="fu">count</span>(auteur, sentiment) <span class="sc">|&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4"></a>  <span class="fu">count</span>(groupe, sentiment) <span class="sc">|&gt;</span></span>
 <span id="cb33-5"><a href="#cb33-5"></a>  <span class="fu">pivot_wider</span>(</span>
 <span id="cb33-6"><a href="#cb33-6"></a>    <span class="at">names_from  =</span> sentiment,</span>
 <span id="cb33-7"><a href="#cb33-7"></a>    <span class="at">values_from =</span> n,</span>
@@ -1137,14 +1132,14 @@ Adrien Cloutier | Université Laval
 <span id="cb33-9"><a href="#cb33-9"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb33-10"><a href="#cb33-10"></a>  <span class="fu">mutate</span>(<span class="at">score_net =</span> positive <span class="sc">-</span> negative)</span>
 <span id="cb33-11"><a href="#cb33-11"></a></span>
-<span id="cb33-12"><a href="#cb33-12"></a>sentiment_par_auteur</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-12"><a href="#cb33-12"></a>sentiment_par_groupe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualiser-le-sentiment" class="slide level2">
 <h2>Visualiser le sentiment</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>sentiment_par_auteur <span class="sc">|&gt;</span></span>
-<span id="cb34-2"><a href="#cb34-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(auteur, score_net),</span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>sentiment_par_groupe <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(groupe, score_net),</span>
 <span id="cb34-3"><a href="#cb34-3"></a>             <span class="at">y =</span> score_net,</span>
 <span id="cb34-4"><a href="#cb34-4"></a>             <span class="at">fill =</span> score_net <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb34-5"><a href="#cb34-5"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
@@ -1152,36 +1147,34 @@ Adrien Cloutier | Université Laval
 <span id="cb34-7"><a href="#cb34-7"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb34-8"><a href="#cb34-8"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
 <span id="cb34-9"><a href="#cb34-9"></a>  <span class="fu">labs</span>(</span>
-<span id="cb34-10"><a href="#cb34-10"></a>    <span class="at">title    =</span> <span class="st">"Ton des réponses par répondant"</span>,</span>
+<span id="cb34-10"><a href="#cb34-10"></a>    <span class="at">title    =</span> <span class="st">"Ton des réponses par groupe politique"</span>,</span>
 <span id="cb34-11"><a href="#cb34-11"></a>    <span class="at">subtitle =</span> <span class="st">"Score net = mots positifs − mots négatifs"</span>,</span>
-<span id="cb34-12"><a href="#cb34-12"></a>    <span class="at">x        =</span> <span class="st">"Répondant"</span>,</span>
+<span id="cb34-12"><a href="#cb34-12"></a>    <span class="at">x        =</span> <span class="st">"Groupe politique"</span>,</span>
 <span id="cb34-13"><a href="#cb34-13"></a>    <span class="at">y        =</span> <span class="st">"Score de sentiment net"</span></span>
 <span id="cb34-14"><a href="#cb34-14"></a>  ) <span class="sc">+</span></span>
 <span id="cb34-15"><a href="#cb34-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="wordcloud" class="slide level2">
-<h2>3.4 Wordcloud</h2>
+<section id="nuage-de-mots-wordcloud" class="slide level2">
+<h2>2.4 Nuage de mots (wordcloud)</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">install.packages</span>(<span class="st">"wordcloud"</span>)</span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="fu">library</span>(wordcloud)</span>
-<span id="cb35-3"><a href="#cb35-3"></a></span>
-<span id="cb35-4"><a href="#cb35-4"></a><span class="co"># Compter les mots (après avoir enlevé les stop words)</span></span>
-<span id="cb35-5"><a href="#cb35-5"></a>freq <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
-<span id="cb35-6"><a href="#cb35-6"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb35-7"><a href="#cb35-7"></a></span>
-<span id="cb35-8"><a href="#cb35-8"></a><span class="co"># Générer le nuage de mots</span></span>
-<span id="cb35-9"><a href="#cb35-9"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb35-10"><a href="#cb35-10"></a><span class="fu">wordcloud</span>(</span>
-<span id="cb35-11"><a href="#cb35-11"></a>  <span class="at">words  =</span> freq<span class="sc">$</span>mot,</span>
-<span id="cb35-12"><a href="#cb35-12"></a>  <span class="at">freq   =</span> freq<span class="sc">$</span>n,</span>
-<span id="cb35-13"><a href="#cb35-13"></a>  <span class="at">min.freq    =</span> <span class="dv">1</span>,</span>
-<span id="cb35-14"><a href="#cb35-14"></a>  <span class="at">max.words   =</span> <span class="dv">50</span>,</span>
-<span id="cb35-15"><a href="#cb35-15"></a>  <span class="at">random.order =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb35-16"><a href="#cb35-16"></a>  <span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>)</span>
-<span id="cb35-17"><a href="#cb35-17"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="co"># Compter les mots (après avoir enlevé les stop words)</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>freq <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-4"><a href="#cb35-4"></a></span>
+<span id="cb35-5"><a href="#cb35-5"></a><span class="co"># Générer le nuage de mots</span></span>
+<span id="cb35-6"><a href="#cb35-6"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb35-7"><a href="#cb35-7"></a><span class="fu">wordcloud</span>(</span>
+<span id="cb35-8"><a href="#cb35-8"></a>  <span class="at">words  =</span> freq<span class="sc">$</span>mot,</span>
+<span id="cb35-9"><a href="#cb35-9"></a>  <span class="at">freq   =</span> freq<span class="sc">$</span>n,</span>
+<span id="cb35-10"><a href="#cb35-10"></a>  <span class="at">min.freq    =</span> <span class="dv">1</span>,</span>
+<span id="cb35-11"><a href="#cb35-11"></a>  <span class="at">max.words   =</span> <span class="dv">50</span>,</span>
+<span id="cb35-12"><a href="#cb35-12"></a>  <span class="at">random.order =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb35-13"><a href="#cb35-13"></a>  <span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>)</span>
+<span id="cb35-14"><a href="#cb35-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
 </div>
-</section>
+<img data-src="slides_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section class="slide level2">
 
 </section></section>
@@ -1273,16 +1266,13 @@ Adrien Cloutier | Université Laval
 <section id="tableau-de-régression-avec-modelsummary" class="slide level2">
 <h2>Tableau de régression avec modelsummary</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="fu">install.packages</span>(<span class="st">"modelsummary"</span>)</span>
-<span id="cb40-2"><a href="#cb40-2"></a><span class="fu">library</span>(modelsummary)</span>
-<span id="cb40-3"><a href="#cb40-3"></a></span>
-<span id="cb40-4"><a href="#cb40-4"></a><span class="co"># Tableau comparant deux modèles</span></span>
-<span id="cb40-5"><a href="#cb40-5"></a><span class="fu">modelsummary</span>(</span>
-<span id="cb40-6"><a href="#cb40-6"></a>  <span class="fu">list</span>(<span class="st">"Modèle simple"</span>   <span class="ot">=</span> modele,</span>
-<span id="cb40-7"><a href="#cb40-7"></a>       <span class="st">"Modèle multiple"</span> <span class="ot">=</span> modele_multiple),</span>
-<span id="cb40-8"><a href="#cb40-8"></a>  <span class="at">stars =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb40-9"><a href="#cb40-9"></a>  <span class="at">output =</span> <span class="st">"tableau_regression.docx"</span>   <span class="co"># exporte en Word!</span></span>
-<span id="cb40-10"><a href="#cb40-10"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># Tableau comparant deux modèles</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="fu">modelsummary</span>(</span>
+<span id="cb40-3"><a href="#cb40-3"></a>  <span class="fu">list</span>(<span class="st">"Modèle simple"</span>   <span class="ot">=</span> modele,</span>
+<span id="cb40-4"><a href="#cb40-4"></a>       <span class="st">"Modèle multiple"</span> <span class="ot">=</span> modele_multiple),</span>
+<span id="cb40-5"><a href="#cb40-5"></a>  <span class="at">stars =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb40-6"><a href="#cb40-6"></a>  <span class="at">output =</span> <span class="st">"tableau_regression.docx"</span>   <span class="co"># exporte en Word!</span></span>
+<span id="cb40-7"><a href="#cb40-7"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p><code>modelsummary</code> exporte en Word, PDF, HTML, Excel — parfait pour vos mémoires et articles.</p>
@@ -1441,7 +1431,7 @@ continent, pour l'année 2007 seulement.</code></pre>
 <section id="le-contenu-de-cet-atelier-est-sur-github" class="slide level2">
 <h2>Le contenu de cet atelier est sur GitHub</h2>
 <div class="r-fit-text">
-<p><strong><a href="https://github.com/clessn">github.com/clessn/atelier-fss-20mars2026</a></strong></p>
+<p><strong><a href="https://github.com/AdriClout/atelier-fss-20mars2026">github.com/AdriClout/atelier-fss-20mars2026</a></strong></p>
 </div>
 <p>Vous y trouverez :</p>
 <ul>
@@ -1488,7 +1478,7 @@ continent, pour l'année 2007 seulement.</code></pre>
 <li>Manipulation avec dplyr (gapminder)</li>
 <li>Visualisation avec ggplot2</li>
 <li>Analyse textuelle (stringr + tidytext)</li>
-<li>BONUS : régression linéaire</li>
+<li>Régression linéaire</li>
 </ul>
 </div>
 </section>
