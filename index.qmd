@@ -62,6 +62,14 @@ install.packages(c("tidyverse", "gapminder", "tidytext", "wordcloud", "modelsumm
 
 ---
 
+## 🎁 Cadeau — Accès DataCamp gratuit
+
+Activez votre abonnement DataCamp gratuit (cours R, Python, SQL, stats et plus) :
+
+[Activer mon accès gratuit →](https://www.datacamp.com/groups/shared_links/eb5c78c872a775f17d2d2434b1ecd255b594b2c31ad701348869257e693c8515){.btn .btn-primary style="margin-top: 0.5rem;"}
+
+---
+
 ## Ressources recommandées
 
 - [R for Data Science](https://r4ds.hadley.nz/) — Hadley Wickham *(gratuit en ligne)*

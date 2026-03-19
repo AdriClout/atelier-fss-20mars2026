@@ -11,7 +11,7 @@
     "href": "index.html#matériel",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Matériel",
-    "text": "Matériel\n\n\n📊 Slides\nPrésentation de la journée — rappel, dplyr avancé, ggplot2, IA et analyse textuelle.\nOuvrir les slides →\n\n\n💻 Exercices\nExercices interactifs avec corrections cachées pour l’atelier pratique.\nOuvrir les exercices →\n\n\n📁 Script R\nScript brut .R à ouvrir dans RStudio pendant l’atelier.\nTélécharger exercices.R →"
+    "text": "Matériel\n\n\n📊 Slides\nPrésentation de la journée — rappel, ggplot2, IA, analyse textuelle et régression.\nOuvrir les slides →\n\n\n💻 Exercices\nExercices interactifs avec corrections cachées pour l’atelier pratique.\nOuvrir les exercices →\n\n\n📁 Script R\nScript brut .R à ouvrir dans RStudio pendant l’atelier.\nTélécharger exercices.R →"
   },
   {
     "objectID": "index.html#avant-latelier",
@@ -25,7 +25,14 @@
     "href": "index.html#plan-de-la-journée",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Plan de la journée",
-    "text": "Plan de la journée\n\n\n\n#\nSujet\nDurée\n\n\n\n\n—\nRappel : bases R et dplyr\n~30 min\n\n\n1\nVisualisation avec ggplot2\n~25 min\n\n\n2\nR et l’IA : comment travailler intelligemment\n~25 min\n\n\n3\nAnalyse textuelle automatisée\n~40 min\n\n\n4\nRégression linéaire\n~20 min\n\n\n—\nAtelier pratique (présentiel, 13h–15h)\n2h"
+    "text": "Plan de la journée\n\n\n\n#\nSujet\n\n\n\n\n—\nRappel : bases R et dplyr\n\n\n1\nVisualisation avec ggplot2\n\n\n2\nAnalyse textuelle automatisée\n\n\n3\nRégression linéaire\n\n\nBONUS\nR et l’IA : comment travailler intelligemment\n\n\n—\nAtelier pratique (présentiel, 13h–15h)"
+  },
+  {
+    "objectID": "index.html#cadeau-accès-datacamp-gratuit",
+    "href": "index.html#cadeau-accès-datacamp-gratuit",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "🎁 Cadeau — Accès DataCamp gratuit",
+    "text": "🎁 Cadeau — Accès DataCamp gratuit\nActivez votre abonnement DataCamp gratuit (cours R, Python, SQL, stats et plus) :\nActiver mon accès gratuit →"
   },
   {
     "objectID": "index.html#ressources-recommandées",
@@ -88,14 +95,14 @@
     "href": "slides.html#qui-suis-je",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Qui suis-je?",
-    "text": "Qui suis-je?\n\nDoctorant en science politique (directeur : Yannick Dufresne)\nCo-coordonnateur de la CLESSN (Chaire de leadership en enseignement des sciences sociales numériques)\nCo-coordonnateur du CAPP (Centre d’analyses des politiques publiques)\nCocréateur de l’EIOM (École interdisciplinaire Outils & Méthodes — eiom.ca)\nCertified Scrum Master & Notion certified\nMembre du GRCP, CÉCD"
+    "text": "Qui suis-je?\n\nDoctorant en science politique (directeur : Yannick Dufresne)\nCo-coordonnateur de la CLESSN (Chaire de leadership en enseignement des sciences sociales numériques)\nCo-coordonnateur du CAPP (Centre d’analyses des politiques publiques)\nCocréateur de l’EIOM (École interdisciplinaire Outils & Méthodes — eiom.ca)\nCertified Scrum Master & Notion certified\nMembre du GRCP, CÉCD, OVBIA, CIEQ"
   },
   {
     "objectID": "slides.html#plan-de-la-journée",
     "href": "slides.html#plan-de-la-journée",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Plan de la journée",
-    "text": "Plan de la journée\n9h à 12h — Formation théorique\n\nRappel de la semaine passée (~30 min)\nVisualisation : ggplot2\nR et l’IA : comment travailler intelligemment\nAnalyse textuelle automatisée avec R\nRégression linéaire\n\n13h à 15h — Atelier pratique (présentiel seulement)\n\nTravaillez avec vos propres données et questions de recherche\nExercices disponibles sur le site de l’atelier"
+    "text": "Plan de la journée\n9h à 12h — Formation théorique\n\nRappel de la semaine passée\nVisualisation : ggplot2\nAnalyse textuelle automatisée avec R\nRégression linéaire\nBONUS — R et l’IA : comment travailler intelligemment\n\n13h à 15h — Atelier pratique (présentiel seulement)\n\nTravaillez avec vos propres données et questions de recherche\nExercices disponibles sur le site de l’atelier"
   },
   {
     "objectID": "slides.html#la-semaine-passée-avec-étienne",
@@ -144,7 +151,14 @@
     "href": "slides.html#les-6-verbes-de-dplyr-rappel-éclair",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Les 6 verbes de dplyr — rappel éclair",
-    "text": "Les 6 verbes de dplyr — rappel éclair\n\n\n\nVerbe\nAction\nExemple\n\n\n\n\nfilter()\nGarder des lignes\nfilter(year == 2007)\n\n\nselect()\nGarder des colonnes\nselect(country, lifeExp)\n\n\nmutate()\nCréer / modifier\nmutate(pib_mil = pop * gdpPercap)\n\n\narrange()\nTrier\narrange(desc(lifeExp))\n\n\nrename()\nRenommer\nrename(pays = country)\n\n\ngroup_by() + summarise()\nRésumer par groupe\nvoir ci-dessous\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(esperance_moy = mean(lifeExp), nb_pays = n())"
+    "text": "Les 6 verbes de dplyr — rappel éclair\n\n\n\nVerbe\nAction\nExemple\n\n\n\n\nfilter()\nGarder des lignes\nfilter(year == 2007)\n\n\nselect()\nGarder des colonnes\nselect(country, lifeExp)\n\n\nmutate()\nCréer / modifier\nmutate(pib_mil = pop * gdpPercap)\n\n\narrange()\nTrier\narrange(desc(lifeExp))\n\n\nrename()\nRenommer\nrename(pays = country)\n\n\ngroup_by() + summarise()\nRésumer par groupe\nvoir ci-dessous"
+  },
+  {
+    "objectID": "slides.html#group_by-summarise",
+    "href": "slides.html#group_by-summarise",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "group_by() + summarise()",
+    "text": "group_by() + summarise()\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  group_by(continent) |&gt;\n  summarise(esperance_moy = mean(lifeExp), nb_pays = n())"
   },
   {
     "objectID": "slides.html#revoir-les-exercices-détienne",
@@ -362,6 +376,13 @@
     "title": "Approfondissement en analyse de données avec R",
     "section": "Corrélation ≠ causalité",
     "text": "Corrélation ≠ causalité\n\n\nNombre de naissances ~ nombre de cigognes par pays (p = 0.008). Pas de causalité : variable confondante = taille du pays."
+  },
+  {
+    "objectID": "slides.html#abonnement-datacamp-gratuit",
+    "href": "slides.html#abonnement-datacamp-gratuit",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Abonnement DataCamp gratuit 🎁",
+    "text": "Abonnement DataCamp gratuit 🎁\n\nCliquez ici pour activer votre accès gratuit\n\nDes centaines de cours en R, Python, SQL, statistiques et science des données — gratuit pour vous."
   },
   {
     "objectID": "slides.html#vos-ressources-essentielles",

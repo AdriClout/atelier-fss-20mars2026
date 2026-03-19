@@ -794,6 +794,14 @@ Nombre de naissances ~ nombre de cigognes par pays (*p* = 0.008). Pas de causali
 
 # Un cadeau! 🎁
 
+## Abonnement DataCamp gratuit 🎁
+
+::: {.r-fit-text}
+[Cliquez ici pour activer votre accès gratuit](https://www.datacamp.com/groups/shared_links/eb5c78c872a775f17d2d2434b1ecd255b594b2c31ad701348869257e693c8515)
+:::
+
+Des centaines de cours en R, Python, SQL, statistiques et science des données — **gratuit pour vous**.
+
 ## Vos ressources essentielles
 
 **Apprendre R en faisant :**
