@@ -9,6 +9,9 @@
 #   2. Lisez les commentaires — ils expliquent chaque étape                    #
 #   3. Les exercices sont progressifs — commencez par le début!                #
 #                                                                              #
+#   Solutions disponibles en ligne :                                           #
+#   https://adriencloutier.com/atelier-fss-20mars2026/exercices.html           #
+#                                                                              #
 ################################################################################
 
 
@@ -17,9 +20,7 @@
 # ==============================================================================
 
 # À faire UNE SEULE FOIS (dans la console, pas dans le fichier)
-# install.packages("tidyverse")
-# install.packages("gapminder")
-# install.packages("tidytext")
+# install.packages(c("tidyverse", "gapminder", "tidytext", "wordcloud", "modelsummary"))
 
 # À faire à chaque session
 library(tidyverse)
@@ -42,7 +43,6 @@ glimpse(gapminder)
 # Triez par espérance de vie décroissante.
 # Combien de pays asiatiques ont une espérance de vie > 75 ans?
 
-# Votre code ici :
 gapminder |>
   filter(???) |>
   select(???) |>
@@ -54,7 +54,6 @@ gapminder |>
 # Nommez la colonne résultante "pib_median".
 # Affichez seulement les données depuis 1990.
 
-# Votre code ici :
 gapminder |>
   filter(???) |>
   group_by(???) |>
@@ -65,32 +64,13 @@ gapminder |>
 # Créez une nouvelle colonne "pib_total" qui correspond à pop * gdpPercap.
 # Trouvez les 5 pays avec le PIB total le plus élevé en 2007.
 
-# Votre code ici :
 gapminder |>
   filter(???) |>
   mutate(???) |>
   arrange(???) |>
   slice_head(n = 5)
 
-
-# CORRECTION 1.1
-gapminder |>
-  filter(year == 2007, continent == "Asia") |>
-  select(country, lifeExp, gdpPercap) |>
-  arrange(desc(lifeExp))
-
-# CORRECTION 1.2
-gapminder |>
-  filter(year >= 1990) |>
-  group_by(continent, year) |>
-  summarise(pib_median = median(gdpPercap), .groups = "drop")
-
-# CORRECTION 1.3
-gapminder |>
-  filter(year == 2007) |>
-  mutate(pib_total = pop * gdpPercap) |>
-  arrange(desc(pib_total)) |>
-  slice_head(n = 5)
+# --> Solutions : https://adriencloutier.com/atelier-fss-20mars2026/exercices.html
 
 
 # ==============================================================================
@@ -98,15 +78,13 @@ gapminder |>
 # ==============================================================================
 
 # ------ Exercice 2.1 : Nuage de points ------
-# Reproduisez le graphique suivant :
+# Reproduisez le graphique vu en présentation :
 # - Axe X : PIB per capita (échelle logarithmique)
 # - Axe Y : Espérance de vie
 # - Couleur : continent
 # - Données : 2007 seulement
-# - Titre, sous-titre, étiquettes d'axes appropriés
-# - Thème minimal
+# - Titre, étiquettes d'axes, thème minimal
 
-# Votre code ici :
 gapminder |>
   filter(???) |>
   ggplot(aes(???)) +
@@ -119,9 +97,8 @@ gapminder |>
 # ------ Exercice 2.2 : Évolution dans le temps ------
 # Tracez l'évolution de l'espérance de vie MOYENNE par continent de 1952 à 2007.
 # Utilisez geom_line() avec une ligne par continent.
-# Astuce : calculez d'abord la moyenne par continent et année avec group_by() + summarise()
+# Astuce : calculez d'abord la moyenne avec group_by() + summarise()
 
-# Votre code ici :
 gapminder |>
   group_by(???) |>
   summarise(???) |>
@@ -139,49 +116,7 @@ gapminder |>
 # Votre code ici :
 
 
-# CORRECTION 2.1
-gapminder |>
-  filter(year == 2007) |>
-  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +
-  geom_point(alpha = 0.7) +
-  scale_x_log10() +
-  labs(
-    title    = "PIB per capita et espérance de vie (2007)",
-    subtitle = "Chaque point représente un pays",
-    x        = "PIB per capita (échelle log)",
-    y        = "Espérance de vie (années)",
-    color    = "Continent",
-    size     = "Population"
-  ) +
-  theme_minimal()
-
-# CORRECTION 2.2
-gapminder |>
-  group_by(continent, year) |>
-  summarise(esperance_moy = mean(lifeExp), .groups = "drop") |>
-  ggplot(aes(x = year, y = esperance_moy, color = continent)) +
-  geom_line(linewidth = 1) +
-  labs(
-    title = "Évolution de l'espérance de vie par continent (1952–2007)",
-    x     = "Année",
-    y     = "Espérance de vie moyenne (années)",
-    color = "Continent"
-  ) +
-  theme_minimal()
-
-# CORRECTION 2.3
-gapminder |>
-  filter(year == 2007) |>
-  ggplot(aes(x = gdpPercap, fill = continent)) +
-  geom_histogram(bins = 30, alpha = 0.6) +
-  scale_x_log10() +
-  labs(
-    title = "Distribution du PIB per capita par continent (2007)",
-    x     = "PIB per capita (échelle log)",
-    y     = "Nombre de pays",
-    fill  = "Continent"
-  ) +
-  theme_minimal()
+# --> Solutions : https://adriencloutier.com/atelier-fss-20mars2026/exercices.html
 
 
 # ==============================================================================
@@ -226,7 +161,6 @@ reponses |>
 # Enlevez les stop words (anti_join avec stop_words)
 # Affichez les 10 mots les plus fréquents sous forme de graphique en barres
 
-# Votre code ici :
 mots <- reponses |>
   unnest_tokens(mot, texte)
 
@@ -252,7 +186,6 @@ mots_propres |>
 
 bing <- get_sentiments("bing")
 
-# Votre code ici :
 mots_propres |>
   inner_join(???, by = c("mot" = "word")) |>
   count(groupe, sentiment) |>
@@ -265,94 +198,54 @@ mots_propres |>
        x = "Groupe", y = "Score net") +
   theme_minimal()
 
-
-# CORRECTION 3.1
-reponses |>
-  mutate(
-    nb_mots                = str_count(texte, "\\w+"),
-    mentionne_gouvernement = str_detect(texte, "government")
-  ) |>
-  filter(mentionne_gouvernement)
-
-# CORRECTION 3.2
-mots <- reponses |>
-  unnest_tokens(mot, texte)
-
-data(stop_words)
-
-mots_propres <- mots |>
-  anti_join(stop_words, by = c("mot" = "word"))
-
-mots_propres |>
-  count(mot, sort = TRUE) |>
-  slice_head(n = 10) |>
-  ggplot(aes(x = reorder(mot, n), y = n)) +
-  geom_col(fill = "#003875") +
-  coord_flip() +
-  labs(title = "10 mots les plus fréquents", x = "Mot", y = "Fréquence") +
-  theme_minimal()
-
-# CORRECTION 3.3
-bing <- get_sentiments("bing")
-
-mots_propres |>
-  inner_join(bing, by = c("mot" = "word")) |>
-  count(groupe, sentiment) |>
-  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) |>
-  mutate(score_net = positive - negative) |>
-  ggplot(aes(x = reorder(groupe, score_net), y = score_net, fill = score_net > 0)) +
-  geom_col(show.legend = FALSE) +
-  scale_fill_manual(values = c("firebrick", "#2ca25f")) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  labs(title = "Ton des réponses par groupe politique",
-       x = "Groupe", y = "Score de sentiment net (positifs − négatifs)") +
-  theme_minimal()
+# --> Solutions : https://adriencloutier.com/atelier-fss-20mars2026/exercices.html
 
 
 # ==============================================================================
-# SECTION 3 : RÉGRESSION LINÉAIRE
+# SECTION 4 : RÉGRESSION LINÉAIRE
 # ==============================================================================
-
-# ------ Exercice 3.1 ------
-# Avec les données Gapminder pour 2007 :
-# 1. Faites une régression linéaire : lifeExp ~ log(gdpPercap)
-# 2. Affichez le résumé (summary)
-# 3. Interprétez : l'effet est-il significatif? Positif ou négatif?
 
 data_2007 <- gapminder |>
   filter(year == 2007) |>
   mutate(log_pib = log(gdpPercap))
 
-# Modèle simple
-modele_simple <- lm(lifeExp ~ log_pib, data = data_2007)
-summary(modele_simple)
+# ------ Exercice 4.1 : Régression simple ------
+# Faites une régression : lifeExp ~ log_pib
+# Affichez le résumé avec summary()
+# Interprétez : l'effet est-il significatif? Positif ou négatif?
 
-# Modèle multiple (avec contrôle pour la population)
-modele_multiple <- lm(lifeExp ~ log_pib + log(pop), data = data_2007)
-summary(modele_multiple)
+modele <- lm(???, data = data_2007)
+summary(modele)
 
-# Visualiser la relation
+
+# ------ Exercice 4.2 : Visualiser la droite ------
+# Représentez la relation log_pib ~ lifeExp avec geom_point() + geom_smooth(method = "lm")
+
 data_2007 |>
-  ggplot(aes(x = log_pib, y = lifeExp)) +
+  ggplot(aes(x = ???, y = ???)) +
   geom_point(aes(color = continent), alpha = 0.7) +
-  geom_smooth(method = "lm", color = "black", se = TRUE) +
-  labs(
-    title    = "Régression : PIB per capita (log) → Espérance de vie",
-    x        = "Log du PIB per capita",
-    y        = "Espérance de vie (années)",
-    color    = "Continent"
-  ) +
+  geom_smooth(???) +
+  labs(???) +
   theme_minimal()
 
-# Pour des tableaux de régression formatés :
-# install.packages("modelsummary")
-# library(modelsummary)
-# modelsummary(list("Modèle simple" = modele_simple,
-#                   "Modèle multiple" = modele_multiple))
+
+# ------ Exercice 4.3 : Régression multiple ------
+# Ajoutez continent comme deuxième prédicteur.
+# Comparez les deux modèles avec modelsummary().
+
+modele_multiple <- lm(lifeExp ~ log_pib + ???, data = data_2007)
+
+modelsummary(
+  list("Modèle simple" = modele, "Modèle multiple" = modele_multiple),
+  stars = TRUE
+)
+
+# --> Solutions : https://adriencloutier.com/atelier-fss-20mars2026/exercices.html
 
 
 # ==============================================================================
 # FIN — Bonne continuation!
 # ==============================================================================
-# Pour des questions : adrien.cloutier.1@ulaval.ca
-# Ressources : https://r4ds.hadley.nz/ | https://www.tidytextmining.com/
+# Questions : adrien.cloutier.1@ulaval.ca
+# Site de l'atelier : https://adriencloutier.com/atelier-fss-20mars2026/
+# R for Data Science : https://r4ds.hadley.nz/

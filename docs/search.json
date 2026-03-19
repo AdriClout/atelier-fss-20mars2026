@@ -60,21 +60,21 @@
     "href": "exercices.html#section-1-ggplot2",
     "title": "Exercices pratiques",
     "section": "2 Section 1 : ggplot2",
-    "text": "2 Section 1 : ggplot2\n\n2.1 Exercice 1.1 — facet_wrap() : petits multiples\nfacet_wrap() crée un graphique séparé pour chaque valeur d’une variable — très utile pour comparer des sous-groupes.\nCréez un nuage de points (PIB per capita en X, espérance de vie en Y) pour 2007, avec :\n\nÉchelle X logarithmique\nUn facet par continent (facet_wrap(~ continent))\nPoints colorés en bleu (#003875), transparence 0.6\nTitre et étiquettes d’axes\n\n\ngapminder |&gt;\n  filter(???) |&gt;\n  ggplot(aes(x = ???, y = ???)) +\n  geom_point(color = \"#003875\", alpha = 0.6) +\n  scale_x_log10() +\n  facet_wrap(~ ???) +\n  labs(???) +\n  theme_minimal()\n\n\nSolution\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, y = lifeExp)) +\n  geom_point(color = \"#003875\", alpha = 0.6) +\n  scale_x_log10() +\n  facet_wrap(~ continent) +\n  labs(\n    title = \"PIB per capita et espérance de vie par continent (2007)\",\n    x     = \"PIB per capita (échelle log)\",\n    y     = \"Espérance de vie (années)\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n2.2 Exercice 1.2 — Évolution dans le temps\nTracez l’évolution de l’espérance de vie moyenne par continent de 1952 à 2007. Utilisez geom_line() avec une ligne par continent.\n\nAstuce : Calculez d’abord la moyenne avec group_by() + summarise(), puis passez le résultat à ggplot.\n\n\n# Votre code ici\ngapminder |&gt;\n  group_by(???) |&gt;\n  summarise(???) |&gt;\n  ggplot(aes(x = year, y = ???, color = continent)) +\n  geom_line(linewidth = 1) +\n  labs(???) +\n  theme_minimal()\n\n\nSolution\n\n\n\ngapminder |&gt;\n  group_by(continent, year) |&gt;\n  summarise(esperance_moy = mean(lifeExp), .groups = \"drop\") |&gt;\n  ggplot(aes(x = year, y = esperance_moy, color = continent)) +\n  geom_line(linewidth = 1) +\n  labs(\n    title = \"Évolution de l'espérance de vie par continent (1952–2007)\",\n    x     = \"Année\",\n    y     = \"Espérance de vie moyenne (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n2.3 Exercice 1.3 — Histogramme\nFaites un histogramme de la distribution du PIB per capita en 2007.\n\nUtilisez fill = continent pour colorer par continent\nAjoutez alpha = 0.6 pour la transparence\nAppliquez scale_x_log10()\n\n\n# Votre code ici\n\n\nSolution\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, fill = continent)) +\n  geom_histogram(bins = 30, alpha = 0.6) +\n  scale_x_log10() +\n  labs(\n    title = \"Distribution du PIB per capita par continent (2007)\",\n    x     = \"PIB per capita (échelle log)\",\n    y     = \"Nombre de pays\",\n    fill  = \"Continent\"\n  ) +\n  theme_minimal()"
+    "text": "2 Section 1 : ggplot2\n\n2.1 Exercice 1.1 — facet_wrap() : petits multiples\nfacet_wrap() crée un graphique séparé pour chaque valeur d’une variable — très utile pour comparer des sous-groupes.\nCréez un nuage de points (PIB per capita en X, espérance de vie en Y) pour 2007, avec :\n\nÉchelle X logarithmique\nUn facet par continent (facet_wrap(~ continent))\nPoints colorés en bleu (#003875), transparence 0.6\nTitre et étiquettes d’axes\n\n\ngapminder |&gt;\n  filter(???) |&gt;\n  ggplot(aes(x = ???, y = ???)) +\n  geom_point(color = \"#003875\", alpha = 0.6) +\n  scale_x_log10() +\n  facet_wrap(~ ???) +\n  labs(???) +\n  theme_minimal()\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, y = lifeExp)) +\n  geom_point(color = \"#003875\", alpha = 0.6) +\n  scale_x_log10() +\n  facet_wrap(~ continent) +\n  labs(\n    title = \"PIB per capita et espérance de vie par continent (2007)\",\n    x     = \"PIB per capita (échelle log)\",\n    y     = \"Espérance de vie (années)\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n2.2 Exercice 1.2 — Évolution dans le temps\nTracez l’évolution de l’espérance de vie moyenne par continent de 1952 à 2007. Utilisez geom_line() avec une ligne par continent.\n\nAstuce : Calculez d’abord la moyenne avec group_by() + summarise(), puis passez le résultat à ggplot.\n\n\n# Votre code ici\ngapminder |&gt;\n  group_by(???) |&gt;\n  summarise(???) |&gt;\n  ggplot(aes(x = year, y = ???, color = continent)) +\n  geom_line(linewidth = 1) +\n  labs(???) +\n  theme_minimal()\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\ngapminder |&gt;\n  group_by(continent, year) |&gt;\n  summarise(esperance_moy = mean(lifeExp), .groups = \"drop\") |&gt;\n  ggplot(aes(x = year, y = esperance_moy, color = continent)) +\n  geom_line(linewidth = 1) +\n  labs(\n    title = \"Évolution de l'espérance de vie par continent (1952–2007)\",\n    x     = \"Année\",\n    y     = \"Espérance de vie moyenne (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n2.3 Exercice 1.3 — Histogramme\nFaites un histogramme de la distribution du PIB per capita en 2007.\n\nUtilisez fill = continent pour colorer par continent\nAjoutez alpha = 0.6 pour la transparence\nAppliquez scale_x_log10()\n\n\n# Votre code ici\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, fill = continent)) +\n  geom_histogram(bins = 30, alpha = 0.6) +\n  scale_x_log10() +\n  labs(\n    title = \"Distribution du PIB per capita par continent (2007)\",\n    x     = \"PIB per capita (échelle log)\",\n    y     = \"Nombre de pays\",\n    fill  = \"Continent\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "exercices.html#section-2-analyse-textuelle",
     "href": "exercices.html#section-2-analyse-textuelle",
     "title": "Exercices pratiques",
     "section": "3 Section 2 : Analyse textuelle",
-    "text": "3 Section 2 : Analyse textuelle\n\n3.1 Les données\n\nreponses &lt;- tibble(\n  id     = 1:8,\n  groupe = c(\"Centre\", \"Droite\", \"Centre\", \"Gauche\",\n             \"Centre\", \"Droite\", \"Gauche\", \"Droite\"),\n  texte  = c(\n    \"The government must invest more in clean energy and protect the environment\",\n    \"The cost of living crisis is terrible, prices are too high for working families\",\n    \"Our healthcare system needs urgent reform and more funding immediately\",\n    \"I appreciate the government's efforts on climate change and housing affordability\",\n    \"Education should be free and accessible to all young people in this country\",\n    \"The economy is struggling and the government has failed to address inflation\",\n    \"We need stronger social programs and better support for vulnerable communities\",\n    \"This government's terrible policies have destroyed our economic opportunities\"\n  )\n)\n\n\n\n\n3.2 Exercice 2.1 — stringr\nAvec le data frame reponses :\n\nCréez une colonne nb_mots avec le nombre de mots dans chaque réponse (str_count(texte, \"\\\\w+\"))\nCréez une colonne mentionne_gouvernement (TRUE/FALSE) si \"government\" apparaît\nFiltrez pour garder seulement les réponses qui mentionnent \"government\"\n\n\n# Votre code ici\nreponses |&gt;\n  mutate(\n    nb_mots                = str_count(???, \"\\\\w+\"),\n    mentionne_gouvernement = str_detect(???, ???)\n  ) |&gt;\n  filter(???)\n\n\nSolution\n\n\n\nreponses |&gt;\n  mutate(\n    nb_mots                = str_count(texte, \"\\\\w+\"),\n    mentionne_gouvernement = str_detect(texte, \"government\")\n  ) |&gt;\n  filter(mentionne_gouvernement)\n\n\n\n\n\n\n\n3.3 Exercice 2.2 — Fréquences de mots\n\nTokenisez les réponses avec unnest_tokens()\nEnlevez les mots vides (anti_join avec stop_words)\nComptez et visualisez les 10 mots les plus fréquents\n\n\n# Étape 1 : tokeniser\nmots &lt;- reponses |&gt;\n  unnest_tokens(???, ???)\n\n# Étape 2 : enlever les stop words\ndata(stop_words)\n\nmots_propres &lt;- mots |&gt;\n  anti_join(???, by = c(??? = \"word\"))\n\n# Étape 3 : visualiser\nmots_propres |&gt;\n  count(???, sort = TRUE) |&gt;\n  slice_head(n = 10) |&gt;\n  ggplot(aes(x = reorder(mot, n), y = n)) +\n  geom_col(fill = \"#003875\") +\n  coord_flip() +\n  labs(title = \"10 mots les plus fréquents\", x = \"Mot\", y = \"Fréquence\") +\n  theme_minimal()\n\n\nSolution\n\n\n\nmots &lt;- reponses |&gt;\n  unnest_tokens(mot, texte)\n\ndata(stop_words)\n\nmots_propres &lt;- mots |&gt;\n  anti_join(stop_words, by = c(\"mot\" = \"word\"))\n\nmots_propres |&gt;\n  count(mot, sort = TRUE) |&gt;\n  slice_head(n = 10) |&gt;\n  ggplot(aes(x = reorder(mot, n), y = n)) +\n  geom_col(fill = \"#003875\") +\n  coord_flip() +\n  labs(title = \"10 mots les plus fréquents\", x = \"Mot\", y = \"Fréquence\") +\n  theme_minimal()\n\n\n\n\n\n\n\n3.4 Exercice 2.3 — Analyse de sentiment par groupe\nCalculez le score de sentiment net (positifs − négatifs) pour chaque groupe politique (Centre, Droite, Gauche) avec le lexique \"bing\". Visualisez le résultat sous forme de graphique en barres.\n\nRappel : Score net = nombre de mots positifs − nombre de mots négatifs\n\n\nbing &lt;- get_sentiments(\"bing\")\n\nmots_propres |&gt;\n  inner_join(???, by = c(\"mot\" = \"word\")) |&gt;\n  count(???, sentiment) |&gt;\n  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) |&gt;\n  mutate(score_net = positive - negative) |&gt;\n  ggplot(aes(x = reorder(groupe, score_net), y = score_net, fill = score_net &gt; 0)) +\n  geom_col(show.legend = FALSE) +\n  scale_fill_manual(values = c(\"firebrick\", \"#2ca25f\")) +\n  coord_flip() +\n  labs(title = \"Ton des réponses par groupe politique\",\n       x = \"Groupe\", y = \"Score net (positifs − négatifs)\") +\n  theme_minimal()\n\n\nSolution\n\n\n\nbing &lt;- get_sentiments(\"bing\")\n\nmots_propres |&gt;\n  inner_join(bing, by = c(\"mot\" = \"word\")) |&gt;\n  count(groupe, sentiment) |&gt;\n  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) |&gt;\n  mutate(score_net = positive - negative) |&gt;\n  ggplot(aes(x = reorder(groupe, score_net), y = score_net, fill = score_net &gt; 0)) +\n  geom_col(show.legend = FALSE) +\n  scale_fill_manual(values = c(\"firebrick\", \"#2ca25f\")) +\n  coord_flip() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  labs(\n    title    = \"Ton des réponses par groupe politique\",\n    subtitle = \"Score net = mots positifs − mots négatifs\",\n    x        = \"Groupe\",\n    y        = \"Score de sentiment net\"\n  ) +\n  theme_minimal()"
+    "text": "3 Section 2 : Analyse textuelle\n\n3.1 Les données\n\nreponses &lt;- tibble(\n  id     = 1:8,\n  groupe = c(\"Centre\", \"Droite\", \"Centre\", \"Gauche\",\n             \"Centre\", \"Droite\", \"Gauche\", \"Droite\"),\n  texte  = c(\n    \"The government must invest more in clean energy and protect the environment\",\n    \"The cost of living crisis is terrible, prices are too high for working families\",\n    \"Our healthcare system needs urgent reform and more funding immediately\",\n    \"I appreciate the government's efforts on climate change and housing affordability\",\n    \"Education should be free and accessible to all young people in this country\",\n    \"The economy is struggling and the government has failed to address inflation\",\n    \"We need stronger social programs and better support for vulnerable communities\",\n    \"This government's terrible policies have destroyed our economic opportunities\"\n  )\n)\n\n\n\n\n3.2 Exercice 2.1 — stringr\nAvec le data frame reponses :\n\nCréez une colonne nb_mots avec le nombre de mots dans chaque réponse (str_count(texte, \"\\\\w+\"))\nCréez une colonne mentionne_gouvernement (TRUE/FALSE) si \"government\" apparaît\nFiltrez pour garder seulement les réponses qui mentionnent \"government\"\n\n\n# Votre code ici\nreponses |&gt;\n  mutate(\n    nb_mots                = str_count(???, \"\\\\w+\"),\n    mentionne_gouvernement = str_detect(???, ???)\n  ) |&gt;\n  filter(???)\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nreponses |&gt;\n  mutate(\n    nb_mots                = str_count(texte, \"\\\\w+\"),\n    mentionne_gouvernement = str_detect(texte, \"government\")\n  ) |&gt;\n  filter(mentionne_gouvernement)\n\n\n\n\n\n\n\n3.3 Exercice 2.2 — Fréquences de mots\n\nTokenisez les réponses avec unnest_tokens()\nEnlevez les mots vides (anti_join avec stop_words)\nComptez et visualisez les 10 mots les plus fréquents\n\n\n# Étape 1 : tokeniser\nmots &lt;- reponses |&gt;\n  unnest_tokens(???, ???)\n\n# Étape 2 : enlever les stop words\ndata(stop_words)\n\nmots_propres &lt;- mots |&gt;\n  anti_join(???, by = c(??? = \"word\"))\n\n# Étape 3 : visualiser\nmots_propres |&gt;\n  count(???, sort = TRUE) |&gt;\n  slice_head(n = 10) |&gt;\n  ggplot(aes(x = reorder(mot, n), y = n)) +\n  geom_col(fill = \"#003875\") +\n  coord_flip() +\n  labs(title = \"10 mots les plus fréquents\", x = \"Mot\", y = \"Fréquence\") +\n  theme_minimal()\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nmots &lt;- reponses |&gt;\n  unnest_tokens(mot, texte)\n\ndata(stop_words)\n\nmots_propres &lt;- mots |&gt;\n  anti_join(stop_words, by = c(\"mot\" = \"word\"))\n\nmots_propres |&gt;\n  count(mot, sort = TRUE) |&gt;\n  slice_head(n = 10) |&gt;\n  ggplot(aes(x = reorder(mot, n), y = n)) +\n  geom_col(fill = \"#003875\") +\n  coord_flip() +\n  labs(title = \"10 mots les plus fréquents\", x = \"Mot\", y = \"Fréquence\") +\n  theme_minimal()\n\n\n\n\n\n\n\n3.4 Exercice 2.3 — Analyse de sentiment par groupe\nCalculez le score de sentiment net (positifs − négatifs) pour chaque groupe politique (Centre, Droite, Gauche) avec le lexique \"bing\". Visualisez le résultat sous forme de graphique en barres.\n\nRappel : Score net = nombre de mots positifs − nombre de mots négatifs\n\n\nbing &lt;- get_sentiments(\"bing\")\n\nmots_propres |&gt;\n  inner_join(???, by = c(\"mot\" = \"word\")) |&gt;\n  count(???, sentiment) |&gt;\n  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) |&gt;\n  mutate(score_net = positive - negative) |&gt;\n  ggplot(aes(x = reorder(groupe, score_net), y = score_net, fill = score_net &gt; 0)) +\n  geom_col(show.legend = FALSE) +\n  scale_fill_manual(values = c(\"firebrick\", \"#2ca25f\")) +\n  coord_flip() +\n  labs(title = \"Ton des réponses par groupe politique\",\n       x = \"Groupe\", y = \"Score net (positifs − négatifs)\") +\n  theme_minimal()\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nbing &lt;- get_sentiments(\"bing\")\n\nmots_propres |&gt;\n  inner_join(bing, by = c(\"mot\" = \"word\")) |&gt;\n  count(groupe, sentiment) |&gt;\n  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) |&gt;\n  mutate(score_net = positive - negative) |&gt;\n  ggplot(aes(x = reorder(groupe, score_net), y = score_net, fill = score_net &gt; 0)) +\n  geom_col(show.legend = FALSE) +\n  scale_fill_manual(values = c(\"firebrick\", \"#2ca25f\")) +\n  coord_flip() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  labs(\n    title    = \"Ton des réponses par groupe politique\",\n    subtitle = \"Score net = mots positifs − mots négatifs\",\n    x        = \"Groupe\",\n    y        = \"Score de sentiment net\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "exercices.html#section-3-régression-linéaire",
     "href": "exercices.html#section-3-régression-linéaire",
     "title": "Exercices pratiques",
     "section": "4 Section 3 : Régression linéaire",
-    "text": "4 Section 3 : Régression linéaire\n\n4.1 Exercice 3.1 — Régression simple\nAvec les données Gapminder pour 2007 :\n\nCréez un sous-ensemble data_2007 filtré sur 2007, et ajoutez une colonne log_pib = log(gdpPercap)\nFaites une régression linéaire : lifeExp ~ log_pib\nAffichez le résumé avec summary()\nInterprétez : l’effet est-il statistiquement significatif? Positif ou négatif?\n\n\ndata_2007 &lt;- gapminder |&gt;\n  filter(???) |&gt;\n  mutate(log_pib = log(???))\n\nmodele &lt;- lm(???, data = data_2007)\nsummary(modele)\n\n\nSolution\n\n\n\ndata_2007 &lt;- gapminder |&gt;\n  filter(year == 2007) |&gt;\n  mutate(log_pib = log(gdpPercap))\n\nmodele &lt;- lm(lifeExp ~ log_pib, data = data_2007)\nsummary(modele)\n\nInterprétation : L’effet est positif et significatif (p &lt; 0.001). Chaque augmentation d’une unité du log du PIB per capita est associée à ~7–8 ans de plus d’espérance de vie. R² ≈ 0.65.\n\n\n\n\n\n\n4.2 Exercice 3.2 — Visualiser la droite de régression\nReprésentez graphiquement la relation entre log_pib et lifeExp avec :\n\ngeom_point() coloré par continent\ngeom_smooth(method = \"lm\") pour la droite de régression\n\n\ndata_2007 |&gt;\n  ggplot(aes(x = ???, y = ???)) +\n  geom_point(aes(color = ???), alpha = 0.7) +\n  geom_smooth(method = \"lm\", color = \"black\", se = TRUE) +\n  labs(\n    title = \"Régression : log(PIB per capita) → Espérance de vie\",\n    x     = \"Log du PIB per capita\",\n    y     = \"Espérance de vie (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\nSolution\n\n\n\ndata_2007 |&gt;\n  ggplot(aes(x = log_pib, y = lifeExp)) +\n  geom_point(aes(color = continent), alpha = 0.7) +\n  geom_smooth(method = \"lm\", color = \"black\", se = TRUE) +\n  labs(\n    title = \"Régression : log(PIB per capita) → Espérance de vie\",\n    x     = \"Log du PIB per capita\",\n    y     = \"Espérance de vie (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n4.3 Exercice 3.3 — Régression multiple\nAjoutez pop comme deuxième prédicteur. Comparez les deux modèles avec modelsummary().\n\nmodele2 &lt;- lm(lifeExp ~ log_pib + pop, data = data_2007)\n\nmodelsummary(\n  list(\"Modèle 1\" = modele, \"Modèle 2\" = modele2),\n  stars = TRUE\n)\n\n\nSolution\n\n\n\nmodele2 &lt;- lm(lifeExp ~ log_pib + pop, data = data_2007)\n\nmodelsummary(\n  list(\"Modèle 1\" = modele, \"Modèle 2\" = modele2),\n  stars = TRUE\n)\n\nÀ observer : L’effet du log_pib reste stable entre les deux modèles. La population (pop) n’a pratiquement aucun effet sur l’espérance de vie une fois le PIB contrôlé.\n\n\n\n\nQuestions? adrien.cloutier.1@ulaval.ca"
+    "text": "4 Section 3 : Régression linéaire\n\n4.1 Exercice 3.1 — Régression simple\nAvec les données Gapminder pour 2007 :\n\nCréez un sous-ensemble data_2007 filtré sur 2007, et ajoutez une colonne log_pib = log(gdpPercap)\nFaites une régression linéaire : lifeExp ~ log_pib\nAffichez le résumé avec summary()\nInterprétez : l’effet est-il statistiquement significatif? Positif ou négatif?\n\n\ndata_2007 &lt;- gapminder |&gt;\n  filter(???) |&gt;\n  mutate(log_pib = log(???))\n\nmodele &lt;- lm(???, data = data_2007)\nsummary(modele)\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\ndata_2007 &lt;- gapminder |&gt;\n  filter(year == 2007) |&gt;\n  mutate(log_pib = log(gdpPercap))\n\nmodele &lt;- lm(lifeExp ~ log_pib, data = data_2007)\nsummary(modele)\n\nInterprétation : L’effet est positif et significatif (p &lt; 0.001). Chaque augmentation d’une unité du log du PIB per capita est associée à ~7–8 ans de plus d’espérance de vie. R² ≈ 0.65.\n\n\n\n\n\n\n4.2 Exercice 3.2 — Visualiser la droite de régression\nReprésentez graphiquement la relation entre log_pib et lifeExp avec :\n\ngeom_point() coloré par continent\ngeom_smooth(method = \"lm\") pour la droite de régression\n\n\ndata_2007 |&gt;\n  ggplot(aes(x = ???, y = ???)) +\n  geom_point(aes(color = ???), alpha = 0.7) +\n  geom_smooth(method = \"lm\", color = \"black\", se = TRUE) +\n  labs(\n    title = \"Régression : log(PIB per capita) → Espérance de vie\",\n    x     = \"Log du PIB per capita\",\n    y     = \"Espérance de vie (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\ndata_2007 |&gt;\n  ggplot(aes(x = log_pib, y = lifeExp)) +\n  geom_point(aes(color = continent), alpha = 0.7) +\n  geom_smooth(method = \"lm\", color = \"black\", se = TRUE) +\n  labs(\n    title = \"Régression : log(PIB per capita) → Espérance de vie\",\n    x     = \"Log du PIB per capita\",\n    y     = \"Espérance de vie (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n4.3 Exercice 3.3 — Régression multiple\nAjoutez pop comme deuxième prédicteur. Comparez les deux modèles avec modelsummary().\n\nmodele2 &lt;- lm(lifeExp ~ log_pib + pop, data = data_2007)\n\nmodelsummary(\n  list(\"Modèle 1\" = modele, \"Modèle 2\" = modele2),\n  stars = TRUE\n)\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nmodele2 &lt;- lm(lifeExp ~ log_pib + pop, data = data_2007)\n\nmodelsummary(\n  list(\"Modèle 1\" = modele, \"Modèle 2\" = modele2),\n  stars = TRUE\n)\n\nÀ observer : L’effet du log_pib reste stable entre les deux modèles. La population (pop) n’a pratiquement aucun effet sur l’espérance de vie une fois le PIB contrôlé.\n\n\n\n\nQuestions? adrien.cloutier.1@ulaval.ca"
   },
   {
     "objectID": "slides.html#bravo-dêtre-là",
@@ -315,6 +315,13 @@
     "text": "Visualiser les mots fréquents\n\nmots_propres |&gt;\n  count(mot, sort = TRUE) |&gt;\n  slice_head(n = 15) |&gt;\n  ggplot(aes(x = reorder(mot, n), y = n)) +\n  geom_col(fill = \"#003875\") +\n  coord_flip() +\n  labs(\n    title = \"15 mots les plus fréquents dans les réponses\",\n    x     = \"Mot\",\n    y     = \"Fréquence\"\n  ) +\n  theme_minimal() +\n  theme(plot.title = element_text(face = \"bold\"))"
   },
   {
+    "objectID": "slides.html#visualiser-les-mots-fréquents-output",
+    "href": "slides.html#visualiser-les-mots-fréquents-output",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Visualiser les mots fréquents",
+    "text": "Visualiser les mots fréquents"
+  },
+  {
     "objectID": "slides.html#analyse-de-sentiment",
     "href": "slides.html#analyse-de-sentiment",
     "title": "Approfondissement en analyse de données avec R",
@@ -336,6 +343,13 @@
     "text": "Visualiser le sentiment\n\nsentiment_par_groupe |&gt;\n  ggplot(aes(x = reorder(groupe, score_net),\n             y = score_net,\n             fill = score_net &gt; 0)) +\n  geom_col(show.legend = FALSE) +\n  scale_fill_manual(values = c(\"firebrick\", \"#2ca25f\")) +\n  coord_flip() +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  labs(\n    title    = \"Ton des réponses par groupe politique\",\n    subtitle = \"Score net = mots positifs − mots négatifs\",\n    x        = \"Groupe politique\",\n    y        = \"Score de sentiment net\"\n  ) +\n  theme_minimal()"
   },
   {
+    "objectID": "slides.html#visualiser-le-sentiment-output",
+    "href": "slides.html#visualiser-le-sentiment-output",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Visualiser le sentiment",
+    "text": "Visualiser le sentiment"
+  },
+  {
     "objectID": "slides.html#nuage-de-mots-wordcloud",
     "href": "slides.html#nuage-de-mots-wordcloud",
     "title": "Approfondissement en analyse de données avec R",
@@ -347,42 +361,84 @@
     "href": "slides.html#pourquoi-la-régression",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Pourquoi la régression?",
-    "text": "Pourquoi la régression?\nBut : mesurer l’association entre une variable dépendante \\(Y\\) et une ou plusieurs variables indépendantes \\(X\\).\n\n\\[Y = \\beta_0 + \\beta_1 X_1 + \\beta_2 X_2 + \\varepsilon\\]\n\n\nExemples en sciences sociales :\n\nLe revenu prédit-il l’intention de vote?\nLe genre influence-t-il la perception des politiciens?\nL’éducation est-elle associée à la participation citoyenne?"
+    "text": "Pourquoi la régression?\nBut : mesurer l’association entre une variable dépendante \\(Y\\) et une ou plusieurs variables indépendantes \\(X\\).\n\\[Y = \\beta_0 + \\beta_1 X_1 + \\beta_2 X_2 + \\varepsilon\\]\nExemples en sciences sociales :\n\nLe revenu prédit-il l’intention de vote?\nLe genre influence-t-il la perception des politiciens?\nL’éducation est-elle associée à la participation citoyenne?"
+  },
+  {
+    "objectID": "slides.html#étape-1-explorer-la-relation",
+    "href": "slides.html#étape-1-explorer-la-relation",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 1 — Explorer la relation",
+    "text": "Étape 1 — Explorer la relation\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  ggplot(aes(x = gdpPercap, y = lifeExp)) +\n  geom_point(aes(color = continent), alpha = 0.7) +\n  labs(\n    title = \"PIB per capita et espérance de vie (2007)\",\n    x = \"PIB per capita\", y = \"Espérance de vie (années)\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides.html#étape-1-explorer-la-relation-output",
+    "href": "slides.html#étape-1-explorer-la-relation-output",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 1 — Explorer la relation",
+    "text": "Étape 1 — Explorer la relation"
+  },
+  {
+    "objectID": "slides.html#étape-2-transformer-en-log",
+    "href": "slides.html#étape-2-transformer-en-log",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 2 — Transformer en log",
+    "text": "Étape 2 — Transformer en log\nLa relation est non-linéaire : on transforme gdpPercap en log(gdpPercap).\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  mutate(log_pib = log(gdpPercap)) |&gt;\n  ggplot(aes(x = log_pib, y = lifeExp)) +\n  geom_point(aes(color = continent), alpha = 0.7) +\n  labs(\n    title = \"Log(PIB per capita) et espérance de vie (2007)\",\n    x = \"Log du PIB per capita\", y = \"Espérance de vie (années)\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides.html#étape-2-transformer-en-log-output",
+    "href": "slides.html#étape-2-transformer-en-log-output",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 2 — Transformer en log",
+    "text": "Étape 2 — Transformer en log"
+  },
+  {
+    "objectID": "slides.html#étape-3-ajouter-la-droite-de-régression",
+    "href": "slides.html#étape-3-ajouter-la-droite-de-régression",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 3 — Ajouter la droite de régression",
+    "text": "Étape 3 — Ajouter la droite de régression\n\ndata_2007 |&gt;\n  ggplot(aes(x = log_pib, y = lifeExp)) +\n  geom_point(aes(color = continent), alpha = 0.7) +\n  geom_smooth(method = \"lm\", color = \"black\", se = TRUE) +\n  labs(\n    title = \"Régression : Log(PIB) → Espérance de vie\",\n    x = \"Log du PIB per capita\", y = \"Espérance de vie (années)\",\n    color = \"Continent\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides.html#étape-3-ajouter-la-droite-de-régression-output",
+    "href": "slides.html#étape-3-ajouter-la-droite-de-régression-output",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 3 — Ajouter la droite de régression",
+    "text": "Étape 3 — Ajouter la droite de régression"
+  },
+  {
+    "objectID": "slides.html#étape-4-lm-mettre-des-chiffres",
+    "href": "slides.html#étape-4-lm-mettre-des-chiffres",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 4 — lm() : mettre des chiffres",
+    "text": "Étape 4 — lm() : mettre des chiffres\n\nmodele &lt;- lm(lifeExp ~ log_pib, data = data_2007)\nsummary(modele)\n\n\n\n\nCall:\nlm(formula = lifeExp ~ log_pib, data = data_2007)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-25.947  -2.661   1.215   4.469  13.115 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   4.9496     3.8577   1.283    0.202    \nlog_pib       7.2028     0.4423  16.283   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 7.122 on 140 degrees of freedom\nMultiple R-squared:  0.6544,    Adjusted R-squared:  0.652 \nF-statistic: 265.2 on 1 and 140 DF,  p-value: &lt; 2.2e-16\n\n\nLire les résultats :\n\nEstimate : l’effet de X sur Y\np-value (Pr(&gt;|t|)) : significativité — cherchez les *\nR² : variance expliquée (0 à 1)"
+  },
+  {
+    "objectID": "slides.html#étape-5-régression-multiple",
+    "href": "slides.html#étape-5-régression-multiple",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 5 — Régression multiple",
+    "text": "Étape 5 — Régression multiple\n\nmodele_multiple &lt;- lm(\n  lifeExp ~ log_pib + continent,\n  data = data_2007\n)\nsummary(modele_multiple)\n\n\n\n\nCall:\nlm(formula = lifeExp ~ log_pib + continent, data = data_2007)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-19.4917  -2.3146  -0.0432   2.5498  14.8818 \n\nCoefficients:\n                  Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)        20.1376     4.0332   4.993 1.79e-06 ***\nlog_pib             4.6308     0.5274   8.780 6.14e-15 ***\ncontinentAmericas  11.6942     1.6546   7.068 7.46e-11 ***\ncontinentAsia      10.1144     1.4761   6.852 2.31e-10 ***\ncontinentEurope    11.2682     1.8936   5.951 2.14e-08 ***\ncontinentOceania   12.9293     4.5211   2.860  0.00491 ** \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 5.929 on 136 degrees of freedom\nMultiple R-squared:  0.7674,    Adjusted R-squared:  0.7588 \nF-statistic: 89.72 on 5 and 136 DF,  p-value: &lt; 2.2e-16\n\n\n\nChaque coefficient = effet en contrôlant pour toutes les autres variables."
+  },
+  {
+    "objectID": "slides.html#étape-6-comparer-avec-modelsummary",
+    "href": "slides.html#étape-6-comparer-avec-modelsummary",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 6 — Comparer avec modelsummary",
+    "text": "Étape 6 — Comparer avec modelsummary\n\nmodelsummary(\n  list(\"Modèle simple\"   = modele,\n       \"Modèle multiple\" = modele_multiple),\n  stars = TRUE\n)\n\n\nmodelsummary exporte aussi en Word, PDF, Excel — parfait pour vos articles."
+  },
+  {
+    "objectID": "slides.html#étape-6-comparer-avec-modelsummary-output",
+    "href": "slides.html#étape-6-comparer-avec-modelsummary-output",
+    "title": "Approfondissement en analyse de données avec R",
+    "section": "Étape 6 — Comparer avec modelsummary",
+    "text": "Étape 6 — Comparer avec modelsummary\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                Modèle simple\n                Modèle multiple\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  4.950\n                  20.138***\n                \n                \n                  \n                  (3.858)\n                  (4.033)\n                \n                \n                  log_pib\n                  7.203***\n                  4.631***\n                \n                \n                  \n                  (0.442)\n                  (0.527)\n                \n                \n                  continentAmericas\n                  \n                  11.694***\n                \n                \n                  \n                  \n                  (1.655)\n                \n                \n                  continentAsia\n                  \n                  10.114***\n                \n                \n                  \n                  \n                  (1.476)\n                \n                \n                  continentEurope\n                  \n                  11.268***\n                \n                \n                  \n                  \n                  (1.894)\n                \n                \n                  continentOceania\n                  \n                  12.929**\n                \n                \n                  \n                  \n                  (4.521)\n                \n                \n                  Num.Obs.\n                  142\n                  142\n                \n                \n                  R2\n                  0.654\n                  0.767\n                \n                \n                  R2 Adj.\n                  0.652\n                  0.759\n                \n                \n                  AIC\n                  964.5\n                  916.3\n                \n                \n                  BIC\n                  973.4\n                  937.0\n                \n                \n                  Log.Lik.\n                  -479.260\n                  -451.167\n                \n                \n                  RMSE\n                  7.07\n                  5.80"
   },
   {
     "objectID": "slides.html#deux-types-de-variables",
     "href": "slides.html#deux-types-de-variables",
     "title": "Approfondissement en analyse de données avec R",
     "section": "Deux types de variables",
-    "text": "Deux types de variables\nCatégorielles — nombre de catégories prédéfini\n\nNominales : pas d’ordre (religion, langue)\nOrdinales : ordre logique (niveau d’éducation)\n→ Doivent être converties en factor avec as.factor()\n\n\nNumériques — valeurs continues\n\nIntervalles / ratio : âge, revenu, score sur 10\n→ Doivent être en numeric\n\n\nclass(ma_variable)        # vérifier le type\nas.factor(ma_variable)    # convertir en catégorielle\nas.numeric(ma_variable)   # convertir en numérique"
-  },
-  {
-    "objectID": "slides.html#nettoyer-les-variables-avant-la-régression",
-    "href": "slides.html#nettoyer-les-variables-avant-la-régression",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Nettoyer les variables avant la régression",
-    "text": "Nettoyer les variables avant la régression\n\n# Les valeurs manquantes doivent être codées NA (pas -99 ou 999)\nData$revenu &lt;- Data$revenu_brut\nData$revenu[Data$revenu_brut == -99] &lt;- NA\n\n# Vérifier avec summary\nsummary(Data$revenu)\n\n# Vérifier les catégories d'une variable\ntable(Data$genre)"
-  },
-  {
-    "objectID": "slides.html#régression-linéaire-simple",
-    "href": "slides.html#régression-linéaire-simple",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Régression linéaire simple",
-    "text": "Régression linéaire simple\n\n# lm(variable_dependante ~ variable_independante, data = ...)\nmodele &lt;- lm(lifeExp ~ gdpPercap, data = gapminder)\n\nsummary(modele)\n\nLire les résultats :\n\nEstimate : l’effet de X sur Y (pente)\np-value (Pr(&gt;|t|)) : significativité statistique — cherchez les *\nR² : proportion de variance expliquée (0 à 1)"
-  },
-  {
-    "objectID": "slides.html#régression-multiple",
-    "href": "slides.html#régression-multiple",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Régression multiple",
-    "text": "Régression multiple\n\n# Ajouter des variables avec +\nmodele_multiple &lt;- lm(\n  lifeExp ~ gdpPercap + pop + continent,\n  data = gapminder |&gt; filter(year == 2007)\n)\n\nsummary(modele_multiple)\n\n\nChaque coefficient = effet de cette variable en contrôlant pour toutes les autres."
-  },
-  {
-    "objectID": "slides.html#tableau-de-régression-avec-modelsummary",
-    "href": "slides.html#tableau-de-régression-avec-modelsummary",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Tableau de régression avec modelsummary",
-    "text": "Tableau de régression avec modelsummary\n\n# Tableau comparant deux modèles\nmodelsummary(\n  list(\"Modèle simple\"   = modele,\n       \"Modèle multiple\" = modele_multiple),\n  stars = TRUE,\n  output = \"tableau_regression.docx\"   # exporte en Word!\n)\n\n\nmodelsummary exporte en Word, PDF, HTML, Excel — parfait pour vos mémoires et articles."
+    "text": "Deux types de variables\nCatégorielles → as.factor() (religion, niveau d’éducation…)\nNumériques → as.numeric() (âge, revenu, score…)\n\nclass(ma_variable)        # vérifier le type\nas.factor(ma_variable)    # convertir en catégorielle\nas.numeric(ma_variable)   # convertir en numérique\n\n\nValeurs manquantes : toujours coder NA, jamais -99 ou 999\n\ndata$revenu[data$revenu == -99] &lt;- NA\nsummary(data$revenu)   # vérifier"
   },
   {
     "objectID": "slides.html#corrélation-causalité",
@@ -467,19 +523,5 @@
     "title": "Approfondissement en analyse de données avec R",
     "section": "Merci!",
     "text": "Merci!\n\n\nDes questions?\nAdrien Cloutier\nadrien.cloutier.1@ulaval.ca\nadriencloutier.com\n\n\n\n\n\n\n\n\n⬅ Accueil  ·  FSS — Université Laval — 20 mars 2026"
-  },
-  {
-    "objectID": "slides.html#visualiser-les-mots-fréquents-output",
-    "href": "slides.html#visualiser-les-mots-fréquents-output",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Visualiser les mots fréquents",
-    "text": "Visualiser les mots fréquents"
-  },
-  {
-    "objectID": "slides.html#visualiser-le-sentiment-output",
-    "href": "slides.html#visualiser-le-sentiment-output",
-    "title": "Approfondissement en analyse de données avec R",
-    "section": "Visualiser le sentiment",
-    "text": "Visualiser le sentiment"
   }
 ]
