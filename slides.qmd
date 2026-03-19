@@ -47,10 +47,10 @@ execute:
 **9h à 12h — Formation théorique**
 
 1.  Rappel de la semaine passée *(\~30 min)*
-2.  Aller plus loin avec dplyr
-3.  Visualisation : ggplot2
-4.  R et l'IA : comment travailler intelligemment
-5.  Analyse textuelle automatisée avec R
+2.  Visualisation : ggplot2
+3.  R et l'IA : comment travailler intelligemment
+4.  Analyse textuelle automatisée avec R
+5.  Régression linéaire
 
 **13h à 15h — Atelier pratique** *(présentiel seulement)*
 
@@ -198,83 +198,7 @@ gapminder |>
 
 ---
 
-# 1. Aller plus loin avec dplyr
-
-## Là où Étienne s'est arrêté
-
-Étienne a couvert les **6 verbes de base**.
-
-Aujourd'hui on ajoute des outils qui vont transformer votre façon de coder :
-
-. . .
-
-- `case_when()` — créer des variables catégorielles conditionnelles
-- `left_join()` — fusionner deux tableaux de données
-- Des pipelines plus complexes qui combinent tout ça
-
-## mutate() avec case_when()
-
-`case_when()` crée une variable catégorielle à partir de conditions — comme un `if/else` vectorisé.
-
-```{r}
-gapminder |>
-  filter(year == 2007) |>
-  mutate(
-    categorie_vie = case_when(
-      lifeExp >= 75 ~ "Élevée (75+)",
-      lifeExp >= 60 ~ "Moyenne (60–75)",
-      TRUE          ~ "Faible (< 60)"    # tous les autres cas
-    )
-  ) |>
-  count(continent, categorie_vie)
-```
-
-. . .
-
-**Logique :** R évalue les conditions dans l'ordre — dès qu'une est `TRUE`, il assigne la valeur.
-
-## Résumer de façon avancée
-
-```{r}
-# Plusieurs statistiques en même temps
-gapminder |>
-  filter(year == 2007) |>
-  group_by(continent) |>
-  summarise(
-    esperance_moy    = mean(lifeExp),
-    esperance_median = median(lifeExp),
-    esperance_min    = min(lifeExp),
-    esperance_max    = max(lifeExp),
-    nb_pays          = n()
-  ) |>
-  arrange(desc(esperance_moy))
-```
-
-## left_join() : fusionner deux tableaux
-
-`left_join()` combine deux data frames sur une colonne commune — comme RECHERCHEV dans Excel, mais mieux.
-
-```{r}
-# Créer un tableau de codes de continents
-codes_continent <- tibble(
-  continent = c("Africa", "Americas", "Asia", "Europe", "Oceania"),
-  code      = c("AF", "AM", "AS", "EU", "OC")
-)
-
-# Fusionner avec gapminder
-gapminder |>
-  filter(year == 2007) |>
-  left_join(codes_continent, by = "continent") |>
-  select(country, continent, code, lifeExp)
-```
-
-. . .
-
-**Règle :** toutes les lignes du tableau de gauche sont conservées.
-
----
-
-# 2. Visualisation avec ggplot2
+# 1. Visualisation avec ggplot2
 
 ## La logique de ggplot2
 
@@ -375,7 +299,7 @@ ggsave("graphique.png", plot = mon_graphique, width = 10, height = 7, dpi = 300)
 
 ---
 
-# 3. R et l'IA : comment travailler intelligemment
+# 2. R et l'IA : comment travailler intelligemment
 
 ## La révolution (et ses limites) {.center}
 
@@ -503,7 +427,7 @@ Ajoute des commentaires expliquant chaque étape.
 
 ---
 
-# 4. Analyse textuelle automatisée
+# 3. Analyse textuelle automatisée
 
 ## Pourquoi en sciences sociales?
 
@@ -729,28 +653,140 @@ sentiment_par_auteur |>
   theme_minimal()
 ```
 
-## Pour aller plus loin en analyse textuelle
+## 3.4 Wordcloud
 
 ```{r}
-# Fréquence TF-IDF (mots distinctifs par groupe)
-mots_propres |>
-  count(auteur, mot) |>
-  bind_tf_idf(mot, auteur, n) |>
-  arrange(desc(tf_idf))
+install.packages("wordcloud")
+library(wordcloud)
 
-# Bigrammes (paires de mots consécutifs)
-reponses |>
-  unnest_tokens(bigram, texte, token = "ngrams", n = 2) |>
-  count(bigram, sort = TRUE)
+# Compter les mots (après avoir enlevé les stop words)
+freq <- mots_propres |>
+  count(mot, sort = TRUE)
 
-# Topic modeling (LDA) — pour corpus plus grands
-# install.packages("topicmodels")
-# library(topicmodels)
+# Générer le nuage de mots
+set.seed(42)
+wordcloud(
+  words  = freq$mot,
+  freq   = freq$n,
+  min.freq    = 1,
+  max.words   = 50,
+  random.order = FALSE,
+  colors = brewer.pal(8, "Dark2")
+)
+```
+
+---
+
+# 4. Régression linéaire
+
+## Pourquoi la régression?
+
+But : mesurer l'**association** entre une variable dépendante $Y$ et une ou plusieurs variables indépendantes $X$.
+
+. . .
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon$$
+
+. . .
+
+Exemples en sciences sociales :
+
+- Le revenu prédit-il l'intention de vote?
+- Le genre influence-t-il la perception des politiciens?
+- L'éducation est-elle associée à la participation citoyenne?
+
+## Deux types de variables
+
+**Catégorielles** — nombre de catégories prédéfini
+
+- Nominales : pas d'ordre (*religion, langue*)
+- Ordinales : ordre logique (*niveau d'éducation*)
+- → Doivent être converties en `factor` avec `as.factor()`
+
+. . .
+
+**Numériques** — valeurs continues
+
+- Intervalles / ratio : âge, revenu, score sur 10
+- → Doivent être en `numeric`
+
+```{r}
+class(ma_variable)        # vérifier le type
+as.factor(ma_variable)    # convertir en catégorielle
+as.numeric(ma_variable)   # convertir en numérique
+```
+
+## Nettoyer les variables avant la régression
+
+```{r}
+# Les valeurs manquantes doivent être codées NA (pas -99 ou 999)
+Data$revenu <- Data$revenu_brut
+Data$revenu[Data$revenu_brut == -99] <- NA
+
+# Vérifier avec summary
+summary(Data$revenu)
+
+# Vérifier les catégories d'une variable
+table(Data$genre)
+```
+
+## Régression linéaire simple
+
+```{r}
+# lm(variable_dependante ~ variable_independante, data = ...)
+modele <- lm(lifeExp ~ gdpPercap, data = gapminder)
+
+summary(modele)
+```
+
+**Lire les résultats :**
+
+- **Estimate** : l'effet de X sur Y (pente)
+- **p-value** (`Pr(>|t|)`) : significativité statistique — cherchez les `*`
+- **R²** : proportion de variance expliquée (0 à 1)
+
+## Régression multiple
+
+```{r}
+# Ajouter des variables avec +
+modele_multiple <- lm(
+  lifeExp ~ gdpPercap + pop + continent,
+  data = gapminder |> filter(year == 2007)
+)
+
+summary(modele_multiple)
 ```
 
 . . .
 
-Ressource incontournable : **[Text Mining with R](https://www.tidytextmining.com/)** (Julia Silge & David Robinson) — gratuit en ligne!
+Chaque coefficient = effet de cette variable **en contrôlant pour toutes les autres**.
+
+## Tableau de régression avec modelsummary
+
+```{r}
+install.packages("modelsummary")
+library(modelsummary)
+
+# Tableau comparant deux modèles
+modelsummary(
+  list("Modèle simple"   = modele,
+       "Modèle multiple" = modele_multiple),
+  stars = TRUE,
+  output = "tableau_regression.docx"   # exporte en Word!
+)
+```
+
+. . .
+
+`modelsummary` exporte en Word, PDF, HTML, Excel — parfait pour vos mémoires et articles.
+
+## Corrélation ≠ causalité
+
+![](images/storks.png){width=55%}
+
+. . .
+
+Nombre de naissances ~ nombre de cigognes par pays (*p* = 0.008). Pas de causalité : variable confondante = taille du pays.
 
 ---
 

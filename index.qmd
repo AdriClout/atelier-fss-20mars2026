@@ -44,7 +44,7 @@ Script brut `.R` à ouvrir dans RStudio pendant l'atelier.
 Installez R et RStudio si ce n'est pas déjà fait, puis exécutez ceci dans la **console** de RStudio :
 
 ```r
-install.packages(c("tidyverse", "gapminder", "tidytext"))
+install.packages(c("tidyverse", "gapminder", "tidytext", "wordcloud", "modelsummary"))
 ```
 
 ---
@@ -54,10 +54,10 @@ install.packages(c("tidyverse", "gapminder", "tidytext"))
 | # | Sujet | Durée |
 |---|---|---|
 | — | Rappel : bases R et dplyr | ~30 min |
-| 1 | Aller plus loin avec dplyr (`case_when`, `left_join`) | ~20 min |
-| 2 | Visualisation avec ggplot2 | ~25 min |
-| 3 | R et l'IA : comment travailler intelligemment | ~25 min |
-| 4 | Analyse textuelle automatisée | ~40 min |
+| 1 | Visualisation avec ggplot2 | ~25 min |
+| 2 | R et l'IA : comment travailler intelligemment | ~25 min |
+| 3 | Analyse textuelle automatisée | ~40 min |
+| 4 | Régression linéaire | ~20 min |
 | — | *Atelier pratique* *(présentiel, 13h–15h)* | 2h |
 
 ---

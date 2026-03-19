@@ -431,10 +431,10 @@ Adrien Cloutier | Université Laval
 <p><strong>9h à 12h — Formation théorique</strong></p>
 <ol type="1">
 <li>Rappel de la semaine passée <em>(~30 min)</em></li>
-<li>Aller plus loin avec dplyr</li>
 <li>Visualisation : ggplot2</li>
 <li>R et l’IA : comment travailler intelligemment</li>
 <li>Analyse textuelle automatisée avec R</li>
+<li>Régression linéaire</li>
 </ol>
 <p><strong>13h à 15h — Atelier pratique</strong> <em>(présentiel seulement)</em></p>
 <ul>
@@ -608,94 +608,18 @@ $ gdpPercap  779.4, 820.9, …</code></pre>
 
 </section></section>
 <section>
-<section id="aller-plus-loin-avec-dplyr" class="title-slide slide level1 center">
-<h1>1. Aller plus loin avec dplyr</h1>
-
-</section>
-<section id="là-où-étienne-sest-arrêté" class="slide level2">
-<h2>Là où Étienne s’est arrêté</h2>
-<p>Étienne a couvert les <strong>6 verbes de base</strong>.</p>
-<p>Aujourd’hui on ajoute des outils qui vont transformer votre façon de coder :</p>
-<div class="fragment">
-<ul>
-<li><code>case_when()</code> — créer des variables catégorielles conditionnelles</li>
-<li><code>left_join()</code> — fusionner deux tableaux de données</li>
-<li>Des pipelines plus complexes qui combinent tout ça</li>
-</ul>
-</div>
-</section>
-<section id="mutate-avec-case_when" class="slide level2">
-<h2>mutate() avec case_when()</h2>
-<p><code>case_when()</code> crée une variable catégorielle à partir de conditions — comme un <code>if/else</code> vectorisé.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-4"><a href="#cb8-4"></a>    <span class="at">categorie_vie =</span> <span class="fu">case_when</span>(</span>
-<span id="cb8-5"><a href="#cb8-5"></a>      lifeExp <span class="sc">&gt;=</span> <span class="dv">75</span> <span class="sc">~</span> <span class="st">"Élevée (75+)"</span>,</span>
-<span id="cb8-6"><a href="#cb8-6"></a>      lifeExp <span class="sc">&gt;=</span> <span class="dv">60</span> <span class="sc">~</span> <span class="st">"Moyenne (60–75)"</span>,</span>
-<span id="cb8-7"><a href="#cb8-7"></a>      <span class="cn">TRUE</span>          <span class="sc">~</span> <span class="st">"Faible (&lt; 60)"</span>    <span class="co"># tous les autres cas</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a>    )</span>
-<span id="cb8-9"><a href="#cb8-9"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>  <span class="fu">count</span>(continent, categorie_vie)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="fragment">
-<p><strong>Logique :</strong> R évalue les conditions dans l’ordre — dès qu’une est <code>TRUE</code>, il assigne la valeur.</p>
-</div>
-</section>
-<section id="résumer-de-façon-avancée" class="slide level2">
-<h2>Résumer de façon avancée</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Plusieurs statistiques en même temps</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb9-6"><a href="#cb9-6"></a>    <span class="at">esperance_moy    =</span> <span class="fu">mean</span>(lifeExp),</span>
-<span id="cb9-7"><a href="#cb9-7"></a>    <span class="at">esperance_median =</span> <span class="fu">median</span>(lifeExp),</span>
-<span id="cb9-8"><a href="#cb9-8"></a>    <span class="at">esperance_min    =</span> <span class="fu">min</span>(lifeExp),</span>
-<span id="cb9-9"><a href="#cb9-9"></a>    <span class="at">esperance_max    =</span> <span class="fu">max</span>(lifeExp),</span>
-<span id="cb9-10"><a href="#cb9-10"></a>    <span class="at">nb_pays          =</span> <span class="fu">n</span>()</span>
-<span id="cb9-11"><a href="#cb9-11"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(esperance_moy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="left_join-fusionner-deux-tableaux" class="slide level2">
-<h2>left_join() : fusionner deux tableaux</h2>
-<p><code>left_join()</code> combine deux data frames sur une colonne commune — comme RECHERCHEV dans Excel, mais mieux.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Créer un tableau de codes de continents</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>codes_continent <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="at">continent =</span> <span class="fu">c</span>(<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>),</span>
-<span id="cb10-4"><a href="#cb10-4"></a>  <span class="at">code      =</span> <span class="fu">c</span>(<span class="st">"AF"</span>, <span class="st">"AM"</span>, <span class="st">"AS"</span>, <span class="st">"EU"</span>, <span class="st">"OC"</span>)</span>
-<span id="cb10-5"><a href="#cb10-5"></a>)</span>
-<span id="cb10-6"><a href="#cb10-6"></a></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="co"># Fusionner avec gapminder</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-10"><a href="#cb10-10"></a>  <span class="fu">left_join</span>(codes_continent, <span class="at">by =</span> <span class="st">"continent"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>  <span class="fu">select</span>(country, continent, code, lifeExp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="fragment">
-<p><strong>Règle :</strong> toutes les lignes du tableau de gauche sont conservées.</p>
-</div>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section>
 <section id="visualisation-avec-ggplot2" class="title-slide slide level1 center">
-<h1>2. Visualisation avec ggplot2</h1>
+<h1>1. Visualisation avec ggplot2</h1>
 
 </section>
 <section id="la-logique-de-ggplot2" class="slide level2">
 <h2>La logique de ggplot2</h2>
 <p>ggplot2 est basé sur une <strong>grammaire des graphiques</strong> : on assemble des couches.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> gapminder,         <span class="co"># 1. les données</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>       <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap,        <span class="co"># 2. les axes et couleurs (aesthetics)</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>           <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">geom_point</span>()                   <span class="co"># 3. le type de graphique (geom)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> gapminder,         <span class="co"># 1. les données</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>       <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap,        <span class="co"># 2. les axes et couleurs (aesthetics)</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>           <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">geom_point</span>()                   <span class="co"># 3. le type de graphique (geom)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Les éléments de base :</p>
@@ -710,78 +634,78 @@ $ gdpPercap  779.4, 820.9, …</code></pre>
 <section id="nuage-de-points-geom_point" class="slide level2">
 <h2>Nuage de points : geom_point()</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gdpPercap,</span>
-<span id="cb12-4"><a href="#cb12-4"></a>             <span class="at">y =</span> lifeExp,</span>
-<span id="cb12-5"><a href="#cb12-5"></a>             <span class="at">color =</span> continent,   <span class="co"># couleur par continent</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a>             <span class="at">size =</span> pop)) <span class="sc">+</span>       <span class="co"># taille par population</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span>       <span class="co"># alpha = transparence</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span>               <span class="co"># axe X en échelle log</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a>  <span class="fu">labs</span>(</span>
-<span id="cb12-10"><a href="#cb12-10"></a>    <span class="at">title  =</span> <span class="st">"PIB per capita et espérance de vie (2007)"</span>,</span>
-<span id="cb12-11"><a href="#cb12-11"></a>    <span class="at">x      =</span> <span class="st">"PIB per capita (échelle log)"</span>,</span>
-<span id="cb12-12"><a href="#cb12-12"></a>    <span class="at">y      =</span> <span class="st">"Espérance de vie (années)"</span>,</span>
-<span id="cb12-13"><a href="#cb12-13"></a>    <span class="at">color  =</span> <span class="st">"Continent"</span>,</span>
-<span id="cb12-14"><a href="#cb12-14"></a>    <span class="at">size   =</span> <span class="st">"Population"</span></span>
-<span id="cb12-15"><a href="#cb12-15"></a>  ) <span class="sc">+</span></span>
-<span id="cb12-16"><a href="#cb12-16"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gdpPercap,</span>
+<span id="cb9-4"><a href="#cb9-4"></a>             <span class="at">y =</span> lifeExp,</span>
+<span id="cb9-5"><a href="#cb9-5"></a>             <span class="at">color =</span> continent,   <span class="co"># couleur par continent</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>             <span class="at">size =</span> pop)) <span class="sc">+</span>       <span class="co"># taille par population</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span>       <span class="co"># alpha = transparence</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span>               <span class="co"># axe X en échelle log</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-10"><a href="#cb9-10"></a>    <span class="at">title  =</span> <span class="st">"PIB per capita et espérance de vie (2007)"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11"></a>    <span class="at">x      =</span> <span class="st">"PIB per capita (échelle log)"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12"></a>    <span class="at">y      =</span> <span class="st">"Espérance de vie (années)"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13"></a>    <span class="at">color  =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14"></a>    <span class="at">size   =</span> <span class="st">"Population"</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="graphique-en-barres-geom_col" class="slide level2">
 <h2>Graphique en barres : geom_col()</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">summarise</span>(<span class="at">esperance_moy =</span> <span class="fu">mean</span>(lifeExp)) <span class="sc">|&gt;</span></span>
-<span id="cb13-5"><a href="#cb13-5"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(continent, esperance_moy),</span>
-<span id="cb13-6"><a href="#cb13-6"></a>             <span class="at">y =</span> esperance_moy,</span>
-<span id="cb13-7"><a href="#cb13-7"></a>             <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb13-9"><a href="#cb13-9"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span>                  <span class="co"># barres horizontales</span></span>
-<span id="cb13-10"><a href="#cb13-10"></a>  <span class="fu">labs</span>(</span>
-<span id="cb13-11"><a href="#cb13-11"></a>    <span class="at">title =</span> <span class="st">"Espérance de vie moyenne par continent (2007)"</span>,</span>
-<span id="cb13-12"><a href="#cb13-12"></a>    <span class="at">x     =</span> <span class="st">"Continent"</span>,</span>
-<span id="cb13-13"><a href="#cb13-13"></a>    <span class="at">y     =</span> <span class="st">"Espérance de vie (années)"</span></span>
-<span id="cb13-14"><a href="#cb13-14"></a>  ) <span class="sc">+</span></span>
-<span id="cb13-15"><a href="#cb13-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">summarise</span>(<span class="at">esperance_moy =</span> <span class="fu">mean</span>(lifeExp)) <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(continent, esperance_moy),</span>
+<span id="cb10-6"><a href="#cb10-6"></a>             <span class="at">y =</span> esperance_moy,</span>
+<span id="cb10-7"><a href="#cb10-7"></a>             <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span>                  <span class="co"># barres horizontales</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-11"><a href="#cb10-11"></a>    <span class="at">title =</span> <span class="st">"Espérance de vie moyenne par continent (2007)"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12"></a>    <span class="at">x     =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13"></a>    <span class="at">y     =</span> <span class="st">"Espérance de vie (années)"</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="histogramme-geom_histogram" class="slide level2">
 <h2>Histogramme : geom_histogram()</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp,</span>
-<span id="cb14-4"><a href="#cb14-4"></a>             <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a>  <span class="fu">labs</span>(</span>
-<span id="cb14-7"><a href="#cb14-7"></a>    <span class="at">title =</span> <span class="st">"Distribution de l'espérance de vie (2007)"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8"></a>    <span class="at">x     =</span> <span class="st">"Espérance de vie (années)"</span>,</span>
-<span id="cb14-9"><a href="#cb14-9"></a>    <span class="at">y     =</span> <span class="st">"Nombre de pays"</span>,</span>
-<span id="cb14-10"><a href="#cb14-10"></a>    <span class="at">fill  =</span> <span class="st">"Continent"</span></span>
-<span id="cb14-11"><a href="#cb14-11"></a>  ) <span class="sc">+</span></span>
-<span id="cb14-12"><a href="#cb14-12"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp,</span>
+<span id="cb11-4"><a href="#cb11-4"></a>             <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-7"><a href="#cb11-7"></a>    <span class="at">title =</span> <span class="st">"Distribution de l'espérance de vie (2007)"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8"></a>    <span class="at">x     =</span> <span class="st">"Espérance de vie (années)"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9"></a>    <span class="at">y     =</span> <span class="st">"Nombre de pays"</span>,</span>
+<span id="cb11-10"><a href="#cb11-10"></a>    <span class="at">fill  =</span> <span class="st">"Continent"</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="personnaliser-et-sauvegarder" class="slide level2">
 <h2>Personnaliser et sauvegarder</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>mon_graphique <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp, <span class="at">color =</span> continent)) <span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a>  <span class="fu">theme</span>(</span>
-<span id="cb15-8"><a href="#cb15-8"></a>    <span class="at">plot.title    =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb15-9"><a href="#cb15-9"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span></span>
-<span id="cb15-10"><a href="#cb15-10"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-11"><a href="#cb15-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mon graphique"</span>)</span>
-<span id="cb15-12"><a href="#cb15-12"></a></span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="co"># Sauvegarder</span></span>
-<span id="cb15-14"><a href="#cb15-14"></a><span class="fu">ggsave</span>(<span class="st">"graphique.png"</span>, <span class="at">plot =</span> mon_graphique, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>mon_graphique <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp, <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-8"><a href="#cb12-8"></a>    <span class="at">plot.title    =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb12-9"><a href="#cb12-9"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mon graphique"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12"></a></span>
+<span id="cb12-13"><a href="#cb12-13"></a><span class="co"># Sauvegarder</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a><span class="fu">ggsave</span>(<span class="st">"graphique.png"</span>, <span class="at">plot =</span> mon_graphique, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -789,7 +713,7 @@ $ gdpPercap  779.4, 820.9, …</code></pre>
 </section></section>
 <section>
 <section id="r-et-lia-comment-travailler-intelligemment" class="title-slide slide level1 center">
-<h1>3. R et l’IA : comment travailler intelligemment</h1>
+<h1>2. R et l’IA : comment travailler intelligemment</h1>
 
 </section>
 <section id="la-révolution-et-ses-limites" class="slide level2 center">
@@ -920,7 +844,7 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 </section></section>
 <section>
 <section id="analyse-textuelle-automatisée" class="title-slide slide level1 center">
-<h1>4. Analyse textuelle automatisée</h1>
+<h1>3. Analyse textuelle automatisée</h1>
 
 </section>
 <section id="pourquoi-en-sciences-sociales" class="slide level2">
@@ -973,88 +897,88 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <section id="nos-données-textuelles" class="slide level2">
 <h2>Nos données textuelles</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb21-2"><a href="#cb21-2"></a></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="co"># Exemple : réponses à une question ouverte de sondage sur les</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="co"># priorités politiques (traduit en anglais pour l'analyse de sentiment)</span></span>
-<span id="cb21-5"><a href="#cb21-5"></a>reponses <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb21-6"><a href="#cb21-6"></a>  <span class="at">id       =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
-<span id="cb21-7"><a href="#cb21-7"></a>  <span class="at">auteur   =</span> <span class="fu">c</span>(<span class="st">"Répondant A"</span>, <span class="st">"Répondant B"</span>, <span class="st">"Répondant C"</span>, <span class="st">"Répondant D"</span>,</span>
-<span id="cb21-8"><a href="#cb21-8"></a>               <span class="st">"Répondant E"</span>, <span class="st">"Répondant F"</span>, <span class="st">"Répondant G"</span>, <span class="st">"Répondant H"</span>),</span>
-<span id="cb21-9"><a href="#cb21-9"></a>  <span class="at">texte    =</span> <span class="fu">c</span>(</span>
-<span id="cb21-10"><a href="#cb21-10"></a>    <span class="st">"The government must invest more in clean energy and protect the environment"</span>,</span>
-<span id="cb21-11"><a href="#cb21-11"></a>    <span class="st">"The cost of living crisis is terrible, prices are too high for working families"</span>,</span>
-<span id="cb21-12"><a href="#cb21-12"></a>    <span class="st">"Our healthcare system needs urgent reform and more funding immediately"</span>,</span>
-<span id="cb21-13"><a href="#cb21-13"></a>    <span class="st">"I appreciate the government's efforts on climate change and housing affordability"</span>,</span>
-<span id="cb21-14"><a href="#cb21-14"></a>    <span class="st">"Education should be free and accessible to all young people in this country"</span>,</span>
-<span id="cb21-15"><a href="#cb21-15"></a>    <span class="st">"The economy is struggling and the government has failed to address inflation"</span>,</span>
-<span id="cb21-16"><a href="#cb21-16"></a>    <span class="st">"We need stronger social programs and better support for vulnerable communities"</span>,</span>
-<span id="cb21-17"><a href="#cb21-17"></a>    <span class="st">"This government's terrible policies have destroyed our economic opportunities"</span></span>
-<span id="cb21-18"><a href="#cb21-18"></a>  )</span>
-<span id="cb21-19"><a href="#cb21-19"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="co"># Exemple : réponses à une question ouverte de sondage sur les</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="co"># priorités politiques (traduit en anglais pour l'analyse de sentiment)</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a>reponses <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb18-6"><a href="#cb18-6"></a>  <span class="at">id       =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
+<span id="cb18-7"><a href="#cb18-7"></a>  <span class="at">auteur   =</span> <span class="fu">c</span>(<span class="st">"Répondant A"</span>, <span class="st">"Répondant B"</span>, <span class="st">"Répondant C"</span>, <span class="st">"Répondant D"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8"></a>               <span class="st">"Répondant E"</span>, <span class="st">"Répondant F"</span>, <span class="st">"Répondant G"</span>, <span class="st">"Répondant H"</span>),</span>
+<span id="cb18-9"><a href="#cb18-9"></a>  <span class="at">texte    =</span> <span class="fu">c</span>(</span>
+<span id="cb18-10"><a href="#cb18-10"></a>    <span class="st">"The government must invest more in clean energy and protect the environment"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11"></a>    <span class="st">"The cost of living crisis is terrible, prices are too high for working families"</span>,</span>
+<span id="cb18-12"><a href="#cb18-12"></a>    <span class="st">"Our healthcare system needs urgent reform and more funding immediately"</span>,</span>
+<span id="cb18-13"><a href="#cb18-13"></a>    <span class="st">"I appreciate the government's efforts on climate change and housing affordability"</span>,</span>
+<span id="cb18-14"><a href="#cb18-14"></a>    <span class="st">"Education should be free and accessible to all young people in this country"</span>,</span>
+<span id="cb18-15"><a href="#cb18-15"></a>    <span class="st">"The economy is struggling and the government has failed to address inflation"</span>,</span>
+<span id="cb18-16"><a href="#cb18-16"></a>    <span class="st">"We need stronger social programs and better support for vulnerable communities"</span>,</span>
+<span id="cb18-17"><a href="#cb18-17"></a>    <span class="st">"This government's terrible policies have destroyed our economic opportunities"</span></span>
+<span id="cb18-18"><a href="#cb18-18"></a>  )</span>
+<span id="cb18-19"><a href="#cb18-19"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="stringr-manipulation-de-texte" class="slide level2">
 <h2>4.1 stringr : manipulation de texte</h2>
 <p>stringr fait partie de <strong>tidyverse</strong> — pas besoin d’installation supplémentaire.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># Les fonctions principales</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>texte <span class="ot">&lt;-</span> <span class="st">"Le Parti libéral, le Parti conservateur et le Bloc québécois"</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a></span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="co"># Convertir en minuscules</span></span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="fu">str_to_lower</span>(texte)</span>
-<span id="cb22-6"><a href="#cb22-6"></a></span>
-<span id="cb22-7"><a href="#cb22-7"></a><span class="co"># Détecter un patron (retourne TRUE/FALSE)</span></span>
-<span id="cb22-8"><a href="#cb22-8"></a><span class="fu">str_detect</span>(texte, <span class="st">"libéral"</span>)</span>
-<span id="cb22-9"><a href="#cb22-9"></a></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="co"># Compter les occurrences</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a><span class="fu">str_count</span>(texte, <span class="st">"Parti"</span>)</span>
-<span id="cb22-12"><a href="#cb22-12"></a></span>
-<span id="cb22-13"><a href="#cb22-13"></a><span class="co"># Remplacer</span></span>
-<span id="cb22-14"><a href="#cb22-14"></a><span class="fu">str_replace_all</span>(texte, <span class="st">"Parti"</span>, <span class="st">"parti"</span>)</span>
-<span id="cb22-15"><a href="#cb22-15"></a></span>
-<span id="cb22-16"><a href="#cb22-16"></a><span class="co"># Extraire selon un patron</span></span>
-<span id="cb22-17"><a href="#cb22-17"></a><span class="fu">str_extract_all</span>(texte, <span class="st">"Parti </span><span class="sc">\\</span><span class="st">w+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Les fonctions principales</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>texte <span class="ot">&lt;-</span> <span class="st">"Le Parti libéral, le Parti conservateur et le Bloc québécois"</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="co"># Convertir en minuscules</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="fu">str_to_lower</span>(texte)</span>
+<span id="cb19-6"><a href="#cb19-6"></a></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="co"># Détecter un patron (retourne TRUE/FALSE)</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="fu">str_detect</span>(texte, <span class="st">"libéral"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9"></a></span>
+<span id="cb19-10"><a href="#cb19-10"></a><span class="co"># Compter les occurrences</span></span>
+<span id="cb19-11"><a href="#cb19-11"></a><span class="fu">str_count</span>(texte, <span class="st">"Parti"</span>)</span>
+<span id="cb19-12"><a href="#cb19-12"></a></span>
+<span id="cb19-13"><a href="#cb19-13"></a><span class="co"># Remplacer</span></span>
+<span id="cb19-14"><a href="#cb19-14"></a><span class="fu">str_replace_all</span>(texte, <span class="st">"Parti"</span>, <span class="st">"parti"</span>)</span>
+<span id="cb19-15"><a href="#cb19-15"></a></span>
+<span id="cb19-16"><a href="#cb19-16"></a><span class="co"># Extraire selon un patron</span></span>
+<span id="cb19-17"><a href="#cb19-17"></a><span class="fu">str_extract_all</span>(texte, <span class="st">"Parti </span><span class="sc">\\</span><span class="st">w+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="stringr-avec-un-data-frame" class="slide level2">
 <h2>stringr avec un data frame</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>textes_politiques <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb23-2"><a href="#cb23-2"></a>  <span class="at">titre =</span> <span class="fu">c</span>(</span>
-<span id="cb23-3"><a href="#cb23-3"></a>    <span class="st">"Le Parti libéral annonce un budget déficitaire"</span>,</span>
-<span id="cb23-4"><a href="#cb23-4"></a>    <span class="st">"Le Bloc québécois défend l'autonomie du Québec"</span>,</span>
-<span id="cb23-5"><a href="#cb23-5"></a>    <span class="st">"Le NPD propose de hausser le salaire minimum"</span>,</span>
-<span id="cb23-6"><a href="#cb23-6"></a>    <span class="st">"Le Parti conservateur critique les dépenses du gouvernement"</span>,</span>
-<span id="cb23-7"><a href="#cb23-7"></a>    <span class="st">"Le Parti libéral investit dans le logement abordable"</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a>  )</span>
-<span id="cb23-9"><a href="#cb23-9"></a>)</span>
-<span id="cb23-10"><a href="#cb23-10"></a></span>
-<span id="cb23-11"><a href="#cb23-11"></a><span class="co"># Compter les mentions de "Parti libéral"</span></span>
-<span id="cb23-12"><a href="#cb23-12"></a>textes_politiques <span class="sc">|&gt;</span></span>
-<span id="cb23-13"><a href="#cb23-13"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb23-14"><a href="#cb23-14"></a>    <span class="at">mention_liberal =</span> <span class="fu">str_detect</span>(titre, <span class="st">"libéral|Libéral"</span>),</span>
-<span id="cb23-15"><a href="#cb23-15"></a>    <span class="at">nb_mots         =</span> <span class="fu">str_count</span>(titre, <span class="st">"</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
-<span id="cb23-16"><a href="#cb23-16"></a>    <span class="at">titre_min       =</span> <span class="fu">str_to_lower</span>(titre)</span>
-<span id="cb23-17"><a href="#cb23-17"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>textes_politiques <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="at">titre =</span> <span class="fu">c</span>(</span>
+<span id="cb20-3"><a href="#cb20-3"></a>    <span class="st">"Le Parti libéral annonce un budget déficitaire"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4"></a>    <span class="st">"Le Bloc québécois défend l'autonomie du Québec"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5"></a>    <span class="st">"Le NPD propose de hausser le salaire minimum"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6"></a>    <span class="st">"Le Parti conservateur critique les dépenses du gouvernement"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7"></a>    <span class="st">"Le Parti libéral investit dans le logement abordable"</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a>  )</span>
+<span id="cb20-9"><a href="#cb20-9"></a>)</span>
+<span id="cb20-10"><a href="#cb20-10"></a></span>
+<span id="cb20-11"><a href="#cb20-11"></a><span class="co"># Compter les mentions de "Parti libéral"</span></span>
+<span id="cb20-12"><a href="#cb20-12"></a>textes_politiques <span class="sc">|&gt;</span></span>
+<span id="cb20-13"><a href="#cb20-13"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb20-14"><a href="#cb20-14"></a>    <span class="at">mention_liberal =</span> <span class="fu">str_detect</span>(titre, <span class="st">"libéral|Libéral"</span>),</span>
+<span id="cb20-15"><a href="#cb20-15"></a>    <span class="at">nb_mots         =</span> <span class="fu">str_count</span>(titre, <span class="st">"</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
+<span id="cb20-16"><a href="#cb20-16"></a>    <span class="at">titre_min       =</span> <span class="fu">str_to_lower</span>(titre)</span>
+<span id="cb20-17"><a href="#cb20-17"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="tidytext-tokenisation" class="slide level2">
 <h2>4.2 tidytext : tokenisation</h2>
 <p><strong>Tokeniser</strong> = découper un texte en unités (mots, phrases, n-grammes).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">install.packages</span>(<span class="st">"tidytext"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="fu">library</span>(tidytext)</span>
-<span id="cb24-3"><a href="#cb24-3"></a></span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="co"># Tokeniser nos réponses de sondage</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a>mots <span class="ot">&lt;-</span> reponses <span class="sc">|&gt;</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a>  <span class="fu">unnest_tokens</span>(</span>
-<span id="cb24-7"><a href="#cb24-7"></a>    <span class="at">output =</span> mot,   <span class="co"># nom de la nouvelle colonne</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a>    <span class="at">input  =</span> texte  <span class="co"># colonne à découper</span></span>
-<span id="cb24-9"><a href="#cb24-9"></a>  )</span>
-<span id="cb24-10"><a href="#cb24-10"></a></span>
-<span id="cb24-11"><a href="#cb24-11"></a><span class="co"># Résultat : une ligne par mot</span></span>
-<span id="cb24-12"><a href="#cb24-12"></a>mots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">install.packages</span>(<span class="st">"tidytext"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb21-3"><a href="#cb21-3"></a></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="co"># Tokeniser nos réponses de sondage</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>mots <span class="ot">&lt;-</span> reponses <span class="sc">|&gt;</span></span>
+<span id="cb21-6"><a href="#cb21-6"></a>  <span class="fu">unnest_tokens</span>(</span>
+<span id="cb21-7"><a href="#cb21-7"></a>    <span class="at">output =</span> mot,   <span class="co"># nom de la nouvelle colonne</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a>    <span class="at">input  =</span> texte  <span class="co"># colonne à découper</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a>  )</span>
+<span id="cb21-10"><a href="#cb21-10"></a></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="co"># Résultat : une ligne par mot</span></span>
+<span id="cb21-12"><a href="#cb21-12"></a>mots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <pre><code># A tibble: 80 × 3
@@ -1069,17 +993,17 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <h2>Enlever les mots vides (stop words)</h2>
 <p>Les <strong>mots vides</strong> (stop words) sont fréquents mais sans signification : <em>the, a, is, in…</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Mots vides intégrés à tidytext (en anglais)</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="fu">data</span>(stop_words)</span>
-<span id="cb26-3"><a href="#cb26-3"></a></span>
-<span id="cb26-4"><a href="#cb26-4"></a><span class="co"># Enlever les mots vides</span></span>
-<span id="cb26-5"><a href="#cb26-5"></a>mots_propres <span class="ot">&lt;-</span> mots <span class="sc">|&gt;</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"mot"</span> <span class="ot">=</span> <span class="st">"word"</span>))</span>
-<span id="cb26-7"><a href="#cb26-7"></a></span>
-<span id="cb26-8"><a href="#cb26-8"></a><span class="co"># Voir les mots restants</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a>mots_propres <span class="sc">|&gt;</span></span>
-<span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb26-11"><a href="#cb26-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># Mots vides intégrés à tidytext (en anglais)</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="fu">data</span>(stop_words)</span>
+<span id="cb23-3"><a href="#cb23-3"></a></span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="co"># Enlever les mots vides</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>mots_propres <span class="ot">&lt;-</span> mots <span class="sc">|&gt;</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"mot"</span> <span class="ot">=</span> <span class="st">"word"</span>))</span>
+<span id="cb23-7"><a href="#cb23-7"></a></span>
+<span id="cb23-8"><a href="#cb23-8"></a><span class="co"># Voir les mots restants</span></span>
+<span id="cb23-9"><a href="#cb23-9"></a>mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-11"><a href="#cb23-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Pour le français : <code>stopwords::stopwords("fr")</code> ou le package <code>stopwords</code></p>
@@ -1088,19 +1012,19 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <section id="visualiser-les-mots-fréquents" class="slide level2">
 <h2>Visualiser les mots fréquents</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>mots_propres <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb27-3"><a href="#cb27-3"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">15</span>) <span class="sc">|&gt;</span></span>
-<span id="cb27-4"><a href="#cb27-4"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(mot, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#003875"</span>) <span class="sc">+</span></span>
-<span id="cb27-6"><a href="#cb27-6"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb27-7"><a href="#cb27-7"></a>  <span class="fu">labs</span>(</span>
-<span id="cb27-8"><a href="#cb27-8"></a>    <span class="at">title =</span> <span class="st">"15 mots les plus fréquents dans les réponses"</span>,</span>
-<span id="cb27-9"><a href="#cb27-9"></a>    <span class="at">x     =</span> <span class="st">"Mot"</span>,</span>
-<span id="cb27-10"><a href="#cb27-10"></a>    <span class="at">y     =</span> <span class="st">"Fréquence"</span></span>
-<span id="cb27-11"><a href="#cb27-11"></a>  ) <span class="sc">+</span></span>
-<span id="cb27-12"><a href="#cb27-12"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb27-13"><a href="#cb27-13"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">15</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(mot, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#003875"</span>) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb24-7"><a href="#cb24-7"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-8"><a href="#cb24-8"></a>    <span class="at">title =</span> <span class="st">"15 mots les plus fréquents dans les réponses"</span>,</span>
+<span id="cb24-9"><a href="#cb24-9"></a>    <span class="at">x     =</span> <span class="st">"Mot"</span>,</span>
+<span id="cb24-10"><a href="#cb24-10"></a>    <span class="at">y     =</span> <span class="st">"Fréquence"</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-12"><a href="#cb24-12"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb24-13"><a href="#cb24-13"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="analyse-de-sentiment" class="slide level2">
@@ -1108,76 +1032,189 @@ Ajoute des commentaires expliquant chaque étape.</code></pre>
 <p>L’analyse de sentiment mesure le <strong>ton</strong> d’un texte (positif, négatif, neutre).</p>
 <p>Principe : associer chaque mot à un score de sentiment à partir d’un <strong>lexique</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># Plusieurs lexiques disponibles dans tidytext</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="co"># - "bing"  : positif / négatif</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="co"># - "afinn" : score de -5 à +5</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a><span class="co"># - "nrc"   : émotions (peur, joie, colère...)</span></span>
-<span id="cb28-5"><a href="#cb28-5"></a></span>
-<span id="cb28-6"><a href="#cb28-6"></a><span class="co"># Charger le lexique bing</span></span>
-<span id="cb28-7"><a href="#cb28-7"></a>bing <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span>
-<span id="cb28-8"><a href="#cb28-8"></a></span>
-<span id="cb28-9"><a href="#cb28-9"></a><span class="co"># Voir les premières entrées</span></span>
-<span id="cb28-10"><a href="#cb28-10"></a>bing <span class="sc">|&gt;</span></span>
-<span id="cb28-11"><a href="#cb28-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># Plusieurs lexiques disponibles dans tidytext</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="co"># - "bing"  : positif / négatif</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="co"># - "afinn" : score de -5 à +5</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="co"># - "nrc"   : émotions (peur, joie, colère...)</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a></span>
+<span id="cb25-6"><a href="#cb25-6"></a><span class="co"># Charger le lexique bing</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a>bing <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span>
+<span id="cb25-8"><a href="#cb25-8"></a></span>
+<span id="cb25-9"><a href="#cb25-9"></a><span class="co"># Voir les premières entrées</span></span>
+<span id="cb25-10"><a href="#cb25-10"></a>bing <span class="sc">|&gt;</span></span>
+<span id="cb25-11"><a href="#cb25-11"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="calculer-le-sentiment-par-répondant" class="slide level2">
 <h2>Calculer le sentiment par répondant</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># Joindre les mots avec le lexique</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a>sentiment_par_auteur <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
-<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">inner_join</span>(bing, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"mot"</span> <span class="ot">=</span> <span class="st">"word"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a>  <span class="fu">count</span>(auteur, sentiment) <span class="sc">|&gt;</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb29-6"><a href="#cb29-6"></a>    <span class="at">names_from  =</span> sentiment,</span>
-<span id="cb29-7"><a href="#cb29-7"></a>    <span class="at">values_from =</span> n,</span>
-<span id="cb29-8"><a href="#cb29-8"></a>    <span class="at">values_fill =</span> <span class="dv">0</span></span>
-<span id="cb29-9"><a href="#cb29-9"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb29-10"><a href="#cb29-10"></a>  <span class="fu">mutate</span>(<span class="at">score_net =</span> positive <span class="sc">-</span> negative)</span>
-<span id="cb29-11"><a href="#cb29-11"></a></span>
-<span id="cb29-12"><a href="#cb29-12"></a>sentiment_par_auteur</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Joindre les mots avec le lexique</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>sentiment_par_auteur <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="fu">inner_join</span>(bing, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"mot"</span> <span class="ot">=</span> <span class="st">"word"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a>  <span class="fu">count</span>(auteur, sentiment) <span class="sc">|&gt;</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb26-6"><a href="#cb26-6"></a>    <span class="at">names_from  =</span> sentiment,</span>
+<span id="cb26-7"><a href="#cb26-7"></a>    <span class="at">values_from =</span> n,</span>
+<span id="cb26-8"><a href="#cb26-8"></a>    <span class="at">values_fill =</span> <span class="dv">0</span></span>
+<span id="cb26-9"><a href="#cb26-9"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">mutate</span>(<span class="at">score_net =</span> positive <span class="sc">-</span> negative)</span>
+<span id="cb26-11"><a href="#cb26-11"></a></span>
+<span id="cb26-12"><a href="#cb26-12"></a>sentiment_par_auteur</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualiser-le-sentiment" class="slide level2">
 <h2>Visualiser le sentiment</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>sentiment_par_auteur <span class="sc">|&gt;</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(auteur, score_net),</span>
-<span id="cb30-3"><a href="#cb30-3"></a>             <span class="at">y =</span> score_net,</span>
-<span id="cb30-4"><a href="#cb30-4"></a>             <span class="at">fill =</span> score_net <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb30-5"><a href="#cb30-5"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb30-6"><a href="#cb30-6"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"firebrick"</span>, <span class="st">"#2ca25f"</span>)) <span class="sc">+</span></span>
-<span id="cb30-7"><a href="#cb30-7"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb30-8"><a href="#cb30-8"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb30-9"><a href="#cb30-9"></a>  <span class="fu">labs</span>(</span>
-<span id="cb30-10"><a href="#cb30-10"></a>    <span class="at">title    =</span> <span class="st">"Ton des réponses par répondant"</span>,</span>
-<span id="cb30-11"><a href="#cb30-11"></a>    <span class="at">subtitle =</span> <span class="st">"Score net = mots positifs − mots négatifs"</span>,</span>
-<span id="cb30-12"><a href="#cb30-12"></a>    <span class="at">x        =</span> <span class="st">"Répondant"</span>,</span>
-<span id="cb30-13"><a href="#cb30-13"></a>    <span class="at">y        =</span> <span class="st">"Score de sentiment net"</span></span>
-<span id="cb30-14"><a href="#cb30-14"></a>  ) <span class="sc">+</span></span>
-<span id="cb30-15"><a href="#cb30-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>sentiment_par_auteur <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(auteur, score_net),</span>
+<span id="cb27-3"><a href="#cb27-3"></a>             <span class="at">y =</span> score_net,</span>
+<span id="cb27-4"><a href="#cb27-4"></a>             <span class="at">fill =</span> score_net <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"firebrick"</span>, <span class="st">"#2ca25f"</span>)) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-10"><a href="#cb27-10"></a>    <span class="at">title    =</span> <span class="st">"Ton des réponses par répondant"</span>,</span>
+<span id="cb27-11"><a href="#cb27-11"></a>    <span class="at">subtitle =</span> <span class="st">"Score net = mots positifs − mots négatifs"</span>,</span>
+<span id="cb27-12"><a href="#cb27-12"></a>    <span class="at">x        =</span> <span class="st">"Répondant"</span>,</span>
+<span id="cb27-13"><a href="#cb27-13"></a>    <span class="at">y        =</span> <span class="st">"Score de sentiment net"</span></span>
+<span id="cb27-14"><a href="#cb27-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-15"><a href="#cb27-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="pour-aller-plus-loin-en-analyse-textuelle" class="slide level2">
-<h2>Pour aller plus loin en analyse textuelle</h2>
+<section id="wordcloud" class="slide level2">
+<h2>3.4 Wordcloud</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># Fréquence TF-IDF (mots distinctifs par groupe)</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a>mots_propres <span class="sc">|&gt;</span></span>
-<span id="cb31-3"><a href="#cb31-3"></a>  <span class="fu">count</span>(auteur, mot) <span class="sc">|&gt;</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a>  <span class="fu">bind_tf_idf</span>(mot, auteur, n) <span class="sc">|&gt;</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tf_idf))</span>
-<span id="cb31-6"><a href="#cb31-6"></a></span>
-<span id="cb31-7"><a href="#cb31-7"></a><span class="co"># Bigrammes (paires de mots consécutifs)</span></span>
-<span id="cb31-8"><a href="#cb31-8"></a>reponses <span class="sc">|&gt;</span></span>
-<span id="cb31-9"><a href="#cb31-9"></a>  <span class="fu">unnest_tokens</span>(bigram, texte, <span class="at">token =</span> <span class="st">"ngrams"</span>, <span class="at">n =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb31-10"><a href="#cb31-10"></a>  <span class="fu">count</span>(bigram, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb31-11"><a href="#cb31-11"></a></span>
-<span id="cb31-12"><a href="#cb31-12"></a><span class="co"># Topic modeling (LDA) — pour corpus plus grands</span></span>
-<span id="cb31-13"><a href="#cb31-13"></a><span class="co"># install.packages("topicmodels")</span></span>
-<span id="cb31-14"><a href="#cb31-14"></a><span class="co"># library(topicmodels)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">install.packages</span>(<span class="st">"wordcloud"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="fu">library</span>(wordcloud)</span>
+<span id="cb28-3"><a href="#cb28-3"></a></span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="co"># Compter les mots (après avoir enlevé les stop words)</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a>freq <span class="ot">&lt;-</span> mots_propres <span class="sc">|&gt;</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a>  <span class="fu">count</span>(mot, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-7"><a href="#cb28-7"></a></span>
+<span id="cb28-8"><a href="#cb28-8"></a><span class="co"># Générer le nuage de mots</span></span>
+<span id="cb28-9"><a href="#cb28-9"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb28-10"><a href="#cb28-10"></a><span class="fu">wordcloud</span>(</span>
+<span id="cb28-11"><a href="#cb28-11"></a>  <span class="at">words  =</span> freq<span class="sc">$</span>mot,</span>
+<span id="cb28-12"><a href="#cb28-12"></a>  <span class="at">freq   =</span> freq<span class="sc">$</span>n,</span>
+<span id="cb28-13"><a href="#cb28-13"></a>  <span class="at">min.freq    =</span> <span class="dv">1</span>,</span>
+<span id="cb28-14"><a href="#cb28-14"></a>  <span class="at">max.words   =</span> <span class="dv">50</span>,</span>
+<span id="cb28-15"><a href="#cb28-15"></a>  <span class="at">random.order =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb28-16"><a href="#cb28-16"></a>  <span class="at">colors =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Dark2"</span>)</span>
+<span id="cb28-17"><a href="#cb28-17"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="régression-linéaire" class="title-slide slide level1 center">
+<h1>4. Régression linéaire</h1>
+
+</section>
+<section id="pourquoi-la-régression" class="slide level2">
+<h2>Pourquoi la régression?</h2>
+<p>But : mesurer l’<strong>association</strong> entre une variable dépendante <span class="math inline">\(Y\)</span> et une ou plusieurs variables indépendantes <span class="math inline">\(X\)</span>.</p>
+<div class="fragment">
+<p><span class="math display">\[Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon\]</span></p>
 </div>
 <div class="fragment">
-<p>Ressource incontournable : <strong><a href="https://www.tidytextmining.com/">Text Mining with R</a></strong> (Julia Silge &amp; David Robinson) — gratuit en ligne!</p>
+<p>Exemples en sciences sociales :</p>
+<ul>
+<li>Le revenu prédit-il l’intention de vote?</li>
+<li>Le genre influence-t-il la perception des politiciens?</li>
+<li>L’éducation est-elle associée à la participation citoyenne?</li>
+</ul>
+</div>
+</section>
+<section id="deux-types-de-variables" class="slide level2">
+<h2>Deux types de variables</h2>
+<p><strong>Catégorielles</strong> — nombre de catégories prédéfini</p>
+<ul>
+<li>Nominales : pas d’ordre (<em>religion, langue</em>)</li>
+<li>Ordinales : ordre logique (<em>niveau d’éducation</em>)</li>
+<li>→ Doivent être converties en <code>factor</code> avec <code>as.factor()</code></li>
+</ul>
+<div class="fragment">
+<p><strong>Numériques</strong> — valeurs continues</p>
+<ul>
+<li>Intervalles / ratio : âge, revenu, score sur 10</li>
+<li>→ Doivent être en <code>numeric</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">class</span>(ma_variable)        <span class="co"># vérifier le type</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="fu">as.factor</span>(ma_variable)    <span class="co"># convertir en catégorielle</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="fu">as.numeric</span>(ma_variable)   <span class="co"># convertir en numérique</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="nettoyer-les-variables-avant-la-régression" class="slide level2">
+<h2>Nettoyer les variables avant la régression</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># Les valeurs manquantes doivent être codées NA (pas -99 ou 999)</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>Data<span class="sc">$</span>revenu <span class="ot">&lt;-</span> Data<span class="sc">$</span>revenu_brut</span>
+<span id="cb30-3"><a href="#cb30-3"></a>Data<span class="sc">$</span>revenu[Data<span class="sc">$</span>revenu_brut <span class="sc">==</span> <span class="sc">-</span><span class="dv">99</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a></span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="co"># Vérifier avec summary</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a><span class="fu">summary</span>(Data<span class="sc">$</span>revenu)</span>
+<span id="cb30-7"><a href="#cb30-7"></a></span>
+<span id="cb30-8"><a href="#cb30-8"></a><span class="co"># Vérifier les catégories d'une variable</span></span>
+<span id="cb30-9"><a href="#cb30-9"></a><span class="fu">table</span>(Data<span class="sc">$</span>genre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="régression-linéaire-simple" class="slide level2">
+<h2>Régression linéaire simple</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># lm(variable_dependante ~ variable_independante, data = ...)</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a>modele <span class="ot">&lt;-</span> <span class="fu">lm</span>(lifeExp <span class="sc">~</span> gdpPercap, <span class="at">data =</span> gapminder)</span>
+<span id="cb31-3"><a href="#cb31-3"></a></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="fu">summary</span>(modele)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Lire les résultats :</strong></p>
+<ul>
+<li><strong>Estimate</strong> : l’effet de X sur Y (pente)</li>
+<li><strong>p-value</strong> (<code>Pr(&gt;|t|)</code>) : significativité statistique — cherchez les <code>*</code></li>
+<li><strong>R²</strong> : proportion de variance expliquée (0 à 1)</li>
+</ul>
+</section>
+<section id="régression-multiple" class="slide level2">
+<h2>Régression multiple</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># Ajouter des variables avec +</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a>modele_multiple <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb32-3"><a href="#cb32-3"></a>  lifeExp <span class="sc">~</span> gdpPercap <span class="sc">+</span> pop <span class="sc">+</span> continent,</span>
+<span id="cb32-4"><a href="#cb32-4"></a>  <span class="at">data =</span> gapminder <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>)</span>
+<span id="cb32-5"><a href="#cb32-5"></a>)</span>
+<span id="cb32-6"><a href="#cb32-6"></a></span>
+<span id="cb32-7"><a href="#cb32-7"></a><span class="fu">summary</span>(modele_multiple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>Chaque coefficient = effet de cette variable <strong>en contrôlant pour toutes les autres</strong>.</p>
+</div>
+</section>
+<section id="tableau-de-régression-avec-modelsummary" class="slide level2">
+<h2>Tableau de régression avec modelsummary</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">install.packages</span>(<span class="st">"modelsummary"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb33-3"><a href="#cb33-3"></a></span>
+<span id="cb33-4"><a href="#cb33-4"></a><span class="co"># Tableau comparant deux modèles</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a><span class="fu">modelsummary</span>(</span>
+<span id="cb33-6"><a href="#cb33-6"></a>  <span class="fu">list</span>(<span class="st">"Modèle simple"</span>   <span class="ot">=</span> modele,</span>
+<span id="cb33-7"><a href="#cb33-7"></a>       <span class="st">"Modèle multiple"</span> <span class="ot">=</span> modele_multiple),</span>
+<span id="cb33-8"><a href="#cb33-8"></a>  <span class="at">stars =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb33-9"><a href="#cb33-9"></a>  <span class="at">output =</span> <span class="st">"tableau_regression.docx"</span>   <span class="co"># exporte en Word!</span></span>
+<span id="cb33-10"><a href="#cb33-10"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p><code>modelsummary</code> exporte en Word, PDF, HTML, Excel — parfait pour vos mémoires et articles.</p>
+</div>
+</section>
+<section id="corrélation-causalité" class="slide level2">
+<h2>Corrélation ≠ causalité</h2>
+
+<img data-src="images/storks.png" style="width:55.0%" class="r-stretch"><div class="fragment">
+<p>Nombre de naissances ~ nombre de cigognes par pays (<em>p</em> = 0.008). Pas de causalité : variable confondante = taille du pays.</p>
 </div>
 </section>
 <section class="slide level2">
